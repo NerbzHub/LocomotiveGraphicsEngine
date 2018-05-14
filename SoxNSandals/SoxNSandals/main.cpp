@@ -79,7 +79,8 @@ int main()
 				i == 10 ? white : black);
 		}
 
-		aie::Gizmos::add2DAABBFilled(glm::vec3(-2), glm::vec3(1.5f), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+		aie::Gizmos::addAABBFilled(glm::vec3(0), glm::vec3(1.5f), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+
 
 		aie::Gizmos::draw(projection * view);
 
@@ -87,6 +88,10 @@ int main()
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
+
+
+
+
 
 	std::cin.get();
 
