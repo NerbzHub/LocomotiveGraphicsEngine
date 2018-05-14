@@ -14,9 +14,12 @@ static const double NANO_TO_SECONDS = 0.000000001;
 // Expected use: nanoseconds = seconds * NANO_TO_SECONDS
 static const ullong NANO_IN_SECONDS = 1000000000ULL;
 
-using clock = std::chrono::high_resolution_clock;
-using time = std::chrono::time_point<clock>;
+namespace sns
+{
 
+	using clock = std::chrono::high_resolution_clock;
+	using time = std::chrono::time_point<clock>;
+}
 
 //Parent
 glm::mat4 parentMatrix(1);
@@ -28,10 +31,10 @@ glm::mat4 globalMatrix(1);
 
 int main()
 {
-	clock m_clock;
-	time m_startTime = m_clock.now();
-	time m_currentTime = m_clock.now();
-	time m_previousTime = m_clock.now();
+	sns::clock m_clock;
+	sns::time m_startTime = m_clock.now();
+	sns::time m_currentTime = m_clock.now();
+	sns::time m_previousTime = m_clock.now();
 
 	parentMatrix[3] = glm::vec4(0, 0, 10, 1);
 	localMatrix[3] = glm::vec4(1, 0, -2, 1);
@@ -81,7 +84,7 @@ int main()
 	glClearColor(0.25f, 0.25f, 0.25, 1);
 
 	//enables depth buffer.
-	glEnable(GL_DEPTH_TEST); 
+	glEnable(GL_DEPTH_TEST);
 
 
 	aie::Gizmos::create(10000, 10000, 10000, 10000);
@@ -91,12 +94,20 @@ int main()
 	glm::mat4 projection = glm::perspective(glm::pi<float>() * 0.25f,
 		16 / 9.f, 0.1f, 1000.f);
 
-	float timer = 0;
+
 
 	while (glfwWindowShouldClose(window) == false &&
 		glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS)
-	{	
-		timer += 0.1f;
+	{
+		m_previousTime = m_currentTime;
+		m_currentTime = m_clock.now();
+
+		auto duration = m_currentTime - m_previousTime;
+
+		float deltaTime = duration.count() * NANO_TO_SECONDS;
+		std::cout << duration.count() << ' ' << deltaTime << '\n';
+
+
 		// Clearing buffer - colour and depth checks.
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -118,9 +129,24 @@ int main()
 		//
 		//aie::Gizmos::addAABBFilled(glm::vec3(0), glm::vec3(1.5f), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
 
-		aie::Gizmos::addSphere(glm::vec3(parentMatrix[3]), 1.0f, 15.0f, 15.0f, glm::vec4(1.0f, 0.0f, 0.5f, 1.0f), &parentMatrix);
+		glm::mat4 rot(1);
 
-		aie::Gizmos::addSphere(glm::vec3(localMatrix[3]), 1.0f, 15.0f, 15.0f, glm::vec4(0.0f, 1.0f, 0.5f, 1.0f), &localMatrix);
+		rot = glm::rotate(deltaTime, glm::vec3(0, 1, 0));
+		//Parent orbits centre
+		parentMatrix = rot * parentMatrix;
+
+		aie::Gizmos::addSphere(glm::vec3(0), 1.0f, 15.0f, 15.0f, glm::vec4(1.0f, 0.0f, 0.5f, 1.0f), &parentMatrix);
+
+
+		// Rotate child around parent
+		rot = glm::rotate(deltaTime * 2, glm::vec3(0, 1, 0));
+		localMatrix = rot * localMatrix;
+
+
+		// once child syncs with parent
+		globalMatrix = parentMatrix * localMatrix;
+		aie::Gizmos::addSphere(glm::vec3(0), 1.0f, 15.0f, 15.0f, glm::vec4(0.0f, 1.0f, 0.5f, 1.0f), &globalMatrix);
+
 
 		aie::Gizmos::draw(projection * view);
 
