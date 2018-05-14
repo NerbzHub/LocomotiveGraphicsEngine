@@ -6,8 +6,26 @@
 #include <ext.hpp>
 
 
+//Parent
+glm::mat4 parentMatrix(1);
+
+//Child object
+glm::mat4 localMatrix(1);
+glm::mat4 globalMatrix(1);
+
+
 int main()
 {
+
+	parentMatrix[3] = glm::vec4(0, 0, 10, 1);
+	localMatrix[3] = glm::vec4(1, 0, -2, 1);
+
+
+	//glm::mat4 rot(1);
+	//rot = glm::rotate(0.0f, glm::vec3(0, 1, 0));
+
+	globalMatrix = parentMatrix * localMatrix;
+
 	// if we can hook into the gpu.
 	if (glfwInit() == false)
 	{
@@ -57,10 +75,12 @@ int main()
 	glm::mat4 projection = glm::perspective(glm::pi<float>() * 0.25f,
 		16 / 9.f, 0.1f, 1000.f);
 
+	float timer = 0;
 
 	while (glfwWindowShouldClose(window) == false &&
 		glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS)
 	{	
+		timer += 0.1f;
 		// Clearing buffer - colour and depth checks.
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -79,8 +99,12 @@ int main()
 				i == 10 ? white : black);
 		}
 
-		aie::Gizmos::addAABBFilled(glm::vec3(0), glm::vec3(1.5f), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+		//
+		//aie::Gizmos::addAABBFilled(glm::vec3(0), glm::vec3(1.5f), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
 
+		aie::Gizmos::addSphere(glm::vec3(parentMatrix[3]), 1.0f, 15.0f, 15.0f, glm::vec4(1.0f, 0.0f, 0.5f, 1.0f), &parentMatrix);
+
+		aie::Gizmos::addSphere(glm::vec3(localMatrix[3]), 1.0f, 15.0f, 15.0f, glm::vec4(0.0f, 1.0f, 0.5f, 1.0f), &localMatrix);
 
 		aie::Gizmos::draw(projection * view);
 
@@ -92,8 +116,8 @@ int main()
 
 
 
-
 	std::cin.get();
+	aie::Gizmos::destroy();
 
 	glfwDestroyWindow(window);
 	//Clean up window and gpu linkage.
