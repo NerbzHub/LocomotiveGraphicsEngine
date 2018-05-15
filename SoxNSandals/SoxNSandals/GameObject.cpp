@@ -6,18 +6,19 @@ GameObject::GameObject()
 {
 }
 
-GameObject::GameObject(glm::mat4 globalMatrix[3], glm::mat4 localMatrix[3], glm::mat4 rotation)
+GameObject::GameObject(glm::mat4 globalMatrix[3], glm::mat4 localMatrix[3], glm::mat4 rotation, sns::color color)
 {
 	m_globalMatrix[3] = globalMatrix[3];
 	m_localMatrix[3] = localMatrix[3];
-
+	m_color = color;
 	m_rotation = rotation;
 }
 
-GameObject::GameObject(glm::mat4 globalMatrix[3], glm::mat4 localMatrix[3], glm::mat4 rotation, GameObject * parent)
+GameObject::GameObject(glm::mat4 globalMatrix[3], glm::mat4 localMatrix[3], glm::mat4 rotation, sns::color color, GameObject* parent)
 {
 	m_globalMatrix[3] = globalMatrix[3];
 	m_localMatrix[3] = localMatrix[3];
+	m_color = color;
 	m_parent = parent;
 }
 

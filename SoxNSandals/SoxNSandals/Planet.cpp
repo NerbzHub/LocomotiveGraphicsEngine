@@ -18,6 +18,7 @@ Planet::Planet(glm::mat4 globalMatrix[3], glm::mat4 localMatrix[3], sns::color c
 	m_globalMatrix[3] = globalMatrix[3];
 	m_localMatrix[3] = localMatrix[3];
 	m_parent = parent;
+	m_color = color;
 }
 
 
