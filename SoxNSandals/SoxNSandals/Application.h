@@ -1,5 +1,6 @@
 #pragma once
 #include "SoxCore.h"
+#include "Planet.h"
 
 class Application
 {
@@ -35,5 +36,7 @@ protected:
 	sns::time m_previousTime;
 	glm::mat4 view;
 	glm::mat4 projection;
+
+	Planet planet;
 };
 

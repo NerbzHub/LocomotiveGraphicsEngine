@@ -32,7 +32,7 @@ int Application::initialize()
 	m_previousTime = m_clock.now();//parentMatrix[3] = glm::vec4(0, 0, 10, 1);
 	//localMatrix[3] = glm::vec4(1, 0, -2, 1);
 
-
+	
 	glm::mat4 rot(1);
 	rot = glm::rotate(0.0f, glm::vec3(0, 1, 0));
 
@@ -118,8 +118,10 @@ bool Application::update(double deltaTime)
 				i == 10 ? white : black);
 		}
 
-		//
-		aie::Gizmos::addAABBFilled(glm::vec3(0), glm::vec3(1.5f), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+		
+		//aie::Gizmos::addAABBFilled(glm::vec3(0), glm::vec3(1.5f), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+
+		planet.draw();
 
 		glm::mat4 rot(1);
 
@@ -167,8 +169,10 @@ void Application::iterate()
 
 void Application::render()
 {
+	
 	//aie::Gizmos::addSphere(glm::vec3(0), 1.0f, 15.0f, 15.0f, glm::vec4(1.0f, 0.0f, 0.5f, 1.0f), &parentMatrix);
 	//aie::Gizmos::addSphere(glm::vec3(0), 1.0f, 5.0f, 5.0f, glm::vec4(0.0f, 1.0f, 0.5f, 1.0f), &globalMatrix);
+
 }
 
 int Application::terminate()
