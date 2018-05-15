@@ -4,7 +4,7 @@
 class Application
 {
 public:
-	Application(const glm::ivec2& a_resolution = glm::ivec2(1280, 720), const char* a_name = "Window");
+	Application(const glm::ivec2& a_resolution, const char* a_name);
 	~Application();
 
 	int run();
@@ -21,10 +21,19 @@ protected:
 
 	int terminate();
 
-	float deltaTime;
+	double m_deltaTime;
 
+
+	glm::ivec2 m_windowResolution;
+	const char* m_windowName;
+	GLFWmonitor** screens;
+	int screenCount = 0;
 	GLFWwindow* window;
 	sns::clock m_clock;
-	
+	sns::time m_startTime;
+	sns::time m_currentTime;
+	sns::time m_previousTime;
+	glm::mat4 view;
+	glm::mat4 projection;
 };
 

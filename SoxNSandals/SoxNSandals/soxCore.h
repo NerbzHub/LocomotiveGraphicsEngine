@@ -19,4 +19,5 @@ namespace sns
 {
 	using clock = std::chrono::high_resolution_clock;
 	using time = std::chrono::time_point<clock>;
+	using color = glm::vec4;
 }
