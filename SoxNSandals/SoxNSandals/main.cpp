@@ -90,7 +90,7 @@ int main()
 	aie::Gizmos::create(10000, 10000, 10000, 10000);
 
 	// my camera is located at 10, 10, 10 and looking at the world's 0.
-	glm::mat4 view = glm::lookAt(glm::vec3(10, 10, 10), glm::vec3(0), glm::vec3(0, 1, 0));
+	glm::mat4 view = glm::lookAt(glm::vec3(15, 15, 15), glm::vec3(0), glm::vec3(0, 1, 0));
 	glm::mat4 projection = glm::perspective(glm::pi<float>() * 0.25f,
 		16 / 9.f, 0.1f, 1000.f);
 
@@ -135,7 +135,11 @@ int main()
 		//Parent orbits centre
 		parentMatrix = rot * parentMatrix;
 
-		aie::Gizmos::addSphere(glm::vec3(0), 1.0f, 15.0f, 15.0f, glm::vec4(1.0f, 0.0f, 0.5f, 1.0f), &parentMatrix);
+		//Parent spins
+		rot = glm::rotate(deltaTime * 3, glm::vec3(0, 1, 0));
+		parentMatrix = parentMatrix * rot;
+
+
 
 
 		// Rotate child around parent
@@ -143,9 +147,17 @@ int main()
 		localMatrix = rot * localMatrix;
 
 
+		// spin child
+		rot = glm::rotate(deltaTime * 5, glm::vec3(0, 1, 0));
+		localMatrix = localMatrix * rot;
+
 		// once child syncs with parent
 		globalMatrix = parentMatrix * localMatrix;
-		aie::Gizmos::addSphere(glm::vec3(0), 1.0f, 15.0f, 15.0f, glm::vec4(0.0f, 1.0f, 0.5f, 1.0f), &globalMatrix);
+
+
+
+		aie::Gizmos::addSphere(glm::vec3(0), 1.0f, 15.0f, 15.0f, glm::vec4(1.0f, 0.0f, 0.5f, 1.0f), &parentMatrix);
+		aie::Gizmos::addSphere(glm::vec3(0), 1.0f, 5.0f, 5.0f, glm::vec4(0.0f, 1.0f, 0.5f, 1.0f), &globalMatrix);
 
 
 		aie::Gizmos::draw(projection * view);
