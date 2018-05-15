@@ -1,4 +1,3 @@
-﻿  main.cpp
-  Application.cpp
-  Generating Code...
+﻿  Application.cpp
+cl : Command line warning D9028: minimal rebuild failure, reverting to normal build
   SoxNSandals.vcxproj -> C:\Users\s171735\Documents\SocksAndSandals\SoxNSandals\x64\Debug\SoxNSandals.exe

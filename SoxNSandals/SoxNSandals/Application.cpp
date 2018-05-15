@@ -119,7 +119,7 @@ bool Application::update(double deltaTime)
 		}
 
 		//
-		//aie::Gizmos::addAABBFilled(glm::vec3(0), glm::vec3(1.5f), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+		aie::Gizmos::addAABBFilled(glm::vec3(0), glm::vec3(1.5f), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
 
 		glm::mat4 rot(1);
 
