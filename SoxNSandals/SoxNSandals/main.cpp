@@ -5,6 +5,7 @@
 #include "Gizmos.h"
 #include <glm.hpp>
 #include <ext.hpp>
+#include "soxCore.h"
 
 /* TIME, Clock, AND DURATION ALIASING*/
 using ullong = unsigned long long;
@@ -14,12 +15,7 @@ static const double NANO_TO_SECONDS = 0.000000001;
 // Expected use: nanoseconds = seconds * NANO_TO_SECONDS
 static const ullong NANO_IN_SECONDS = 1000000000ULL;
 
-namespace sns
-{
 
-	using clock = std::chrono::high_resolution_clock;
-	using time = std::chrono::time_point<clock>;
-}
 
 //Parent
 glm::mat4 parentMatrix(1);
@@ -31,7 +27,7 @@ glm::mat4 globalMatrix(1);
 
 int main()
 {
-	sns::clock m_clock;
+	//sns::clock m_clock;
 	sns::time m_startTime = m_clock.now();
 	sns::time m_currentTime = m_clock.now();
 	sns::time m_previousTime = m_clock.now();
