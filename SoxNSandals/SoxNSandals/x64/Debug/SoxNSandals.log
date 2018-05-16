@@ -1,6 +1,9 @@
-﻿  Application.cpp
+﻿  Planet.cpp
+c:\users\s171735\documents\socksandsandals\soxnsandals\soxnsandals\planet.cpp(32): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  GameObject.cpp
+  Camera.cpp
+  Application.cpp
   Generating Code...
-  Compiling...
+  Skipping... (no relevant changes detected)
   main.cpp
-  Generating Code...
   SoxNSandals.vcxproj -> C:\Users\s171735\Documents\SocksAndSandals\SoxNSandals\x64\Debug\SoxNSandals.exe

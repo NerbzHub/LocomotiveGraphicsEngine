@@ -4,6 +4,7 @@
 
 GameObject::GameObject()
 {
+	
 }
 
 GameObject::GameObject(glm::mat4 globalMatrix[3], glm::mat4 localMatrix[3], glm::mat4 rotation, sns::color color)
