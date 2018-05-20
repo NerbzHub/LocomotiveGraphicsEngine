@@ -37,7 +37,11 @@ protected:
 	sns::time m_previousTime;
 	glm::mat4 view;
 	glm::mat4 projection;
-	Camera m_camera;
+	Camera* m_camera;
 	Planet m_planet;
+
+	//----------imgui-----------
+	//ImGuiWindow* m_PanelGameObject;
+
 };
 

@@ -7,7 +7,12 @@
 #include <glm.hpp>
 #include <ext.hpp>
 //#include "Planet.h"
-//#include "Camera.h"
+#include "Camera.h"
+#include "FlyCamera.h"
+
+//---------imgui------------
+//#include "imgui-master\imgui.h"
+
 
 /* TIME, Clock, AND DURATION ALIASING*/
 using ullong = unsigned long long;
