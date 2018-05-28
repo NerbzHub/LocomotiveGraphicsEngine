@@ -7,8 +7,8 @@
 #include <glm.hpp>
 #include <ext.hpp>
 //#include "Planet.h"
-#include "Camera.h"
-#include "FlyCamera.h"
+//#include "Camera.h"
+//#include "FlyCamera.h"
 
 //---------imgui------------
 //#include "imgui-master\imgui.h"

@@ -5,6 +5,7 @@ Application::Application(const glm::ivec2& a_resolution, const char* a_name)
 {
 	m_windowResolution = a_resolution;
 	m_windowName = a_name;
+	m_flyCam = FlyCamera();
 }
 
 Application::~Application()
@@ -80,8 +81,8 @@ int Application::initialize()
 
 	aie::Gizmos::create(10000, 10000, 10000, 10000);
 
-
-	m_camera->CreateCamera(view, projection);
+	
+	
 
 	//// my camera is located at 10, 10, 10 and looking at the world's 0.
 	/*view = glm::lookAt(glm::vec3(15, 15, 15), glm::vec3(0), glm::vec3(0, 1, 0));
@@ -159,7 +160,7 @@ bool Application::update(double deltaTime)
 	//aie::Gizmos::addSphere(glm::vec3(0), 1.0f, 5.0f, 5.0f, glm::vec4(0.0f, 1.0f, 0.5f, 1.0f), &globalMatrix);
 
 	render();
-	aie::Gizmos::draw(projection * view);
+	aie::Gizmos::draw(m_flyCam.getProjectionView());
 
 	// so does our render code!
 	glfwSwapBuffers(window);
@@ -174,9 +175,8 @@ void Application::iterate()
 
 void Application::render()
 {
-	m_camera->Update(m_deltaTime);
-
-	aie::Gizmos::draw(m_camera->getProjectionView());
+	m_flyCam.update(m_deltaTime, window);
+	aie::Gizmos::draw(m_flyCam.getProjectionView());
 	//aie::Gizmos::addSphere(glm::vec3(0), 1.0f, 15.0f, 15.0f, glm::vec4(1.0f, 0.0f, 0.5f, 1.0f), &parentMatrix);
 	//aie::Gizmos::addSphere(glm::vec3(0), 1.0f, 5.0f, 5.0f, glm::vec4(0.0f, 1.0f, 0.5f, 1.0f), &globalMatrix);
 

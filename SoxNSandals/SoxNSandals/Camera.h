@@ -1,5 +1,6 @@
 #pragma once
 #include "soxCore.h"
+
 class Camera
 {
 public:

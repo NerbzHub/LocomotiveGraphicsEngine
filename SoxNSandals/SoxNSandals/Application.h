@@ -1,7 +1,9 @@
 #pragma once
 #include "SoxCore.h"
 #include "Planet.h"
-#include "Camera.h"
+#include "FlyCamera.h"
+
+class FlyCamera;
 
 class Application
 {
@@ -37,7 +39,7 @@ protected:
 	sns::time m_previousTime;
 	glm::mat4 view;
 	glm::mat4 projection;
-	Camera* m_camera;
+	FlyCamera m_flyCam;
 	Planet m_planet;
 
 	//----------imgui-----------
