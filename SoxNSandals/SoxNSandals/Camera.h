@@ -6,9 +6,7 @@ public:
 	Camera();
 	~Camera();
 
-	void CreateCamera(glm::mat4 view, glm::mat4 projection);
-
-	bool Update(float deltaTime);
+	virtual void update(float deltaTime, GLFWwindow* a_glfwWindow) = 0;
 
 	void setPerspective(float fieldOfView, float aspectRatio, float nearDepth, float farDepth);
 
