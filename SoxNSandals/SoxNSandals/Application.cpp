@@ -101,7 +101,7 @@ bool Application::update(double deltaTime)
 	auto duration = m_currentTime - m_previousTime;
 
 	deltaTime = duration.count() * NANO_TO_SECONDS;
-	std::cout << duration.count() << ' ' << deltaTime << '\n';
+	//std::cout << duration.count() << ' ' << deltaTime << '\n';
 
 	//------------imgui------------
 	//drawGUI();
@@ -160,13 +160,13 @@ bool Application::update(double deltaTime)
 	//aie::Gizmos::addSphere(glm::vec3(0), 1.0f, 15.0f, 15.0f, glm::vec4(1.0f, 0.0f, 0.5f, 1.0f), &parentMatrix);
 	//aie::Gizmos::addSphere(glm::vec3(0), 1.0f, 5.0f, 5.0f, glm::vec4(0.0f, 1.0f, 0.5f, 1.0f), &globalMatrix);
 
+	glfwPollEvents();
 	render();
 	//render();
 	//aie::Gizmos::draw(m_flyCam.getProjectionView());
 
 	// so does our render code!
 	glfwSwapBuffers(window);
-	glfwPollEvents();
 
 	return true;
 }

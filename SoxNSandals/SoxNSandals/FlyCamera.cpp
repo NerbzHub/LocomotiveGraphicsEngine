@@ -53,8 +53,8 @@ void FlyCamera::update(double deltaTime, GLFWwindow* a_GLWindow)
 	// hide the mouse
 	glfwSetInputMode(a_GLWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-	//std::cout << -deltaMouseX << std::endl;
-	//std::cout << -deltaMouseY << std::endl;
+	std::cout << -deltaMouseX << std::endl;
+	std::cout << -deltaMouseY << std::endl;
 
 	//update world transform
 	worldTransform = glm::inverse(viewTransform);
@@ -84,29 +84,6 @@ void FlyCamera::update(double deltaTime, GLFWwindow* a_GLWindow)
 		worldTransform[3] += worldTransform[0] * deltaTime * fMoveSpeed;
 	}
 
-	// raise upwards, on the camera's y axis
-	if (glfwGetKey(a_GLWindow, GLFW_KEY_E) == GLFW_PRESS)
-	{
-		worldTransform[3] += worldTransform[1] * deltaTime * fMoveSpeed;
-	}
-
-	// fall downwards, on the camera's y axis
-	if (glfwGetKey(a_GLWindow, GLFW_KEY_Q) == GLFW_PRESS)
-	{
-		worldTransform[3] += worldTransform[1] * deltaTime * -fMoveSpeed;
-	}
-
-	// fly faster with shift
-	if (glfwGetKey(a_GLWindow, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-	{
-		fMoveSpeed = 20.0f;
-		fMouseSensitivity = 5.0f;
-	}
-	else
-	{
-		fMoveSpeed = 5.0f;
-		fMouseSensitivity = 2.5f;
-	}
 	// debug set pos to centre of world 
 	if (glfwGetKey(a_GLWindow, GLFW_KEY_SPACE) == GLFW_PRESS)
 	{
