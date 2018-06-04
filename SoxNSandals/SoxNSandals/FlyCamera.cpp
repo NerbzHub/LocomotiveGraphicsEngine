@@ -2,70 +2,121 @@
 
 FlyCamera::FlyCamera()
 {
-	//INSERT LOOK AT STUFF FROM THE MAIN
-}
+	// assigning default values
 
+	m_dMouseX = 0.0f;
+	m_dMouseY = 0.0f;
+
+	deltaMouseX = 0.0f;
+	deltaMouseY = 0.0f;
+
+	mouseX = 0.0f;
+	mouseY = 0.0f;
+
+	fMouseSensitivity = 2.5f;
+
+	fMoveSpeed = 5.0f;
+}
 
 FlyCamera::~FlyCamera()
 {
 }
 
-void FlyCamera::update(float deltaTime, GLFWwindow * a_glfwWindow)
+void FlyCamera::update(double deltaTime, GLFWwindow* a_GLWindow)
 {
-	// Calculate delta XY of mouse
-	glfwGetCursorPos(a_glfwWindow, &m_dMouseX, &m_dMouseY);
-	// Radians to degrees
-	m_dDeltaMouseX = (400 - m_dMouseX) * 0.0174533;
-	m_dDeltaMouseY = (300 - m_dMouseX) * 0.0174533;
+	// calculate the mouse's delta x and y
+	glfwGetCursorPos(a_GLWindow, &m_dMouseX, &m_dMouseY);
 
-	// Keep mouse locked to screen
-	glfwSetCursorPos(a_glfwWindow, 400, 300);
-
-	// Calculate relative world up
+	// calculate relative world up
 	glm::vec4 up = glm::inverse(worldTransform) * glm::vec4(0, 1, 0, 0);
-	glm::mat4 rotMat(1.0f);
+	glm::mat4 rotMat(1);
 
-	// Rotate around world up
-	rotMat = glm::rotate((float)-m_dDeltaMouseX * deltaTime, glm::vec3(up[0], up[1], up[2]));
+	// if deltaMouseX is 0, when glm rotate is used, rotMat results in NaN which breaks the app
+	if (-deltaMouseX != 0.0f)
+	{
+		// rotate around the world's up
+		rotMat = glm::rotate((float(-deltaMouseX) * fMouseSensitivity)* float(deltaTime), glm::vec3(up[0], up[1], up[2]));
+		viewTransform = rotMat * viewTransform;
+	}
+
+	// rotate up and down
+	rotMat = glm::rotate((float(-deltaMouseY) * fMouseSensitivity)* float(deltaTime), glm::vec3(1, 0, 0));
 	viewTransform = rotMat * viewTransform;
-	// Rotate up down
-	rotMat = glm::rotate((float)-m_dDeltaMouseY * deltaTime, glm::vec3(1, 0, 0));
-	viewTransform = rotMat * viewTransform;
-	// Update world transform
+
+	// radians to degrees
+	deltaMouseX = ((1280 / 2 - m_dMouseX) * 0.0174533);
+	deltaMouseY = ((720 / 2 - m_dMouseY) * 0.0174533);
+
+	// keep mouse locked to screen
+	glfwSetCursorPos(a_GLWindow, 1280 / 2, 720 / 2);
+
+	// hide the mouse
+	glfwSetInputMode(a_GLWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+	//std::cout << -deltaMouseX << std::endl;
+	//std::cout << -deltaMouseY << std::endl;
+
+	//update world transform
 	worldTransform = glm::inverse(viewTransform);
 
-	// Keyboard input
-	if (glfwGetKey(a_glfwWindow, GLFW_KEY_W))
+	// keyboard input
+	// move fowards, on the camera's z axis
+	if (glfwGetKey(a_GLWindow, GLFW_KEY_W) == GLFW_PRESS)
 	{
-		worldTransform[3] += worldTransform[2] * deltaTime * -m_fMovementSpeed;
+		worldTransform[3] += worldTransform[2] * deltaTime * -fMoveSpeed;
 	}
-	if (glfwGetKey(a_glfwWindow, GLFW_KEY_S))
+
+	// move backwards, on the camera's z axis
+	if (glfwGetKey(a_GLWindow, GLFW_KEY_S) == GLFW_PRESS)
 	{
-		worldTransform[3] += worldTransform[2] * deltaTime * m_fMovementSpeed;
+		worldTransform[3] += worldTransform[2] * deltaTime * fMoveSpeed;
 	}
-	if (glfwGetKey(a_glfwWindow, GLFW_KEY_A))
+
+	// strafe left
+	if (glfwGetKey(a_GLWindow, GLFW_KEY_A) == GLFW_PRESS)
 	{
-		worldTransform[3] += worldTransform[0] * deltaTime * -m_fMovementSpeed;
+		worldTransform[3] += worldTransform[0] * deltaTime * -fMoveSpeed;
 	}
-	if (glfwGetKey(a_glfwWindow, GLFW_KEY_D))
+
+	// strafe right
+	if (glfwGetKey(a_GLWindow, GLFW_KEY_D) == GLFW_PRESS)
 	{
-		worldTransform[3] += worldTransform[2] * deltaTime * m_fMovementSpeed;
+		worldTransform[3] += worldTransform[0] * deltaTime * fMoveSpeed;
 	}
-	
+
+	// raise upwards, on the camera's y axis
+	if (glfwGetKey(a_GLWindow, GLFW_KEY_E) == GLFW_PRESS)
+	{
+		worldTransform[3] += worldTransform[1] * deltaTime * fMoveSpeed;
+	}
+
+	// fall downwards, on the camera's y axis
+	if (glfwGetKey(a_GLWindow, GLFW_KEY_Q) == GLFW_PRESS)
+	{
+		worldTransform[3] += worldTransform[1] * deltaTime * -fMoveSpeed;
+	}
+
+	// fly faster with shift
+	if (glfwGetKey(a_GLWindow, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+	{
+		fMoveSpeed = 20.0f;
+		fMouseSensitivity = 5.0f;
+	}
+	else
+	{
+		fMoveSpeed = 5.0f;
+		fMouseSensitivity = 2.5f;
+	}
+	// debug set pos to centre of world 
+	if (glfwGetKey(a_GLWindow, GLFW_KEY_SPACE) == GLFW_PRESS)
+	{
+		setPos(glm::vec3(0, 0, 0));
+	}
+
+	// making sure that the forward matrix is maintained
 	worldTransform[3][3] = 1.0f;
 
+	// update the view transform then the projection view
 	viewTransform = glm::inverse(worldTransform);
 	updateProjectionViewTransform();
 }
-
-glm::mat4 FlyCamera::getProjectionView()
-{
-	return projectionViewTransform;
-}
-
-void FlyCamera::setSpeed(float speed)
-{
-	m_fMovementSpeed = speed;
-}
-
-

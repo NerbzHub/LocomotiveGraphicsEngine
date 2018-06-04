@@ -5,12 +5,12 @@ Application::Application(const glm::ivec2& a_resolution, const char* a_name)
 {
 	m_windowResolution = a_resolution;
 	m_windowName = a_name;
-	m_flyCam = FlyCamera();
+	m_flyCam = new FlyCamera();
 }
 
 Application::~Application()
 {
-
+	delete m_flyCam;
 }
 
 int Application::run()
@@ -111,6 +111,7 @@ bool Application::update(double deltaTime)
 
 	// our game logic and update code goes here!
 
+
 	aie::Gizmos::clear();
 	aie::Gizmos::addTransform(glm::mat4(1));
 	glm::vec4 white(1);
@@ -160,7 +161,8 @@ bool Application::update(double deltaTime)
 	//aie::Gizmos::addSphere(glm::vec3(0), 1.0f, 5.0f, 5.0f, glm::vec4(0.0f, 1.0f, 0.5f, 1.0f), &globalMatrix);
 
 	render();
-	aie::Gizmos::draw(m_flyCam.getProjectionView());
+	//render();
+	//aie::Gizmos::draw(m_flyCam.getProjectionView());
 
 	// so does our render code!
 	glfwSwapBuffers(window);
@@ -175,11 +177,10 @@ void Application::iterate()
 
 void Application::render()
 {
-	m_flyCam.update(m_deltaTime, window);
-	aie::Gizmos::draw(m_flyCam.getProjectionView());
+	m_flyCam->update(m_deltaTime, window);
+	aie::Gizmos::draw(m_flyCam->getProjectionView());
 	//aie::Gizmos::addSphere(glm::vec3(0), 1.0f, 15.0f, 15.0f, glm::vec4(1.0f, 0.0f, 0.5f, 1.0f), &parentMatrix);
 	//aie::Gizmos::addSphere(glm::vec3(0), 1.0f, 5.0f, 5.0f, glm::vec4(0.0f, 1.0f, 0.5f, 1.0f), &globalMatrix);
-
 }
 
 

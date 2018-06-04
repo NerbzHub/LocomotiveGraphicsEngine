@@ -1,5 +1,5 @@
 #include "Camera.h"
-
+#include <ext.hpp>
 
 
 Camera::Camera()
@@ -26,40 +26,39 @@ void Camera::updateProjectionViewTransform()
 	projectionViewTransform = projectionTransform * viewTransform;
 }
 
-void Camera::setPerspective(float fieldOfView, float aspectRatio, float nearDepth, float farDepth)
+void Camera::setPerspective(const float &fieldOfView, const float &aspectRatio, const float &fnear, const float &ffar)
 {
-	projectionViewTransform = glm::perspective(fieldOfView, aspectRatio, nearDepth, farDepth);
+	projectionTransform = glm::perspective(fieldOfView, aspectRatio, fnear, ffar);
 	updateProjectionViewTransform();
 }
 
-void Camera::setLookAt(glm::vec3 from, glm::vec3 to, glm::vec3 up)
+void Camera::setLookAt(const glm::vec3 &from, const glm::vec3 &to, const glm::vec3 &up)
 {
 	viewTransform = glm::lookAt(from, to, up);
 }
 
-void Camera::setPosition(glm::vec3 position)
+void Camera::setPos(const glm::vec3 &position)
 {
 	worldTransform[3] = glm::vec4(position, worldTransform[3][3]);
 	updateProjectionViewTransform();
 }
 
-glm::mat4 Camera::getWorldTransform()
+glm::mat4 Camera::getWorldTransform() const
 {
-	return glm::mat4();
+	return worldTransform;
 }
 
-glm::mat4 Camera::getView()
+glm::mat4 Camera::getView() const
 {
-	return glm::mat4();
+	return viewTransform;
 }
 
-glm::mat4 Camera::getProjection()
+glm::mat4 Camera::getProjection() const
 {
-	return glm::mat4();
+	return projectionTransform;
 }
 
-glm::mat4 Camera::getProjectionView()
+glm::mat4 Camera::getProjectionView() const
 {
-	return glm::mat4();
+	return projectionViewTransform;
 }
-

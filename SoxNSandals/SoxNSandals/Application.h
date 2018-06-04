@@ -39,7 +39,7 @@ protected:
 	sns::time m_previousTime;
 	glm::mat4 view;
 	glm::mat4 projection;
-	FlyCamera m_flyCam;
+	FlyCamera* m_flyCam;
 	Planet m_planet;
 
 	//----------imgui-----------
