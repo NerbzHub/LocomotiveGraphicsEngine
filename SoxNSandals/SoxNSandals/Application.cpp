@@ -202,8 +202,20 @@ void Application::render()
 	auto pvm = m_flyCam->getProjectionView() * m_quadTransform;
 	m_shader.bindUniform("ProjectionViewModel", pvm);
 
+	// define 6 vertices for 2 triangles
+	Mesh::Vertex vertices[6];
+	vertices[0].position = { -0.5f, 0, 0.5f, 1 };
+	vertices[1].position = { 0.5f, 0, 0.5f, 1 };
+	vertices[2].position = { -0.5f, 0, -0.5f, 1 };
+	vertices[3].position = { -0.5f, 0, -0.5f, 1 };
+	vertices[4].position = { 0.5f, 0, 0.5f, 1 };
+	vertices[5].position = { 0.5f, 0, -0.5f, 1 };
+	m_quadMesh.initialise(6, vertices);
+
 	// draw quad
 	m_quadMesh.draw();
+
+	
 
 	aie::Gizmos::draw(m_flyCam->getProjectionView());
 
