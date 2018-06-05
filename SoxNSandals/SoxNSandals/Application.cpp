@@ -100,7 +100,7 @@ bool Application::update(double deltaTime)
 
 	auto duration = m_currentTime - m_previousTime;
 
-	deltaTime = duration.count() * NANO_TO_SECONDS;
+	m_deltaTime = duration.count() * NANO_TO_SECONDS;
 	//std::cout << duration.count() << ' ' << deltaTime << '\n';
 
 	//------------imgui------------
