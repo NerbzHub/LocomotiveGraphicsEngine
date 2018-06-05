@@ -53,8 +53,8 @@ void FlyCamera::update(double deltaTime, GLFWwindow* a_GLWindow)
 	// hide the mouse
 	glfwSetInputMode(a_GLWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-	std::cout << -deltaMouseX << std::endl;
-	std::cout << -deltaMouseY << std::endl;
+	//std::cout << -deltaMouseX << std::endl;
+	//std::cout << -deltaMouseY << std::endl;
 
 	//update world transform
 	worldTransform = glm::inverse(viewTransform);

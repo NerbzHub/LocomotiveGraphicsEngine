@@ -1,5 +1,5 @@
 #pragma once
-#include "SoxCore.h"
+#include "soxCore.h"
 #include "Planet.h"
 #include "FlyCamera.h"
 
@@ -41,6 +41,11 @@ protected:
 	glm::mat4 projection;
 	FlyCamera* m_flyCam;
 	Planet m_planet;
+
+	//----------Shader----------
+	aie::ShaderProgram m_shader;
+	Mesh m_quadMesh;
+	glm::mat4 m_quadTransform;
 
 	//----------imgui-----------
 	//ImGuiWindow* m_PanelGameObject;

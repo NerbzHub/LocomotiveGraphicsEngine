@@ -1,12 +1,5 @@
 #include "Mesh.h"
 
-
-
-Mesh::Mesh()
-{
-}
-
-
 Mesh::~Mesh()
 {
 	glDeleteVertexArrays(1, &vao);

@@ -48,7 +48,7 @@ int Application::initialize()
 	window = glfwCreateWindow(m_windowResolution.x, m_windowResolution.y, m_windowName, nullptr, nullptr);
 
 	screens = glfwGetMonitors(&screenCount);
-	std::cout << screenCount << std::endl;
+	//std::cout << screenCount << std::endl;
 
 	// Window x and y, name of window, which screen it's on, shared or exclusive
 
@@ -81,8 +81,28 @@ int Application::initialize()
 
 	aie::Gizmos::create(10000, 10000, 10000, 10000);
 
+
+	//load vertex shader from file
+	m_shader.loadShader(aie::eShaderStage::VERTEX, "../shaders/simple.vert");
+
+	// load fragment shader from file
+	m_shader.loadShader(aie::eShaderStage::FRAGMENT, "../shaders/simple.frag");
+
+	if (m_shader.link() == false)
+	{
+		printf("Shader Error: %s\n", m_shader.getLastError());
+	}
 	
+	m_quadMesh.initialiseQuad();
 	
+	// Quad is 10 units wide.
+	m_quadTransform =
+	{
+		10,0,0,0,
+		0,10,0,0,
+		0,0,10,0,
+		0,0,0,1 
+	};
 
 	//// my camera is located at 10, 10, 10 and looking at the world's 0.
 	/*view = glm::lookAt(glm::vec3(15, 15, 15), glm::vec3(0), glm::vec3(0, 1, 0));
@@ -117,12 +137,8 @@ bool Application::update(double deltaTime)
 	glm::vec4 white(1);
 	glm::vec4 black(0, 0, 0, 1);
 	for (int i = 0; i < 21; ++i) {
-		aie::Gizmos::addLine(glm::vec3(-10 + i, 0, 10),
-			glm::vec3(-10 + i, 0, -10),
-			i == 10 ? white : black);
-		aie::Gizmos::addLine(glm::vec3(10, 0, -10 + i),
-			glm::vec3(-10, 0, -10 + i),
-			i == 10 ? white : black);
+		aie::Gizmos::addLine(glm::vec3(-10 + i, 0, 10), glm::vec3(-10 + i, 0, -10), i == 10 ? white : black);
+		aie::Gizmos::addLine(glm::vec3(10, 0, -10 + i), glm::vec3(-10, 0, -10 + i), i == 10 ? white : black);
 	}
 
 
@@ -160,8 +176,8 @@ bool Application::update(double deltaTime)
 	//aie::Gizmos::addSphere(glm::vec3(0), 1.0f, 15.0f, 15.0f, glm::vec4(1.0f, 0.0f, 0.5f, 1.0f), &parentMatrix);
 	//aie::Gizmos::addSphere(glm::vec3(0), 1.0f, 5.0f, 5.0f, glm::vec4(0.0f, 1.0f, 0.5f, 1.0f), &globalMatrix);
 
-	glfwPollEvents();
 	render();
+	glfwPollEvents();
 	//render();
 	//aie::Gizmos::draw(m_flyCam.getProjectionView());
 
@@ -178,7 +194,21 @@ void Application::iterate()
 void Application::render()
 {
 	m_flyCam->update(m_deltaTime, window);
+
+	// bind shader
+	m_shader.bind();
+
+	// bind transform
+	auto pvm = m_flyCam->getProjectionView() * m_quadTransform;
+	m_shader.bindUniform("ProjectionViewModel", pvm);
+
+	// draw quad
+	m_quadMesh.draw();
+
 	aie::Gizmos::draw(m_flyCam->getProjectionView());
+
+	// a simple shader
+
 	//aie::Gizmos::addSphere(glm::vec3(0), 1.0f, 15.0f, 15.0f, glm::vec4(1.0f, 0.0f, 0.5f, 1.0f), &parentMatrix);
 	//aie::Gizmos::addSphere(glm::vec3(0), 1.0f, 5.0f, 5.0f, glm::vec4(0.0f, 1.0f, 0.5f, 1.0f), &globalMatrix);
 }

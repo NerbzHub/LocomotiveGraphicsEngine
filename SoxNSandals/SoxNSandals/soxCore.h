@@ -6,6 +6,8 @@
 #include "Gizmos.h"
 #include <glm.hpp>
 #include <ext.hpp>
+#include "Shader.h"
+#include "Mesh.h"
 //#include "Planet.h"
 //#include "Camera.h"
 //#include "FlyCamera.h"
