@@ -50,7 +50,7 @@ void Mesh::initialiseQuad()
 
 
 
-void Mesh::initialise(unsigned int vertexCount, const Vertex * vertices, unsigned int indexCount, unsigned int * indices)
+void Mesh::initialise(unsigned int vertexCount, const Vertex* vertices, unsigned int indexCount, unsigned int* indices)
 {
 	assert(vao == 0);
 

@@ -18,7 +18,7 @@ public:
 
 	void initialiseQuad();
 
-	void initialise(unsigned int vertexCount, const Vertex* vertices, unsigned int indexCount = 0, unsigned int* indices = nullptr);
+	void initialise(unsigned int vertexCount, const Vertex* vertices, unsigned int indexCount, unsigned int* indices);
 
 	void createQuad();
 
