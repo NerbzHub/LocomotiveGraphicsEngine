@@ -93,28 +93,40 @@ int Application::initialize()
 		printf("Shader Error: %s\n", m_shader.getLastError());
 	}
 	
-	// define 4 vertices for 2 triangles
-	Mesh::Vertex vertices[4];
+	// define 6 vertices for 2 triangles
+	/*Mesh::Vertex vertices[6];
 	vertices[0].position = { -0.5f, 0, 0.5f, 1 };
 	vertices[1].position = { 0.5f, 0, 0.5f, 1 };
 	vertices[2].position = { -0.5f, 0, -0.5f, 1 };
-	vertices[3].position = { 0.5f, 0, -0.5f, 1 };
+	vertices[3].position = { -0.5f, 0, -0.5f, 1 };
+	vertices[4].position = { 0.5f, 0, 0.5f, 1 };
+	vertices[5].position = { 0.5f, 0, -0.5f, 1 };
+	m_quadMesh.initialise(6, vertices);
+*/
+	// define 4 vertices for 2 triangles
+	Mesh::Vertex verticess[4];
+	verticess[0].position = { -0.5f, 0, 0.5f, 1 };
+	verticess[1].position = { 0.5f, 0, 0.5f, 1 };
+	verticess[2].position = { -0.5f, 0, -0.5f, 1 };
+	verticess[3].position = { 0.5f, 0, -0.5f, 1 };
 
 	unsigned int indices[6] = { 0, 1, 2, 2, 1, 3 };
 
-	m_quadMesh.initialise(4, vertices, 6, indices);
+	m_quadMesh.initialise(4, verticess, 6, indices);
+
+	//m_quadMesh.initialiseQuad();
 
 
 	//m_quadMesh.initialiseQuad();
 	
 	// Quad is 10 units wide.
-	/*m_quadTransform =
+	m_quadTransform =
 	{
 		10,0,0,0,
 		0,10,0,0,
 		0,0,10,0,
 		0,0,0,1 
-	};*/
+	};
 
 	//// my camera is located at 10, 10, 10 and looking at the world's 0.
 	/*view = glm::lookAt(glm::vec3(15, 15, 15), glm::vec3(0), glm::vec3(0, 1, 0));
@@ -148,6 +160,7 @@ bool Application::update(double deltaTime)
 	aie::Gizmos::addTransform(glm::mat4(1));
 	glm::vec4 white(1);
 	glm::vec4 black(0, 0, 0, 1);
+
 	for (int i = 0; i < 21; ++i) {
 		aie::Gizmos::addLine(glm::vec3(-10 + i, 0, 10), glm::vec3(-10 + i, 0, -10), i == 10 ? white : black);
 		aie::Gizmos::addLine(glm::vec3(10, 0, -10 + i), glm::vec3(-10, 0, -10 + i), i == 10 ? white : black);
@@ -189,12 +202,18 @@ bool Application::update(double deltaTime)
 	//aie::Gizmos::addSphere(glm::vec3(0), 1.0f, 5.0f, 5.0f, glm::vec4(0.0f, 1.0f, 0.5f, 1.0f), &globalMatrix);
 
 	render();
+
+	m_flyCam->update(m_deltaTime, window);
+
+	glfwSwapBuffers(window);
+
 	glfwPollEvents();
+
+
 	//render();
 	//aie::Gizmos::draw(m_flyCam.getProjectionView());
 
 	// so does our render code!
-	glfwSwapBuffers(window);
 
 	return true;
 }
@@ -205,7 +224,6 @@ void Application::iterate()
 
 void Application::render()
 {
-	m_flyCam->update(m_deltaTime, window);
 
 	// bind shader
 	m_shader.bind();
@@ -213,17 +231,6 @@ void Application::render()
 	// bind transform
 	auto pvm = m_flyCam->getProjectionView() * m_quadTransform;
 	m_shader.bindUniform("ProjectionViewModel", pvm);
-
-	//// define 6 vertices for 2 triangles
-	//Mesh::Vertex vertices[6];
-	//vertices[0].position = { -0.5f, 0, 0.5f, 1 };
-	//vertices[1].position = { 0.5f, 0, 0.5f, 1 };
-	//vertices[2].position = { -0.5f, 0, -0.5f, 1 };
-	//vertices[3].position = { -0.5f, 0, -0.5f, 1 };
-	//vertices[4].position = { 0.5f, 0, 0.5f, 1 };
-	//vertices[5].position = { 0.5f, 0, -0.5f, 1 };
-
-	
 
 	// draw quad
 	m_quadMesh.draw();

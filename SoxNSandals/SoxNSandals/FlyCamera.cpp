@@ -2,7 +2,7 @@
 
 FlyCamera::FlyCamera()
 {
-	// assigning default values
+	// assigning some default values
 
 	m_dMouseX = 0.0f;
 	m_dMouseY = 0.0f;
