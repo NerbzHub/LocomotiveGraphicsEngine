@@ -22,6 +22,8 @@ public:
 
 	void initialiseQuad();
 
+	
+
 	virtual void draw();
 
 protected:

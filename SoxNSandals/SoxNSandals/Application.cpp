@@ -1,6 +1,5 @@
 #include "Application.h"
 
-
 Application::Application(const glm::ivec2& a_resolution, const char* a_name)
 {
 	m_windowResolution = a_resolution;
@@ -101,25 +100,33 @@ int Application::initialize()
 	vertices[3].position = { -0.5f, 0, -0.5f, 1 };
 	vertices[4].position = { 0.5f, 0, 0.5f, 1 };
 	vertices[5].position = { 0.5f, 0, -0.5f, 1 };
-	m_quadMesh.initialise(6, vertices);
-*/
+	m_quadMesh.initialise(6, vertices);*/
+
+
 	// define 4 vertices for 2 triangles
-	Mesh::Vertex verticess[4];
-	verticess[0].position = { -0.5f, 0, 0.5f, 1 };
-	verticess[1].position = { 0.5f, 0, 0.5f, 1 };
-	verticess[2].position = { -0.5f, 0, -0.5f, 1 };
-	verticess[3].position = { 0.5f, 0, -0.5f, 1 };
 
-	unsigned int indices[6] = { 0, 1, 2, 2, 1, 3 };
+	//Mesh::Vertex verticess[4];
+	//verticess[0].position = { -0.5f, 0, 0.5f, 1 };
+	//verticess[1].position = { 0.5f, 0, 0.5f, 1 };
+	//verticess[2].position = { -0.5f, 0, -0.5f, 1 };
+	//verticess[3].position = { 0.5f, 0, -0.5f, 1 };
 
-	m_quadMesh.initialise(4, verticess, 6, indices);
+	//unsigned int indices[6] = { 0, 1, 2, 2, 1, 3 };
 
-	//m_quadMesh.initialiseQuad();
+	//m_quadMesh.initialise(4, verticess, 6, indices);
 
+	//
+	//// Quad is 10 units wide.
+	//m_quadTransform =
+	//{
+	//	10,0,0,0,
+	//	0,10,0,0,
+	//	0,0,10,0,
+	//	0,0,0,1 
+	//};
 
-	//m_quadMesh.initialiseQuad();
-	
-	// Quad is 10 units wide.
+	createQuad();
+
 	m_quadTransform =
 	{
 		10,0,0,0,
@@ -235,6 +242,8 @@ void Application::render()
 	// draw quad
 	m_quadMesh.draw();
 
+	// draw cube
+	
 	
 
 	aie::Gizmos::draw(m_flyCam->getProjectionView());
@@ -255,3 +264,47 @@ int Application::terminate()
 	glfwTerminate();
 	return 0;
 }
+
+void Application::createQuad()
+{
+	Mesh::Vertex verticess[4];
+	verticess[0].position = { -0.5f, 0, 0.5f, 1 };
+	verticess[1].position = { 0.5f, 0, 0.5f, 1 };
+	verticess[2].position = { -0.5f, 0, -0.5f, 1 };
+	verticess[3].position = { 0.5f, 0, -0.5f, 1 };
+
+	unsigned int indices[6] = { 0, 1, 2, 2, 1, 3 };
+
+	m_quadMesh.initialise(4, verticess, 6, indices);
+}
+
+void Application::createCube()
+{
+	// cube
+	Mesh::Vertex vertices[8];
+	// lower top left
+	vertices[0].position = { -1, -1, -1, 1 };
+	// lower top right
+	vertices[1].position = { 1, -1, -1, 1 };
+	// lower bottom left
+	vertices[2].position = { -1, -1, 1, 1 };
+	// lower bottom right
+	vertices[3].position = { 1, -1, 1, 1 };
+	// higher top left
+	vertices[4].position = { -1, 1, -1, 1 };
+	// higher top right
+	vertices[5].position = { 1, 1, -1, 1 };
+	// higher bottom left
+	vertices[6].position = { -1, 1, 1, 1 };
+	// higher bottom right
+	vertices[7].position = { 1, 1, 1, 1 };
+	unsigned int indices[36] = { 0,1,2, 1,2,3, // -y
+								 0,1,4, 1,4,5, // -z
+								 1,3,5, 3,5,7, // +x
+								 4,5,7, 4,6,7, // +y
+								 2,6,7, 2,3,7, // +z
+								 0,4,6, 0,2,6};// -x
+	m_cubeMesh.initialise(8, vertices, 36, indices);
+}
+
+

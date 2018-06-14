@@ -27,6 +27,10 @@ protected:
 
 	double m_deltaTime;
 
+	// Initialise various shapes.
+	void createQuad();
+	void createCube();
+
 
 	glm::ivec2 m_windowResolution;
 	const char* m_windowName;
@@ -44,8 +48,12 @@ protected:
 
 	//----------Shader----------
 	aie::ShaderProgram m_shader;
-	Mesh m_quadMesh;
 	glm::mat4 m_quadTransform;
+	glm::mat4 m_cubeTransform;
+
+	//----------Mesh------------
+	Mesh m_quadMesh;
+	Mesh m_cubeMesh;
 
 	//----------imgui-----------
 	//ImGuiWindow* m_PanelGameObject;

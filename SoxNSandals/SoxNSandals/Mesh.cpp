@@ -120,7 +120,6 @@ void Mesh::initialiseQuad()
 	triCount = 2;
 }
 
-
 void Mesh::draw()
 {
 	glBindVertexArray(vao);
