@@ -54,11 +54,17 @@ protected:
 	//----------Mesh------------
 	Mesh m_quadMesh;
 	Mesh m_cubeMesh;
+	Mesh m_circleMesh;
 	Mesh m_cylinderMesh;
 
 
 	//----------imgui-----------
 	//ImGuiWindow* m_PanelGameObject;
+	
+
+	//----------OBJ-------------
+	aie::OBJMesh m_bunnyMesh;
+	glm::mat4 m_bunnyTransform;
 
 };
 

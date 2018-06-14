@@ -8,6 +8,9 @@
 #include <ext.hpp>
 #include "Shader.h"
 #include "Mesh.h"
+#include "OBJMesh.h"
+#include "tiny_obj_loader.h"
+
 //#include "Planet.h"
 //#include "Camera.h"
 //#include "FlyCamera.h"

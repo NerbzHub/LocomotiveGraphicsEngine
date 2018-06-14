@@ -135,14 +135,18 @@ int Application::initialize()
 	};*/
 
 	//createCube();
-	createCylinder();
-	/*m_quadTransform =
+	//createCylinder();
+	//glm::vec3 worldCenter(1, 1, 1);
+	//glm::vec4 defaultColour(200, 200, 200, 1);
+	m_circleMesh.initialiseCircle(glm::vec3(1.0f, 1.0f, 1.0f), 5.0f, 10.0f);
+
+	m_quadTransform =
 	{
 		10,0,0,0,
 		0,10,0,0,
 		0,0,10,0,
 		0,0,0,1
-	};*/
+	};
 
 	//// my camera is located at 10, 10, 10 and looking at the world's 0.
 	/*view = glm::lookAt(glm::vec3(15, 15, 15), glm::vec3(0), glm::vec3(0, 1, 0));
@@ -255,8 +259,10 @@ void Application::render()
 	//m_cubeMesh.draw();
 
 	// draw cylinder
-	m_cylinderMesh.draw();
+	//m_cylinderMesh.draw();
 	
+	// draw circle
+	m_circleMesh.draw();
 	
 
 	aie::Gizmos::draw(m_flyCam->getProjectionView());
