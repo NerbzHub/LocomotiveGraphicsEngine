@@ -125,15 +125,24 @@ int Application::initialize()
 	//	0,0,0,1 
 	//};
 
-	createQuad();
-
-	m_quadTransform =
+	//createQuad();
+	/*m_quadTransform =
 	{
 		10,0,0,0,
 		0,10,0,0,
 		0,0,10,0,
 		0,0,0,1 
-	};
+	};*/
+
+	//createCube();
+	createCylinder();
+	/*m_quadTransform =
+	{
+		10,0,0,0,
+		0,10,0,0,
+		0,0,10,0,
+		0,0,0,1
+	};*/
 
 	//// my camera is located at 10, 10, 10 and looking at the world's 0.
 	/*view = glm::lookAt(glm::vec3(15, 15, 15), glm::vec3(0), glm::vec3(0, 1, 0));
@@ -240,9 +249,13 @@ void Application::render()
 	m_shader.bindUniform("ProjectionViewModel", pvm);
 
 	// draw quad
-	m_quadMesh.draw();
+	//m_quadMesh.draw();
 
 	// draw cube
+	//m_cubeMesh.draw();
+
+	// draw cylinder
+	m_cylinderMesh.draw();
 	
 	
 
@@ -282,21 +295,21 @@ void Application::createCube()
 {
 	// cube
 	Mesh::Vertex vertices[8];
-	// lower top left
+	// bottom top left
 	vertices[0].position = { -1, -1, -1, 1 };
-	// lower top right
+	// bottom top right
 	vertices[1].position = { 1, -1, -1, 1 };
-	// lower bottom left
+	// bottom bottom left
 	vertices[2].position = { -1, -1, 1, 1 };
-	// lower bottom right
+	// bottom bottom right
 	vertices[3].position = { 1, -1, 1, 1 };
-	// higher top left
+	// top top left
 	vertices[4].position = { -1, 1, -1, 1 };
-	// higher top right
+	// top top right
 	vertices[5].position = { 1, 1, -1, 1 };
-	// higher bottom left
+	// top bottom left
 	vertices[6].position = { -1, 1, 1, 1 };
-	// higher bottom right
+	// top bottom right
 	vertices[7].position = { 1, 1, 1, 1 };
 	unsigned int indices[36] = { 0,1,2, 1,2,3, // -y
 								 0,1,4, 1,4,5, // -z
@@ -305,6 +318,11 @@ void Application::createCube()
 								 2,6,7, 2,3,7, // +z
 								 0,4,6, 0,2,6};// -x
 	m_cubeMesh.initialise(8, vertices, 36, indices);
+}
+
+void Application::createCylinder()
+{
+	
 }
 
 

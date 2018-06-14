@@ -21,7 +21,7 @@ public:
 		unsigned int* indices = nullptr);
 
 	void initialiseQuad();
-
+	void initialiseCylinder(glm::vec3& center, float radius, float height, unsigned int segments, glm::mat4* transform);
 	
 
 	virtual void draw();

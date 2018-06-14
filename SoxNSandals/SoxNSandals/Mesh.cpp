@@ -120,6 +120,11 @@ void Mesh::initialiseQuad()
 	triCount = 2;
 }
 
+void Mesh::initialiseCylinder(glm::vec3 & center, float radius, float height, unsigned int segments, glm::mat4* transform)
+{
+	glm::vec3 tmpCenter = transform != nullptr ? glm::vec3((*transform)[3]) + center : center;
+}
+
 void Mesh::draw()
 {
 	glBindVertexArray(vao);

@@ -30,6 +30,7 @@ protected:
 	// Initialise various shapes.
 	void createQuad();
 	void createCube();
+	void createCylinder();
 
 
 	glm::ivec2 m_windowResolution;
@@ -49,11 +50,12 @@ protected:
 	//----------Shader----------
 	aie::ShaderProgram m_shader;
 	glm::mat4 m_quadTransform;
-	glm::mat4 m_cubeTransform;
 
 	//----------Mesh------------
 	Mesh m_quadMesh;
 	Mesh m_cubeMesh;
+	Mesh m_cylinderMesh;
+
 
 	//----------imgui-----------
 	//ImGuiWindow* m_PanelGameObject;
