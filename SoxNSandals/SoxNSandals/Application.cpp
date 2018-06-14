@@ -138,7 +138,7 @@ int Application::initialize()
 	//createCylinder();
 	//glm::vec3 worldCenter(1, 1, 1);
 	//glm::vec4 defaultColour(200, 200, 200, 1);
-	m_circleMesh.initialiseCircle(glm::vec3(1.0f, 1.0f, 1.0f), 5.0f, 10.0f);
+	//m_circleMesh.initialiseCircle(glm::vec3(1.0f, 1.0f, 1.0f), 5.0f, 10.0f);
 
 	m_quadTransform =
 	{

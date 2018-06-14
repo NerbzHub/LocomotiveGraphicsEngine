@@ -154,6 +154,7 @@
     <ClCompile Include="gl_core_4_5.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="OBJMesh.cpp" />
     <ClCompile Include="Planet.cpp" />
     <ClCompile Include="Shader.cpp" />
   </ItemGroup>
@@ -165,9 +166,11 @@
     <ClInclude Include="Gizmos.h" />
     <ClInclude Include="gl_core_4_5.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="OBJMesh.h" />
     <ClInclude Include="Planet.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="soxCore.h" />
+    <ClInclude Include="tiny_obj_loader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
