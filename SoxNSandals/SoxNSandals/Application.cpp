@@ -92,8 +92,24 @@ int Application::initialize()
 		printf("Shader Error: %s\n", m_shader.getLastError());
 	}
 
+	if (m_gridTexture.load("../textures/Crackles.png") == false) {
+		printf("Failed to load texture!\n");
+		return false;
+	}
+
+	//createQuad();
+
+	// Quad is 10 units wide.
+	/*m_quadTransform =
+	{
+		10,0,0,0,
+		0,10,0,0,
+		0,0,10,0,
+		0,0,0,1 
+	};*/
+
 	// Bunny Mesh
-	if (m_bunnyMesh.load("../stanford/bunny.obj") == false)
+	/*if (m_bunnyMesh.load("../stanford/Bunny.obj") == false)
 	{
 		printf("Bunny Mesh Error! \n");
 		return false;
@@ -105,7 +121,32 @@ int Application::initialize()
 		0,0.5f,0,0,
 		0,0,0.5f,0,
 		0,0,0,1
+	};*/
+
+	// Buddha Mesh
+	if (m_buddhaMesh.load("../stanford/Buddha.obj") == false)
+	{
+		printf("Buddha Mesh Error! \n");
+		return false;
+	}
+
+	m_buddhaTransform =
+	{
+		1,0,0,0,
+		0,1,0,0,
+		0,0,1,0,
+		0,0,0,1
 	};
+
+	//// load imaginary texture
+	//aie::Texture texture1;
+	//texture1.load("../textures/Crackles.png");
+	//// create a 2x2 black-n-white checker texture
+	//// RED simply means one colour channel, i.e. grayscale
+	//aie::Texture texture2;
+	//unsigned char texelData[4] = { 0, 255, 255, 0 };
+	//texture2.create(2, 2, aie::Texture::RED, texelData);
+
 
 	// define 6 vertices for 2 triangles
 	/*Mesh::Vertex vertices[6];
@@ -260,12 +301,22 @@ void Application::iterate()
 void Application::render()
 {
 
+	//// bind shader
+	//m_shader.bind();
+
 	// bind shader
-	m_shader.bind();
+	m_texturedShader.bind();
+
+	// bind texture location
+	m_texturedShader.bindUniform("diffuseTexture", 0);
 
 	// bind transform
-	auto pvm = m_flyCam->getProjectionView() * m_quadTransform;
-	m_shader.bindUniform("ProjectionViewModel", pvm);
+	auto pvm = m_flyCam->getProjectionView() * m_buddhaTransform;
+	m_texturedShader.bindUniform("ProjectionViewModel", pvm);
+
+
+	// bind texture to specified location
+	m_gridTexture.bind(1);
 
 	// draw quad
 	//m_quadMesh.draw();
@@ -280,7 +331,11 @@ void Application::render()
 	//m_circleMesh.draw();
 	
 	// draw bunny
-	m_bunnyMesh.draw();
+	//m_bunnyMesh.draw();
+	//RenderBunny();
+
+	// draw buddha
+	RenderBuddha();
 
 	aie::Gizmos::draw(m_flyCam->getProjectionView());
 
@@ -348,4 +403,69 @@ void Application::createCylinder()
 	
 }
 
+bool Application::CreateBunny()
+{
+	// load vertex shader from file
+	m_shader.loadShader(aie::eShaderStage::VERTEX,
+		"../shaders/simple.vert");
 
+	// load fragment shader from file
+	m_shader.loadShader(aie::eShaderStage::FRAGMENT,
+		"../shaders/simple.frag");
+
+	if (m_shader.link() == false)
+	{
+		printf("Shader Error: %s\n", m_shader.getLastError());
+		return false;
+	}
+
+	// higher poly version, use bunny_OP.obj for lower poly version
+	if (m_bunnyMesh.load("../stanford/bunny_OP.obj") == false)
+	{
+		printf("Bunny Mesh Error!\n");
+		return false;
+	}
+	else
+	{
+		m_bunnyTransform = { 0.5f,0,0,0,
+			0,0.5f,0,0,
+			0,0,0.5f,0,
+			-5,0,-5,1 };
+	}
+}
+
+void Application::RenderBunny()
+{
+	// bind shader
+	m_shader.bind();
+
+	// bind transform
+	auto pvm = m_flyCam->getProjectionView() * m_quadTransform;
+	m_shader.bindUniform("ProjectionViewModel", pvm);
+
+	// draw bunny
+	// bind transform
+	auto pvmbunny = m_flyCam->getProjectionView() * m_bunnyTransform;
+	m_shader.bindUniform("ProjectionViewModel", pvmbunny);
+
+	// draw bunny
+	m_bunnyMesh.draw();
+}
+
+void Application::RenderBuddha()
+{
+	// bind shader
+	m_shader.bind();
+
+	// bind transform
+	auto pvm = m_flyCam->getProjectionView() * m_quadTransform;
+	m_shader.bindUniform("ProjectionViewModel", pvm);
+
+	// draw buddha
+	// bind transform
+	auto pvmbuddha = m_flyCam->getProjectionView() * m_buddhaTransform;
+	m_shader.bindUniform("ProjectionViewModel", pvmbuddha);
+
+	// draw bunny
+	m_buddhaMesh.draw();
+}

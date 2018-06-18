@@ -20,7 +20,7 @@ public:
 		unsigned int indexCount = 0,
 		unsigned int* indices = nullptr);
 
-	//void initialiseQuad();
+	void initialiseQuad();
 	//void initialiseCircle(const glm::vec3 & center, float radius, unsigned int segments);
 	//void initialiseCylinder(glm::vec3& center, float radius, float height, unsigned int segments, glm::mat4* transform);
 	

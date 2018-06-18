@@ -32,6 +32,12 @@ protected:
 	void createCube();
 	void createCylinder();
 
+	bool CreateBunny();
+
+	void RenderBunny();
+
+	void RenderBuddha();
+
 
 	glm::ivec2 m_windowResolution;
 	const char* m_windowName;
@@ -49,7 +55,14 @@ protected:
 
 	//----------Shader----------
 	aie::ShaderProgram m_shader;
+	aie::ShaderProgram m_texturedShader;
+	//aie::ShaderProgram m_crackleTexture;
+
 	glm::mat4 m_quadTransform;
+
+	//----------Texture---------
+	aie::Texture m_gridTexture;
+
 
 	//----------Mesh------------
 	Mesh m_quadMesh;
@@ -66,5 +79,7 @@ protected:
 	aie::OBJMesh m_bunnyMesh;
 	glm::mat4 m_bunnyTransform;
 
+	aie::OBJMesh m_buddhaMesh;
+	glm::mat4 m_buddhaTransform;
 };
 
