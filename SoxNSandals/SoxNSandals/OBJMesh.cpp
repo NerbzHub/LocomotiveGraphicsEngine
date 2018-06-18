@@ -1,5 +1,5 @@
 #include "OBJMesh.h"
-#include "gl_core_4_4.h"
+#include "gl_core_4_5.h"
 #include <glm/geometric.hpp>
 
 #define TINYOBJLOADER_IMPLEMENTATION

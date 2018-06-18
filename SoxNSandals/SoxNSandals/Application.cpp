@@ -91,7 +91,22 @@ int Application::initialize()
 	{
 		printf("Shader Error: %s\n", m_shader.getLastError());
 	}
+
+	// Bunny Mesh
+	if (m_bunnyMesh.load("../stanford/bunny.obj") == false)
+	{
+		printf("Bunny Mesh Error! \n");
+		return false;
+	}
 	
+	m_bunnyTransform =
+	{
+		0.5f,0,0,0,
+		0,0.5f,0,0,
+		0,0,0.5f,0,
+		0,0,0,1
+	};
+
 	// define 6 vertices for 2 triangles
 	/*Mesh::Vertex vertices[6];
 	vertices[0].position = { -0.5f, 0, 0.5f, 1 };
@@ -140,13 +155,13 @@ int Application::initialize()
 	//glm::vec4 defaultColour(200, 200, 200, 1);
 	//m_circleMesh.initialiseCircle(glm::vec3(1.0f, 1.0f, 1.0f), 5.0f, 10.0f);
 
-	m_quadTransform =
+	/*m_quadTransform =
 	{
 		10,0,0,0,
 		0,10,0,0,
 		0,0,10,0,
 		0,0,0,1
-	};
+	};*/
 
 	//// my camera is located at 10, 10, 10 and looking at the world's 0.
 	/*view = glm::lookAt(glm::vec3(15, 15, 15), glm::vec3(0), glm::vec3(0, 1, 0));
@@ -262,8 +277,10 @@ void Application::render()
 	//m_cylinderMesh.draw();
 	
 	// draw circle
-	m_circleMesh.draw();
+	//m_circleMesh.draw();
 	
+	// draw bunny
+	m_bunnyMesh.draw();
 
 	aie::Gizmos::draw(m_flyCam->getProjectionView());
 
