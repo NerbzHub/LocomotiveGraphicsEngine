@@ -81,32 +81,58 @@ int Application::initialize()
 	aie::Gizmos::create(10000, 10000, 10000, 10000);
 
 
+	////load vertex shader from file
+	//m_shader.loadShader(aie::eShaderStage::VERTEX, "../shaders/simple.vert");
+
+	//// load fragment shader from file
+	//m_shader.loadShader(aie::eShaderStage::FRAGMENT, "../shaders/simple.frag");
+
 	//load vertex shader from file
-	m_shader.loadShader(aie::eShaderStage::VERTEX, "../shaders/simple.vert");
+	m_texturedShader.loadShader(aie::eShaderStage::VERTEX, "../shaders/textured.vert");
 
 	// load fragment shader from file
-	m_shader.loadShader(aie::eShaderStage::FRAGMENT, "../shaders/simple.frag");
+	m_texturedShader.loadShader(aie::eShaderStage::FRAGMENT, "../shaders/textured.frag");
 
-	if (m_shader.link() == false)
+
+	//if (m_shader.link() == false)
+	//{
+	//	printf("Shader Error: %s\n", m_shader.getLastError());
+	//}
+
+	if (m_texturedShader.link() == false)
 	{
-		printf("Shader Error: %s\n", m_shader.getLastError());
+		printf("Shader Error: %s\n", m_texturedShader.getLastError());
 	}
 
-	if (m_gridTexture.load("../textures/Crackles.png") == false) {
-		printf("Failed to load texture!\n");
+	//if (m_gridTexture.load("../textures/Crackles.png") == false) {
+	//	printf("Failed to load texture!\n");
+	//	return false;
+	//}
+
+
+	/*if (m_spearMesh.load("../models/soulspear/soulspear.obj",
+		true, true) == false) {
+		printf("Soulspear Mesh Error!\n");
 		return false;
 	}
 
-	//createQuad();
+	m_spearTransform = {
+		1,0,0,0,
+		0,1,0,0,
+		0,0,1,0,
+		0,0,0,1
+	};*/
+
+	createQuad();
 
 	// Quad is 10 units wide.
-	/*m_quadTransform =
+	m_quadTransform =
 	{
 		10,0,0,0,
 		0,10,0,0,
 		0,0,10,0,
 		0,0,0,1 
-	};*/
+	};
 
 	// Bunny Mesh
 	/*if (m_bunnyMesh.load("../stanford/Bunny.obj") == false)
@@ -123,20 +149,20 @@ int Application::initialize()
 		0,0,0,1
 	};*/
 
-	// Buddha Mesh
-	if (m_buddhaMesh.load("../stanford/Buddha.obj") == false)
-	{
-		printf("Buddha Mesh Error! \n");
-		return false;
-	}
+	//// Buddha Mesh
+	//if (m_buddhaMesh.load("../stanford/Buddha.obj") == false)
+	//{
+	//	printf("Buddha Mesh Error! \n");
+	//	return false;
+	//}
 
-	m_buddhaTransform =
+	/*m_buddhaTransform =
 	{
 		1,0,0,0,
 		0,1,0,0,
 		0,0,1,0,
 		0,0,0,1
-	};
+	};*/
 
 	//// load imaginary texture
 	//aie::Texture texture1;
@@ -311,15 +337,26 @@ void Application::render()
 	m_texturedShader.bindUniform("diffuseTexture", 0);
 
 	// bind transform
-	auto pvm = m_flyCam->getProjectionView() * m_buddhaTransform;
+	/*auto pvm = m_flyCam->getProjectionView() * m_spearTransform;
+	m_texturedShader.bindUniform("ProjectionViewModel", pvm);*/
+
+	auto pvm = m_flyCam->getProjectionView() * m_quadTransform;
 	m_texturedShader.bindUniform("ProjectionViewModel", pvm);
+
+	//// bind transform
+	//auto pvm = m_flyCam->getProjectionView() * m_spearTransform;
+	//m_phongShader.bindUniform("ProjectionViewModel", pvm);
+	//// bind transforms for lighting
+	//m_phongShader.bindUniform("NormalMatrix",
+	//	glm::inverseTranspose(glm::mat3(m_spearTransform)));
 
 
 	// bind texture to specified location
-	m_gridTexture.bind(1);
+	m_gridTexture.bind(0);
+
 
 	// draw quad
-	//m_quadMesh.draw();
+	m_quadMesh.draw();
 
 	// draw cube
 	//m_cubeMesh.draw();
@@ -335,7 +372,10 @@ void Application::render()
 	//RenderBunny();
 
 	// draw buddha
-	RenderBuddha();
+	//RenderBuddha();
+
+	// draw Spear
+	//RenderSpear();
 
 	aie::Gizmos::draw(m_flyCam->getProjectionView());
 
@@ -455,17 +495,26 @@ void Application::RenderBunny()
 void Application::RenderBuddha()
 {
 	// bind shader
-	m_shader.bind();
+	m_texturedShader.bind();
 
 	// bind transform
 	auto pvm = m_flyCam->getProjectionView() * m_quadTransform;
-	m_shader.bindUniform("ProjectionViewModel", pvm);
+	m_texturedShader.bindUniform("ProjectionViewModel", pvm);
 
 	// draw buddha
 	// bind transform
 	auto pvmbuddha = m_flyCam->getProjectionView() * m_buddhaTransform;
-	m_shader.bindUniform("ProjectionViewModel", pvmbuddha);
+	m_texturedShader.bindUniform("ProjectionViewModel", pvmbuddha);
 
 	// draw bunny
 	m_buddhaMesh.draw();
+}
+
+void Application::RenderSpear()
+{
+	// bind transform
+	auto pvmspear = m_flyCam->getProjectionView() * m_spearTransform;
+	m_texturedShader.bindUniform("ProjectionViewModel", pvmspear);
+	// draw mesh
+	m_spearMesh.draw();
 }

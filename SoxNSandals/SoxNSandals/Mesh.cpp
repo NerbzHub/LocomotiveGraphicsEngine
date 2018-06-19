@@ -101,6 +101,13 @@ void Mesh::initialiseQuad()
 	vertices[4].texCoord = { 1, 1 }; // bottom right
 	vertices[5].texCoord = { 1, 0 }; // top right
 
+	vertices[0].normal = { 0, 1, 0, 0, };
+	vertices[1].normal = { 0, 1, 0, 0, };
+	vertices[2].normal = { 0, 1, 0, 0, };
+	vertices[3].normal = { 0, 1, 0, 0, };
+	vertices[4].normal = { 0, 1, 0, 0, };
+	vertices[5].normal = { 0, 1, 0, 0, };
+
 
 	// fill vertex buffer
 	glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(Vertex),

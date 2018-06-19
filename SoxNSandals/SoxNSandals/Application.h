@@ -38,6 +38,8 @@ protected:
 
 	void RenderBuddha();
 
+	void RenderSpear();
+
 
 	glm::ivec2 m_windowResolution;
 	const char* m_windowName;
@@ -56,7 +58,7 @@ protected:
 	//----------Shader----------
 	aie::ShaderProgram m_shader;
 	aie::ShaderProgram m_texturedShader;
-	//aie::ShaderProgram m_crackleTexture;
+	aie::ShaderProgram m_phongShader;
 
 	glm::mat4 m_quadTransform;
 
@@ -81,5 +83,8 @@ protected:
 
 	aie::OBJMesh m_buddhaMesh;
 	glm::mat4 m_buddhaTransform;
+
+	aie::OBJMesh m_spearMesh;
+	glm::mat4 m_spearTransform;
 };
 
