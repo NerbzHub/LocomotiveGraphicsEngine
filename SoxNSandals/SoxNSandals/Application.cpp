@@ -130,6 +130,10 @@ int Application::initialize()
 	}
 	//--------------------------------------------------------------------------
 
+	//-------------------------Light---------------------------
+	m_light.diffuse = { 1, 1, 0 };
+	m_light.specular = { 1, 1, 0 };
+	m_ambientLight = { 0.25f, 0.25f, 0.25f };
 
 	/*if (m_spearMesh.load("../models/soulspear/soulspear.obj",
 		true, true) == false) {
@@ -379,6 +383,9 @@ void Application::render()
 	m_phongShader.bind();
 
 	// bind light
+	m_phongShader.bindUniform("Ia", m_ambientLight);
+	m_phongShader.bindUniform("Id", m_light.diffuse);
+	m_phongShader.bindUniform("Is", m_light.specular);
 	m_phongShader.bindUniform("LightDirection", m_light.direction);
 	// bind transform
 	auto pvm = m_flyCam->getProjectionView() * m_quadTransform;
@@ -386,6 +393,8 @@ void Application::render()
 	// bind transforms for lighting
 	m_phongShader.bindUniform("NormalMatrix",
 		glm::inverseTranspose(glm::mat3(m_quadTransform)));
+
+	
 
 
 	// bind texture to specified location

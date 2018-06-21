@@ -65,8 +65,12 @@ protected:
 	//----------Light----------
 	struct Light {
 		glm::vec3 direction;
+		glm::vec3 diffuse;
+		glm::vec3 specular;
 	};
 	Light m_light;
+	glm::vec3 m_ambientLight;
+
 	//----------Texture---------
 	aie::Texture m_gridTexture;
 
