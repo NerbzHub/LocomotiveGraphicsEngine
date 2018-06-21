@@ -26,15 +26,22 @@ int Application::run()
 
 int Application::initialize()
 {
+	//----------------------------------------------------------------------
+	//						Clock
 	//sns::clock m_clock;
 	m_startTime = m_clock.now();
 	m_currentTime = m_clock.now();
 	m_previousTime = m_clock.now();//parentMatrix[3] = glm::vec4(0, 0, 10, 1);
+	//----------------------------------------------------------------------
+
+
 	//localMatrix[3] = glm::vec4(1, 0, -2, 1);
 
-
+	//----------------------------------------------------------------------
+	//						Rot
 	glm::mat4 rot(1);
 	rot = glm::rotate(0.0f, glm::vec3(0, 1, 0));
+	//----------------------------------------------------------------------
 
 	//globalMatrix = parentMatrix * localMatrix;
 
@@ -80,6 +87,7 @@ int Application::initialize()
 
 	aie::Gizmos::create(10000, 10000, 10000, 10000);
 
+	//-----------------------------Plain---------------------------------------
 
 	////load vertex shader from file
 	//m_shader.loadShader(aie::eShaderStage::VERTEX, "../shaders/simple.vert");
@@ -87,27 +95,40 @@ int Application::initialize()
 	//// load fragment shader from file
 	//m_shader.loadShader(aie::eShaderStage::FRAGMENT, "../shaders/simple.frag");
 
-	//load vertex shader from file
-	m_texturedShader.loadShader(aie::eShaderStage::VERTEX, "../shaders/textured.vert");
-
-	// load fragment shader from file
-	m_texturedShader.loadShader(aie::eShaderStage::FRAGMENT, "../shaders/textured.frag");
-
-
 	//if (m_shader.link() == false)
 	//{
 	//	printf("Shader Error: %s\n", m_shader.getLastError());
 	//}
+	//--------------------------------------------------------------------------
 
-	if (m_texturedShader.link() == false)
-	{
-		printf("Shader Error: %s\n", m_texturedShader.getLastError());
-	}
+	//-----------------------------Textured-------------------------------------
 
-	//if (m_gridTexture.load("../textures/Crackles.png") == false) {
-	//	printf("Failed to load texture!\n");
-	//	return false;
+	////load vertex shader from file
+	//m_texturedShader.loadShader(aie::eShaderStage::VERTEX, "../shaders/textured.vert");
+
+	//// load fragment shader from file
+	//m_texturedShader.loadShader(aie::eShaderStage::FRAGMENT, "../shaders/textured.frag");
+
+	//if (m_texturedShaderr.link() == false)
+	//{
+	//	printf("Shader Error: %s\n", m_texturedShader.getLastError());
 	//}
+	//--------------------------------------------------------------------------
+
+	//-----------------------------Phong----------------------------------------
+
+	//load vertex shader from file
+	m_phongShader.loadShader(aie::eShaderStage::VERTEX, "../shaders/phong.vert");
+
+	// load fragment shader from file
+	m_phongShader.loadShader(aie::eShaderStage::FRAGMENT, "../shaders/phong.frag");
+
+
+	if (m_phongShader.link() == false)
+	{
+		printf("Shader Error: %s\n", m_phongShader.getLastError());
+	}
+	//--------------------------------------------------------------------------
 
 
 	/*if (m_spearMesh.load("../models/soulspear/soulspear.obj",
@@ -331,24 +352,30 @@ void Application::render()
 	//m_shader.bind();
 
 	// bind shader
-	m_texturedShader.bind();
+	//m_texturedShader.bind();
+
+	//// bind texture location
+	//m_texturedShader.bindUniform("diffuseTexture", 0);
+
+	// bind shader
+	m_phongShader.bind();
 
 	// bind texture location
-	m_texturedShader.bindUniform("diffuseTexture", 0);
+	m_phongShader.bindUniform("diffuseTexture", 0);
 
 	// bind transform
 	/*auto pvm = m_flyCam->getProjectionView() * m_spearTransform;
 	m_texturedShader.bindUniform("ProjectionViewModel", pvm);*/
 
-	auto pvm = m_flyCam->getProjectionView() * m_quadTransform;
-	m_texturedShader.bindUniform("ProjectionViewModel", pvm);
+	/*auto pvm = m_flyCam->getProjectionView() * m_quadTransform;
+	m_texturedShader.bindUniform("ProjectionViewModel", pvm);*/
 
-	//// bind transform
-	//auto pvm = m_flyCam->getProjectionView() * m_spearTransform;
-	//m_phongShader.bindUniform("ProjectionViewModel", pvm);
-	//// bind transforms for lighting
-	//m_phongShader.bindUniform("NormalMatrix",
-	//	glm::inverseTranspose(glm::mat3(m_spearTransform)));
+	// bind transform
+	auto pvm = m_flyCam->getProjectionView() * m_quadTransform;
+	m_phongShader.bindUniform("ProjectionViewModel", pvm);
+	// bind transforms for lighting
+	m_phongShader.bindUniform("NormalMatrix",
+		glm::inverseTranspose(glm::mat3(m_quadTransform)));
 
 
 	// bind texture to specified location
