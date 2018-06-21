@@ -27,6 +27,8 @@ protected:
 
 	double m_deltaTime;
 
+	void CreatePhong();
+
 	// Initialise various shapes.
 	void createQuad();
 	void createCube();
@@ -40,7 +42,9 @@ protected:
 
 	void RenderSpear();
 
-	void RenderTree();
+	void RenderTree(aie::ShaderProgram* shaderType);
+
+	void RenderLargeRock(aie::ShaderProgram* shaderType);
 
 
 	glm::ivec2 m_windowResolution;
@@ -98,7 +102,17 @@ protected:
 	aie::OBJMesh m_spearMesh;
 	glm::mat4 m_spearTransform;
 
+	//------Actual Meshs-------
 	aie::OBJMesh m_treeMesh;
 	glm::mat4 m_treeTransform;
+
+	aie::OBJMesh m_largeStoneMesh;
+	glm::mat4 m_largeStoneTransform;
+
+	aie::OBJMesh m_mediumStoneMesh;
+	glm::mat4 m_mediumStoneTransform;
+
+	aie::OBJMesh m_logGrassStoneMesh;
+	glm::mat4 m_logGrassStoneTransform;
 };
 
