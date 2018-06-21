@@ -40,6 +40,8 @@ protected:
 
 	void RenderSpear();
 
+	void RenderTree();
+
 
 	glm::ivec2 m_windowResolution;
 	const char* m_windowName;
@@ -95,5 +97,8 @@ protected:
 
 	aie::OBJMesh m_spearMesh;
 	glm::mat4 m_spearTransform;
+
+	aie::OBJMesh m_treeMesh;
+	glm::mat4 m_treeTransform;
 };
 

@@ -137,7 +137,7 @@ int Application::initialize()
 
 
 
-	if (m_spearMesh.load("../models/soulspear/soulspear.obj",
+	/*if (m_spearMesh.load("../models/soulspear/soulspear.obj",
 		true, true) == false) {
 		printf("Soulspear Mesh Error!\n");
 		return false;
@@ -149,7 +149,19 @@ int Application::initialize()
 		0,0,1,0,
 		0,0,0,1
 	};
+*/
+	if (m_treeMesh.load("../models/Tree/Lowpoly_tree_sample.obj",
+		true, true) == false) {
+		printf("Soulspear Mesh Error!\n");
+		return false;
+	}
 
+	m_treeTransform = {
+		1,0,0,0,
+		0,1,0,0,
+		0,0,1,0,
+		0,0,0,1
+	};
 	//createQuad();
 
 	// Quad is 10 units wide.
@@ -425,7 +437,10 @@ void Application::render()
 	//RenderBuddha();
 
 	// draw Spear
-	RenderSpear();
+	//RenderSpear();
+
+	// draw Tree
+	RenderTree();
 
 	aie::Gizmos::draw(m_flyCam->getProjectionView());
 
@@ -586,4 +601,32 @@ void Application::RenderSpear()
 	m_phongShader.bindUniform("ProjectionViewModel", pvmspear);*/
 	// draw mesh
 	m_spearMesh.draw();
+}
+
+void Application::RenderTree()
+{
+	//-------------------------Phong---------------------------
+	// bind phong shader program
+	m_phongShader.bind();
+
+	// bind light
+	m_phongShader.bindUniform("Ia", m_ambientLight);
+	m_phongShader.bindUniform("Id", m_light.diffuse);
+	m_phongShader.bindUniform("Is", m_light.specular);
+	m_phongShader.bindUniform("LightDirection", m_light.direction);
+	// bind transform
+	auto pvm = m_flyCam->getProjectionView() * m_treeTransform;
+	m_phongShader.bindUniform("ProjectionViewModel", pvm);
+
+	// bind transforms for lighting
+	m_phongShader.bindUniform("NormalMatrix",
+		glm::inverseTranspose(glm::mat3(m_treeTransform)));
+
+	// Send the camera's position
+	m_phongShader.bindUniform("cameraPosition", m_flyCam->getPosition());
+	/* //bind transform
+	auto pvmspear = m_flyCam->getProjectionView() * m_spearTransform;
+	m_phongShader.bindUniform("ProjectionViewModel", pvmspear);*/
+	// draw mesh
+	m_treeMesh.draw();
 }
