@@ -293,6 +293,12 @@ bool Application::update(double deltaTime)
 	//aie::Gizmos::addAABBFilled(glm::vec3(0), glm::vec3(1.5f), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
 
 
+	// query time since application started
+	float time = glfwGetTime();
+	// rotate light
+	m_light.direction = glm::normalize(glm::vec3(glm::cos(time * 2),
+		glm::sin(time * 2), 0));
+
 
 	glm::mat4 rot(1);
 
@@ -357,11 +363,8 @@ void Application::render()
 	//// bind texture location
 	//m_texturedShader.bindUniform("diffuseTexture", 0);
 
-	// bind shader
-	m_phongShader.bind();
-
 	// bind texture location
-	m_phongShader.bindUniform("diffuseTexture", 0);
+	//m_texturedShader.bindUniform("diffuseTexture", 0);
 
 	// bind transform
 	/*auto pvm = m_flyCam->getProjectionView() * m_spearTransform;
@@ -370,6 +373,13 @@ void Application::render()
 	/*auto pvm = m_flyCam->getProjectionView() * m_quadTransform;
 	m_texturedShader.bindUniform("ProjectionViewModel", pvm);*/
 
+
+	//-------------------------Phong---------------------------
+	// bind phong shader program
+	m_phongShader.bind();
+
+	// bind light
+	m_phongShader.bindUniform("LightDirection", m_light.direction);
 	// bind transform
 	auto pvm = m_flyCam->getProjectionView() * m_quadTransform;
 	m_phongShader.bindUniform("ProjectionViewModel", pvm);
@@ -379,7 +389,7 @@ void Application::render()
 
 
 	// bind texture to specified location
-	m_gridTexture.bind(0);
+	//m_gridTexture.bind(0);
 
 
 	// draw quad

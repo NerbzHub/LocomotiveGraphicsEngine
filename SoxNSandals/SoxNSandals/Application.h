@@ -62,6 +62,11 @@ protected:
 
 	glm::mat4 m_quadTransform;
 
+	//----------Light----------
+	struct Light {
+		glm::vec3 direction;
+	};
+	Light m_light;
 	//----------Texture---------
 	aie::Texture m_gridTexture;
 
