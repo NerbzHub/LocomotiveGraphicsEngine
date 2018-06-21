@@ -65,3 +65,14 @@ glm::mat4 Camera::getProjectionView() const
 {
 	return projectionViewTransform;
 }
+
+glm::vec3 Camera::getPosition() const
+{
+		glm::vec3 tempv3;
+
+		tempv3.x = worldTransform[3].x;
+		tempv3.y = worldTransform[3].y;
+		tempv3.z = worldTransform[3].z;
+
+		return tempv3;
+}

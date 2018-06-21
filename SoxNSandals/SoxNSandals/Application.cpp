@@ -135,7 +135,9 @@ int Application::initialize()
 	m_light.specular = { 1, 1, 0 };
 	m_ambientLight = { 0.25f, 0.25f, 0.25f };
 
-	/*if (m_spearMesh.load("../models/soulspear/soulspear.obj",
+
+
+	if (m_spearMesh.load("../models/soulspear/soulspear.obj",
 		true, true) == false) {
 		printf("Soulspear Mesh Error!\n");
 		return false;
@@ -146,18 +148,18 @@ int Application::initialize()
 		0,1,0,0,
 		0,0,1,0,
 		0,0,0,1
-	};*/
+	};
 
-	createQuad();
+	//createQuad();
 
 	// Quad is 10 units wide.
-	m_quadTransform =
+	/*m_quadTransform =
 	{
 		10,0,0,0,
 		0,10,0,0,
 		0,0,10,0,
 		0,0,0,1 
-	};
+	};*/
 
 	// Bunny Mesh
 	/*if (m_bunnyMesh.load("../stanford/Bunny.obj") == false)
@@ -378,23 +380,25 @@ void Application::render()
 	m_texturedShader.bindUniform("ProjectionViewModel", pvm);*/
 
 
-	//-------------------------Phong---------------------------
-	// bind phong shader program
-	m_phongShader.bind();
+	////-------------------------Phong---------------------------
+	//// bind phong shader program
+	//m_phongShader.bind();
 
-	// bind light
-	m_phongShader.bindUniform("Ia", m_ambientLight);
-	m_phongShader.bindUniform("Id", m_light.diffuse);
-	m_phongShader.bindUniform("Is", m_light.specular);
-	m_phongShader.bindUniform("LightDirection", m_light.direction);
-	// bind transform
-	auto pvm = m_flyCam->getProjectionView() * m_quadTransform;
-	m_phongShader.bindUniform("ProjectionViewModel", pvm);
-	// bind transforms for lighting
-	m_phongShader.bindUniform("NormalMatrix",
-		glm::inverseTranspose(glm::mat3(m_quadTransform)));
+	//// bind light
+	//m_phongShader.bindUniform("Ia", m_ambientLight);
+	//m_phongShader.bindUniform("Id", m_light.diffuse);
+	//m_phongShader.bindUniform("Is", m_light.specular);
+	//m_phongShader.bindUniform("LightDirection", m_light.direction);
+	//// bind transform
+	//auto pvm = m_flyCam->getProjectionView() * m_spearTransform;
+	//m_phongShader.bindUniform("ProjectionViewModel", pvm);
 
-	
+	//// bind transforms for lighting
+	//m_phongShader.bindUniform("NormalMatrix",
+	//	glm::inverseTranspose(glm::mat3(m_spearTransform)));
+
+	//// Send the camera's position
+	//m_phongShader.bindUniform("cameraPosition", m_flyCam->getPosition());
 
 
 	// bind texture to specified location
@@ -402,7 +406,7 @@ void Application::render()
 
 
 	// draw quad
-	m_quadMesh.draw();
+	//m_quadMesh.draw();
 
 	// draw cube
 	//m_cubeMesh.draw();
@@ -421,7 +425,7 @@ void Application::render()
 	//RenderBuddha();
 
 	// draw Spear
-	//RenderSpear();
+	RenderSpear();
 
 	aie::Gizmos::draw(m_flyCam->getProjectionView());
 
@@ -558,9 +562,28 @@ void Application::RenderBuddha()
 
 void Application::RenderSpear()
 {
+	//-------------------------Phong---------------------------
+	// bind phong shader program
+	m_phongShader.bind();
+
+	// bind light
+	m_phongShader.bindUniform("Ia", m_ambientLight);
+	m_phongShader.bindUniform("Id", m_light.diffuse);
+	m_phongShader.bindUniform("Is", m_light.specular);
+	m_phongShader.bindUniform("LightDirection", m_light.direction);
 	// bind transform
+	auto pvm = m_flyCam->getProjectionView() * m_spearTransform;
+	m_phongShader.bindUniform("ProjectionViewModel", pvm);
+
+	// bind transforms for lighting
+	m_phongShader.bindUniform("NormalMatrix",
+		glm::inverseTranspose(glm::mat3(m_spearTransform)));
+
+	// Send the camera's position
+	m_phongShader.bindUniform("cameraPosition", m_flyCam->getPosition());
+	/* //bind transform
 	auto pvmspear = m_flyCam->getProjectionView() * m_spearTransform;
-	m_texturedShader.bindUniform("ProjectionViewModel", pvmspear);
+	m_phongShader.bindUniform("ProjectionViewModel", pvmspear);*/
 	// draw mesh
 	m_spearMesh.draw();
 }
