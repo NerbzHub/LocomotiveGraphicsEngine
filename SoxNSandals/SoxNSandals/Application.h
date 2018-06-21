@@ -29,6 +29,8 @@ protected:
 
 	void CreatePhong();
 
+	void CreateNormalMap();
+
 	// Initialise various shapes.
 	void createQuad();
 	void createCube();
@@ -40,7 +42,7 @@ protected:
 
 	void RenderBuddha();
 
-	void RenderSpear();
+	void RenderSpear(aie::ShaderProgram* shaderType);
 
 	void RenderTree(aie::ShaderProgram* shaderType);
 
@@ -65,6 +67,7 @@ protected:
 	aie::ShaderProgram m_shader;
 	aie::ShaderProgram m_texturedShader;
 	aie::ShaderProgram m_phongShader;
+	aie::ShaderProgram m_normalMapShader;
 
 	glm::mat4 m_quadTransform;
 
@@ -73,9 +76,11 @@ protected:
 		glm::vec3 direction;
 		glm::vec3 diffuse;
 		glm::vec3 specular;
-	};
+	};
+
 	Light m_light;
-	glm::vec3 m_ambientLight;
+	glm::vec3 m_ambientLight;
+
 
 	//----------Texture---------
 	aie::Texture m_gridTexture;

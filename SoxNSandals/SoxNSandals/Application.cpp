@@ -131,13 +131,29 @@ int Application::initialize()
 	CreatePhong();
 	//--------------------------------------------------------------------------
 
+	//-----------------------------Normal Map-----------------------------------
+
+	//load normal shader from file
+	m_normalMapShader.loadShader(aie::eShaderStage::VERTEX, "../shaders/normalmap.vert");
+
+	// load fragment shader from file
+	m_normalMapShader.loadShader(aie::eShaderStage::FRAGMENT, "../shaders/normalmap.frag");
+
+
+	if (m_normalMapShader.link() == false)
+	{
+		printf("Shader Error: %s\n", m_normalMapShader.getLastError());
+	}
+	CreatePhong();
+	//--------------------------------------------------------------------------
+
 	//-------------------------Light---------------------------
 	m_light.diffuse = { 1, 1, 0 };
 	m_light.specular = { 1, 1, 0 };
 	m_ambientLight = { 0.25f, 0.25f, 0.25f };
 
 
-	/*if (m_spearMesh.load("../models/soulspear/soulspear.obj",
+	if (m_spearMesh.load("../models/soulspear/soulspear.obj",
 		true, true) == false) {
 		printf("Soulspear Mesh Error!\n");
 		return false;
@@ -149,8 +165,8 @@ int Application::initialize()
 		0,0,1,0,
 		0,0,0,1
 	};
-*/
-	if (m_treeMesh.load("../models/Tree/Lowpoly_tree_sample.obj",
+
+	/*if (m_treeMesh.load("../models/Tree/Lowpoly_tree_sample.obj",
 		true, true) == false) {
 		printf("Soulspear Mesh Error!\n");
 		return false;
@@ -161,9 +177,9 @@ int Application::initialize()
 		0,1,0,0,
 		0,0,1,0,
 		0,0,0,1
-	};
+	};*/
 
-	if (m_largeStoneMesh.load("../models/Rocks/LogGrassStone.obj",
+	/*if (m_largeStoneMesh.load("../models/Rocks/LogGrassStone.obj",
 		true, true) == false) {
 		printf("Large Stone Mesh Error!\n");
 		return false;
@@ -174,7 +190,7 @@ int Application::initialize()
 		0,1,0,0,
 		0,0,1,0,
 		0,0,0,1
-	};
+	};*/
 
 
 	//createQuad();
@@ -415,7 +431,8 @@ void Application::render()
 	//m_phongShader.bindUniform("Ia", m_ambientLight);
 	//m_phongShader.bindUniform("Id", m_light.diffuse);
 	//m_phongShader.bindUniform("Is", m_light.specular);
-	//m_phongShader.bindUniform("LightDirection", m_light.direction);
+	//m_phongShader.bindUniform("LightDirection", m_light.direction);
+
 	//// bind transform
 	//auto pvm = m_flyCam->getProjectionView() * m_spearTransform;
 	//m_phongShader.bindUniform("ProjectionViewModel", pvm);
@@ -431,7 +448,11 @@ void Application::render()
 	// bind texture to specified location
 	//m_gridTexture.bind(0);
 
+	//Do phong
+	CreatePhong();
 
+	//Do Normalmap
+	CreateNormalMap();
 	// draw quad
 	//m_quadMesh.draw();
 
@@ -452,16 +473,14 @@ void Application::render()
 	//RenderBuddha();
 
 	// draw Spear
-	//RenderSpear();
+	RenderSpear(&m_normalMapShader);
 
-	//Do phong
-	CreatePhong();
 
 	// draw Tree
-	RenderTree(&m_phongShader);
+	//RenderTree(&m_phongShader);
 
 	// draw Large Stone
-	RenderLargeRock(&m_phongShader);
+	//RenderLargeRock(&m_phongShader);
 
 	aie::Gizmos::draw(m_flyCam->getProjectionView());
 
@@ -493,11 +512,30 @@ void Application::CreatePhong()
 	m_phongShader.bindUniform("Ia", m_ambientLight);
 	m_phongShader.bindUniform("Id", m_light.diffuse);
 	m_phongShader.bindUniform("Is", m_light.specular);
-	m_phongShader.bindUniform("LightDirection", m_light.direction);	// to here is going into phong creation
+	m_phongShader.bindUniform("LightDirection", m_light.direction);
+	// to here is going into phong creation
 
 	//this aswell
 	// Send the camera's position
 	m_phongShader.bindUniform("cameraPosition", m_flyCam->getPosition());
+}
+
+void Application::CreateNormalMap()
+{
+	//-------------------------Normal---------------------------
+	// bind phong shader program
+	m_normalMapShader.bind();
+
+	// bind light
+	m_normalMapShader.bindUniform("Ia", m_ambientLight);
+	m_normalMapShader.bindUniform("Id", m_light.diffuse);
+	m_normalMapShader.bindUniform("Is", m_light.specular);
+	m_normalMapShader.bindUniform("LightDirection", m_light.direction);
+	// to here is going into phong creation
+
+	//this aswell
+	// Send the camera's position
+	m_normalMapShader.bindUniform("cameraPosition", m_flyCam->getPosition());
 }
 
 void Application::createQuad()
@@ -614,27 +652,18 @@ void Application::RenderBuddha()
 	m_buddhaMesh.draw();
 }
 
-void Application::RenderSpear()
+void Application::RenderSpear(aie::ShaderProgram* shaderType)
 {
-	//-------------------------Phong---------------------------
-	// bind phong shader program
-	m_phongShader.bind();
-
-	// bind light
-	m_phongShader.bindUniform("Ia", m_ambientLight);
-	m_phongShader.bindUniform("Id", m_light.diffuse);
-	m_phongShader.bindUniform("Is", m_light.specular);
-	m_phongShader.bindUniform("LightDirection", m_light.direction);
 	// bind transform
 	auto pvm = m_flyCam->getProjectionView() * m_spearTransform;
-	m_phongShader.bindUniform("ProjectionViewModel", pvm);
+	shaderType->bindUniform("ProjectionViewModel", pvm);
 
 	// bind transforms for lighting
 	m_phongShader.bindUniform("NormalMatrix",
 		glm::inverseTranspose(glm::mat3(m_spearTransform)));
 
 	// Send the camera's position
-	m_phongShader.bindUniform("cameraPosition", m_flyCam->getPosition());
+	shaderType->bindUniform("cameraPosition", m_flyCam->getPosition());
 	/* //bind transform
 	auto pvmspear = m_flyCam->getProjectionView() * m_spearTransform;
 	m_phongShader.bindUniform("ProjectionViewModel", pvmspear);*/
@@ -644,8 +673,6 @@ void Application::RenderSpear()
 
 void Application::RenderTree(aie::ShaderProgram* shaderType)
 {
-
-
 	// bind transform
 	auto pvm = m_flyCam->getProjectionView() * m_treeTransform;
 	shaderType->bindUniform("ProjectionViewModel", pvm);
