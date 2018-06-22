@@ -115,6 +115,8 @@ int Application::initialize()
 	//}
 	//--------------------------------------------------------------------------
 
+	//InitTexture();
+
 	//InitPhong();
 
 	InitNormalMap();
@@ -137,6 +139,46 @@ int Application::initialize()
 		0,0,1,0,
 		0,0,0,1
 	};
+
+
+	if (m_houseMesh.load("../models/soulspear/soulspear.obj",
+		true, true) == false) {
+		printf("House Mesh Error!\n");
+		return false;
+	}
+
+	m_houseTransform = {
+		2,0,0,0,
+		0,1,0,0,
+		0,0,1,0,
+		0,0,0,1
+	};
+
+	//if (m_houseMesh.load("../models/house_obj/house_obj.obj",
+	//	true, true) == false) {
+	//	printf("House Mesh Error!\n");
+	//	return false;
+	//}
+
+	//m_houseTransform = {
+	//	0.001f,0,0,0,
+	//	0,0.001f,0,0,
+	//	0,0,0.001f,0,
+	//	0,0,0,1
+	//};
+
+	/*if (m_grassMesh.load("../models/Grass/grass_low_poly.obj",
+		true, true) == false) {
+		printf("Grash Mesh Error!\n");
+		return false;
+	}
+
+	m_grassTransform = {
+		1,0,0,0,
+		0,1,0,0,
+		0,0,1,0,
+		0,0,0,1
+	};*/
 
 	/*if (m_treeMesh.load("../models/Tree/Lowpoly_tree_sample.obj",
 		true, true) == false) {
@@ -426,6 +468,8 @@ void Application::render()
 	//Do Normalmap
 	UpdateNormalMap();
 
+
+
 	// draw quad
 	//m_quadMesh.draw();
 
@@ -448,6 +492,11 @@ void Application::render()
 	// draw Spear
 	RenderSpear(&m_normalMapShader);
 
+	// draw House
+	RenderHouse(&m_normalMapShader);
+
+	// draw House
+	//RenderGrass(&m_normalMapShader);
 
 	// draw Tree
 	//RenderTree(&m_phongShader);
@@ -472,6 +521,28 @@ int Application::terminate()
 	//Clean up window and gpu linkage.
 	glfwTerminate();
 	return 0;
+}
+
+void Application::InitTexture()
+{
+	//-----------------------------Textured-------------------------------------
+
+	//load vertex shader from file
+	m_texturedShader.loadShader(aie::eShaderStage::VERTEX, "../shaders/textured.vert");
+
+	// load fragment shader from file
+	m_texturedShader.loadShader(aie::eShaderStage::FRAGMENT, "../shaders/textured.frag");
+
+	if (m_texturedShader.link() == false)
+	{
+		printf("Shader Error: %s\n", m_texturedShader.getLastError());
+	}
+
+	//--------------------------------------------------------------------------
+}
+
+void Application::UpdateTexture()
+{
 }
 
 void Application::InitPhong()
@@ -664,6 +735,10 @@ void Application::RenderBuddha()
 	m_buddhaMesh.draw();
 }
 
+void Application::CreateSpear()
+{
+}
+
 void Application::RenderSpear(aie::ShaderProgram* shaderType)
 {
 	// bind transform
@@ -706,4 +781,49 @@ void Application::RenderLargeRock(aie::ShaderProgram* shaderType)
 
 	// Draw tree mesh
 	m_largeStoneMesh.draw();
+}
+
+void Application::RenderHouse(aie::ShaderProgram* shaderType)
+{
+	//// bind transform
+	//auto pvm = m_flyCam->getProjectionView() * m_houseTransform;
+	//shaderType->bindUniform("ProjectionViewModel", pvm);
+
+	//// bind transforms for lighting
+	//shaderType->bindUniform("NormalMatrix",
+	//	glm::inverseTranspose(glm::mat3(m_houseTransform)));
+
+	//// Send the camera's position
+	//shaderType->bindUniform("cameraPosition", m_flyCam->getPosition());
+
+	//m_houseMesh.draw();
+
+	// bind transform
+	auto pvm = m_flyCam->getProjectionView() * m_houseTransform;
+	shaderType->bindUniform("ProjectionViewModel", pvm);
+
+	// bind transforms for lighting
+	shaderType->bindUniform("NormalMatrix",
+		glm::inverseTranspose(glm::mat3(m_houseTransform)));
+
+	// Send the camera's position
+	shaderType->bindUniform("cameraPosition", m_flyCam->getPosition());
+
+	m_houseMesh.draw();
+}
+
+void Application::RenderGrass(aie::ShaderProgram * shaderType)
+{
+	// bind transform
+	auto pvm = m_flyCam->getProjectionView() * m_grassTransform;
+	shaderType->bindUniform("ProjectionViewModel", pvm);
+
+	// bind transforms for lighting
+	shaderType->bindUniform("NormalMatrix",
+		glm::inverseTranspose(glm::mat3(m_grassTransform)));
+
+	// Send the camera's position
+	shaderType->bindUniform("cameraPosition", m_flyCam->getPosition());
+
+	m_grassMesh.draw();
 }

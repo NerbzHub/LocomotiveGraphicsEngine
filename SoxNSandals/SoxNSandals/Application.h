@@ -27,6 +27,9 @@ protected:
 
 	double m_deltaTime;
 
+	void InitTexture();
+	void UpdateTexture();
+
 	void InitPhong();
 	void UpdatePhong();
 
@@ -44,11 +47,18 @@ protected:
 
 	void RenderBuddha();
 
+	void CreateSpear();
+
 	void RenderSpear(aie::ShaderProgram* shaderType);
 
 	void RenderTree(aie::ShaderProgram* shaderType);
 
 	void RenderLargeRock(aie::ShaderProgram* shaderType);
+
+	void RenderHouse(aie::ShaderProgram* shaderType);
+
+	void RenderGrass(aie::ShaderProgram* shaderType);
+
 
 
 	glm::ivec2 m_windowResolution;
@@ -109,7 +119,7 @@ protected:
 	aie::OBJMesh m_spearMesh;
 	glm::mat4 m_spearTransform;
 
-	//------Actual Meshs-------
+	//------Actual Meshes-------
 	aie::OBJMesh m_treeMesh;
 	glm::mat4 m_treeTransform;
 
@@ -121,5 +131,11 @@ protected:
 
 	aie::OBJMesh m_logGrassStoneMesh;
 	glm::mat4 m_logGrassStoneTransform;
+
+	aie::OBJMesh m_houseMesh;
+	glm::mat4 m_houseTransform;
+
+	aie::OBJMesh m_grassMesh;
+	glm::mat4 m_grassTransform;
 };
 
