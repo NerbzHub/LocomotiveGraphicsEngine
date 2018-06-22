@@ -19,7 +19,7 @@ uniform float specularPower;
 uniform vec3 Ia; // light ambient
 uniform vec3 Id; // light diffuse
 uniform vec3 Is; // light specular
-uniform vec3 lightDirection;
+uniform vec3 LightDirection;
 uniform vec3 cameraPosition;
 
 void main() {
@@ -27,7 +27,7 @@ void main() {
 vec3 N = normalize(vNormal);
 vec3 T = normalize(vTangent);
 vec3 B = normalize(vBiTangent);
-vec3 L = normalize(lightDirection);
+vec3 L = normalize(LightDirection);
 
 mat3 TBN = mat3(T,B,N);
 

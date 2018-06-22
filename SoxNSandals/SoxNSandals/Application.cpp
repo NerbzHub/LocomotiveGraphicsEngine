@@ -115,9 +115,9 @@ int Application::initialize()
 	//}
 	//--------------------------------------------------------------------------
 
-	InitPhong();
+	//InitPhong();
 
-	
+	InitNormalMap();
 
 	//-------------------------Light---------------------------
 	m_light.diffuse = { 1, 1, 0 };
@@ -421,10 +421,11 @@ void Application::render()
 	//m_gridTexture.bind(0);
 
 	//Do phong
-	UpdatePhong();
+	//UpdatePhong();
 
 	//Do Normalmap
-	//UpdateNormalMap();
+	UpdateNormalMap();
+
 	// draw quad
 	//m_quadMesh.draw();
 
@@ -445,7 +446,7 @@ void Application::render()
 	//RenderBuddha();
 
 	// draw Spear
-	RenderSpear(&m_phongShader);
+	RenderSpear(&m_normalMapShader);
 
 
 	// draw Tree
