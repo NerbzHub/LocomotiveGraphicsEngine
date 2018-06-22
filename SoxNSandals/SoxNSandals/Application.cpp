@@ -115,37 +115,9 @@ int Application::initialize()
 	//}
 	//--------------------------------------------------------------------------
 
-	//-----------------------------Phong----------------------------------------
+	InitPhong();
 
-	//load vertex shader from file
-	m_phongShader.loadShader(aie::eShaderStage::VERTEX, "../shaders/phong.vert");
-
-	// load fragment shader from file
-	m_phongShader.loadShader(aie::eShaderStage::FRAGMENT, "../shaders/phong.frag");
-
-
-	if (m_phongShader.link() == false)
-	{
-		printf("Shader Error: %s\n", m_phongShader.getLastError());
-	}
-	CreatePhong();
-	//--------------------------------------------------------------------------
-
-	//-----------------------------Normal Map-----------------------------------
-
-	//load normal shader from file
-	m_normalMapShader.loadShader(aie::eShaderStage::VERTEX, "../shaders/normalmap.vert");
-
-	// load fragment shader from file
-	m_normalMapShader.loadShader(aie::eShaderStage::FRAGMENT, "../shaders/normalmap.frag");
-
-
-	if (m_normalMapShader.link() == false)
-	{
-		printf("Shader Error: %s\n", m_normalMapShader.getLastError());
-	}
-	CreatePhong();
-	//--------------------------------------------------------------------------
+	
 
 	//-------------------------Light---------------------------
 	m_light.diffuse = { 1, 1, 0 };
@@ -449,10 +421,10 @@ void Application::render()
 	//m_gridTexture.bind(0);
 
 	//Do phong
-	CreatePhong();
+	UpdatePhong();
 
 	//Do Normalmap
-	CreateNormalMap();
+	//UpdateNormalMap();
 	// draw quad
 	//m_quadMesh.draw();
 
@@ -473,7 +445,7 @@ void Application::render()
 	//RenderBuddha();
 
 	// draw Spear
-	RenderSpear(&m_normalMapShader);
+	RenderSpear(&m_phongShader);
 
 
 	// draw Tree
@@ -501,7 +473,27 @@ int Application::terminate()
 	return 0;
 }
 
-void Application::CreatePhong()
+void Application::InitPhong()
+{
+	//-----------------------------Phong----------------------------------------
+
+	//load vertex shader from file
+	m_phongShader.loadShader(aie::eShaderStage::VERTEX, "../shaders/phong.vert");
+
+	// load fragment shader from file
+	m_phongShader.loadShader(aie::eShaderStage::FRAGMENT, "../shaders/phong.frag");
+
+
+	if (m_phongShader.link() == false)
+	{
+		printf("Shader Error: %s\n", m_phongShader.getLastError());
+	}
+
+	UpdatePhong();
+	//--------------------------------------------------------------------------
+}
+
+void Application::UpdatePhong()
 {
 	// from here
 	//-------------------------Phong---------------------------
@@ -520,7 +512,27 @@ void Application::CreatePhong()
 	m_phongShader.bindUniform("cameraPosition", m_flyCam->getPosition());
 }
 
-void Application::CreateNormalMap()
+void Application::InitNormalMap()
+{
+	//-----------------------------Normal Map-----------------------------------
+
+	//load normal shader from file
+	m_normalMapShader.loadShader(aie::eShaderStage::VERTEX, "../shaders/normalmap.vert");
+
+	// load fragment shader from file
+	m_normalMapShader.loadShader(aie::eShaderStage::FRAGMENT, "../shaders/normalmap.frag");
+
+
+	if (m_normalMapShader.link() == false)
+	{
+		printf("Shader Error: %s\n", m_normalMapShader.getLastError());
+	}
+
+	UpdateNormalMap();
+	//--------------------------------------------------------------------------
+}
+
+void Application::UpdateNormalMap()
 {
 	//-------------------------Normal---------------------------
 	// bind phong shader program
@@ -531,7 +543,6 @@ void Application::CreateNormalMap()
 	m_normalMapShader.bindUniform("Id", m_light.diffuse);
 	m_normalMapShader.bindUniform("Is", m_light.specular);
 	m_normalMapShader.bindUniform("LightDirection", m_light.direction);
-	// to here is going into phong creation
 
 	//this aswell
 	// Send the camera's position
@@ -659,15 +670,12 @@ void Application::RenderSpear(aie::ShaderProgram* shaderType)
 	shaderType->bindUniform("ProjectionViewModel", pvm);
 
 	// bind transforms for lighting
-	m_phongShader.bindUniform("NormalMatrix",
+	shaderType->bindUniform("NormalMatrix",
 		glm::inverseTranspose(glm::mat3(m_spearTransform)));
 
 	// Send the camera's position
 	shaderType->bindUniform("cameraPosition", m_flyCam->getPosition());
-	/* //bind transform
-	auto pvmspear = m_flyCam->getProjectionView() * m_spearTransform;
-	m_phongShader.bindUniform("ProjectionViewModel", pvmspear);*/
-	// draw mesh
+	
 	m_spearMesh.draw();
 }
 

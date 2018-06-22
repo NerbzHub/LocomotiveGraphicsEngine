@@ -27,9 +27,11 @@ protected:
 
 	double m_deltaTime;
 
-	void CreatePhong();
+	void InitPhong();
+	void UpdatePhong();
 
-	void CreateNormalMap();
+	void InitNormalMap();
+	void UpdateNormalMap();
 
 	// Initialise various shapes.
 	void createQuad();
