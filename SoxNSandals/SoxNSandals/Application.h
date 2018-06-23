@@ -55,7 +55,7 @@ protected:
 
 	void RenderLargeRock(aie::ShaderProgram* shaderType);
 
-	void RenderHouse(aie::ShaderProgram* shaderType);
+	void RenderSponza(aie::ShaderProgram* shaderType);
 
 	void RenderGrass(aie::ShaderProgram* shaderType);
 
@@ -132,8 +132,8 @@ protected:
 	aie::OBJMesh m_logGrassStoneMesh;
 	glm::mat4 m_logGrassStoneTransform;
 
-	aie::OBJMesh m_houseMesh;
-	glm::mat4 m_houseTransform;
+	aie::OBJMesh m_sponzaMesh;
+	glm::mat4 m_sponzaTransform;
 
 	aie::OBJMesh m_grassMesh;
 	glm::mat4 m_grassTransform;

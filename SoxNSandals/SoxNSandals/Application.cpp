@@ -141,16 +141,16 @@ int Application::initialize()
 	};
 
 
-	if (m_houseMesh.load("../models/soulspear/soulspear.obj",
+	if (m_sponzaMesh.load("../models/Sponza/sponza.obj",
 		true, true) == false) {
 		printf("House Mesh Error!\n");
 		return false;
 	}
 
-	m_houseTransform = {
-		2,0,0,0,
-		0,1,0,0,
-		0,0,1,0,
+	m_sponzaTransform = {
+		0.5,0,0,0,
+		0,0.5,0,0,
+		0,0,0.5,0,
 		0,0,0,1
 	};
 
@@ -361,6 +361,7 @@ bool Application::update(double deltaTime)
 	// rotate light
 	m_light.direction = glm::normalize(glm::vec3(glm::cos(time * 2),
 		glm::sin(time * 2), 0));
+	
 
 
 	glm::mat4 rot(1);
@@ -493,7 +494,7 @@ void Application::render()
 	RenderSpear(&m_normalMapShader);
 
 	// draw House
-	RenderHouse(&m_normalMapShader);
+	RenderSponza(&m_normalMapShader);
 
 	// draw House
 	//RenderGrass(&m_normalMapShader);
@@ -783,7 +784,7 @@ void Application::RenderLargeRock(aie::ShaderProgram* shaderType)
 	m_largeStoneMesh.draw();
 }
 
-void Application::RenderHouse(aie::ShaderProgram* shaderType)
+void Application::RenderSponza(aie::ShaderProgram* shaderType)
 {
 	//// bind transform
 	//auto pvm = m_flyCam->getProjectionView() * m_houseTransform;
@@ -799,17 +800,17 @@ void Application::RenderHouse(aie::ShaderProgram* shaderType)
 	//m_houseMesh.draw();
 
 	// bind transform
-	auto pvm = m_flyCam->getProjectionView() * m_houseTransform;
+	auto pvm = m_flyCam->getProjectionView() * m_sponzaTransform;
 	shaderType->bindUniform("ProjectionViewModel", pvm);
 
 	// bind transforms for lighting
 	shaderType->bindUniform("NormalMatrix",
-		glm::inverseTranspose(glm::mat3(m_houseTransform)));
+		glm::inverseTranspose(glm::mat3(m_sponzaTransform)));
 
 	// Send the camera's position
 	shaderType->bindUniform("cameraPosition", m_flyCam->getPosition());
 
-	m_houseMesh.draw();
+	m_sponzaMesh.draw();
 }
 
 void Application::RenderGrass(aie::ShaderProgram * shaderType)
