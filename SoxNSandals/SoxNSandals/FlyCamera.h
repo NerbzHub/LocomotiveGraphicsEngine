@@ -24,5 +24,7 @@ public:
 	float fMouseSensitivity;
 
 	float fMoveSpeed;
+	float fSprintSpeed;
+	float fCurrentSpeed;
 };
 

@@ -120,14 +120,15 @@ int Application::initialize()
 	//InitPhong();
 
 	InitNormalMap();
+	InitNormalMapDown();
 
 	//-------------------------Light---------------------------
-	m_light.diffuse = { 1, 1, 0 };
-	m_light.specular = { 1, 1, 0 };
+	m_light.diffuse = { 1, 1, 1 };
+	m_light.specular = { 1, 1, 1 };
 	m_ambientLight = { 0.25f, 0.25f, 0.25f };
 
 
-	if (m_spearMesh.load("../models/soulspear/soulspear.obj",
+	/*if (m_spearMesh.load("../models/soulspear/soulspear.obj",
 		true, true) == false) {
 		printf("Soulspear Mesh Error!\n");
 		return false;
@@ -138,10 +139,10 @@ int Application::initialize()
 		0,1,0,0,
 		0,0,1,0,
 		0,0,0,1
-	};
+	};*/
 
 
-	if (m_sponzaMesh.load("../models/Sponza/sponza.obj",
+	/*if (m_sponzaMesh.load("../models/Sponza/sponza.obj",
 		true, true) == false) {
 		printf("House Mesh Error!\n");
 		return false;
@@ -151,6 +152,101 @@ int Application::initialize()
 		0.5,0,0,0,
 		0,0.5,0,0,
 		0,0,0.5,0,
+		0,0,0,1
+	};*/
+
+	if (m_sponzaBuildingMesh.load("../models/Sponza/SingleObjs/Building.obj",
+		true, true) == false) {
+		printf("Building Mesh Error!\n");
+		return false;
+	}
+
+	m_sponzaBuildingTransform = {
+		1,0,0,0,
+		0,1,0,0,
+		0,0,1,0,
+		0,0,0,1
+	};
+
+	if (m_sponzaCurtainsMesh.load("../models/Sponza/SingleObjs/Curtains.obj",
+		true, true) == false) {
+		printf("Curtains Mesh Error!\n");
+		return false;
+	}
+
+	m_sponzaCurtainsTransform = {
+		1,0,0,0,
+		0,1,0,0,
+		0,0,1,0,
+		0,0,0,1
+	};
+
+	if (m_sponzaFountainPlantsMesh.load("../models/Sponza/SingleObjs/FountainPlants.obj",
+		true, true) == false) {
+		printf("FountainPlants Mesh Error!\n");
+		return false;
+	}
+
+	m_sponzaFountainPlantsTransform = {
+		1,0,0,0,
+		0,1,0,0,
+		0,0,1,0,
+		0,0,0,1
+	};
+
+	if (m_sponzaLionHeadsMesh.load("../models/Sponza/SingleObjs/LionHeads.obj",
+		true, true) == false) {
+		printf("Lion Heads Mesh Error!\n");
+		return false;
+	}
+
+	m_sponzaLionHeadsTransform = {
+		1,0,0,0,
+		0,1,0,0,
+		0,0,1,0,
+		0,0,0,1
+	};
+
+	if (m_sponzaPlantsMesh.load("../models/Sponza/SingleObjs/Plants.obj",
+		true, true) == false) {
+		printf("Plants Mesh Error!\n");
+		return false;
+	}
+
+	m_sponzaPlantsTransform = {
+		1,0,0,0,
+		0,1,0,0,
+		0,0,1,0,
+		0,0,0,1
+	};
+
+	if (m_sponzaRibbonsMesh.load("../models/Sponza/SingleObjs/Ribbons.obj",
+		true, true) == false) {
+		printf("Ribbons Mesh Error!\n");
+		return false;
+	}
+
+	m_sponzaRibbonsTransform = {
+		1,0,0,0,
+		0,1,0,0,
+		0,0,1,0,
+		0,0,0,1
+	};
+
+	// Normal map down light init
+	m_downLight.diffuse = { 1, 1, 1 };
+	m_downLight.specular = { 1, 1, 1 };
+
+	if (m_sponzaFloorMesh.load("../models/Sponza/SingleObjs/Floor.obj",
+		true, true) == false) {
+		printf("Floor Mesh Error!\n");
+		return false;
+	}
+
+	m_sponzaFloorTransform = {
+		1,0,0,0,
+		0,1,0,0,
+		0,0,1,0,
 		0,0,0,1
 	};
 
@@ -359,8 +455,12 @@ bool Application::update(double deltaTime)
 	// query time since application started
 	float time = glfwGetTime();
 	// rotate light
-	m_light.direction = glm::normalize(glm::vec3(glm::cos(time * 2),
-		glm::sin(time * 2), 0));
+	/*m_light.direction = glm::normalize(glm::vec3(glm::cos(time * 2),
+		glm::sin(time * 2), 0));*/
+	// light looking up
+	m_light.direction = glm::normalize(glm::vec3(1, 1, 1));
+	//light looking down
+	m_downLight.direction = glm::normalize(glm::vec3(1, 1, 1));
 	
 
 
@@ -469,6 +569,9 @@ void Application::render()
 	//Do Normalmap
 	UpdateNormalMap();
 
+	UpdateNormalMapDown();
+
+
 
 
 	// draw quad
@@ -491,19 +594,32 @@ void Application::render()
 	//RenderBuddha();
 
 	// draw Spear
-	RenderSpear(&m_normalMapShader);
+	//RenderSpear(&m_normalMapShader);
 
-	// draw House
-	RenderSponza(&m_normalMapShader);
+	// draw Sponza
+	//RenderSponza(&m_normalMapShader);
 
-	// draw House
-	//RenderGrass(&m_normalMapShader);
+	// Draw Building
+	RenderSponzaBuilding(&m_normalMapShader);
 
-	// draw Tree
-	//RenderTree(&m_phongShader);
+	// Draw Curtains
+	RenderSponzaCurtains(&m_normalMapShader);
 
-	// draw Large Stone
-	//RenderLargeRock(&m_phongShader);
+	// Draw FountainPlants
+	RenderSponzaFountainPlants(&m_normalMapShader);
+
+	// Draw LionHeads
+	RenderSponzaLionHeads(&m_normalMapShader);
+
+	// Draw Plants
+	RenderSponzaPlants(&m_normalMapShader);
+
+	// Draw Ribbons
+	RenderSponzaRibbons(&m_normalMapShader);
+
+	// Draw Floor
+	RenderSponzaFloor(&m_normalMapShaderDown);
+
 
 	aie::Gizmos::draw(m_flyCam->getProjectionView());
 
@@ -622,6 +738,43 @@ void Application::UpdateNormalMap()
 	m_normalMapShader.bindUniform("cameraPosition", m_flyCam->getPosition());
 }
 
+void Application::InitNormalMapDown()
+{
+	//-----------------------------Normal Map-----------------------------------
+
+	//load normal shader from file
+	m_normalMapShaderDown.loadShader(aie::eShaderStage::VERTEX, "../shaders/normalmap.vert");
+
+	// load fragment shader from file
+	m_normalMapShaderDown.loadShader(aie::eShaderStage::FRAGMENT, "../shaders/normalmap.frag");
+
+
+	if (m_normalMapShaderDown.link() == false)
+	{
+		printf("Shader Error: %s\n", m_normalMapShaderDown.getLastError());
+	}
+
+	UpdateNormalMapDown();
+	//--------------------------------------------------------------------------
+}
+
+void Application::UpdateNormalMapDown()
+{
+	//-------------------------Normal---------------------------
+	// bind phong shader program
+	m_normalMapShaderDown.bind();
+
+	// bind light
+	m_normalMapShaderDown.bindUniform("Ia", m_ambientLight);
+	m_normalMapShaderDown.bindUniform("Id", m_downLight.diffuse);
+	m_normalMapShaderDown.bindUniform("Is", m_downLight.specular);
+	m_normalMapShaderDown.bindUniform("LightDirection", m_downLight.direction);
+
+	//this aswell
+	// Send the camera's position
+	m_normalMapShaderDown.bindUniform("cameraPosition", m_flyCam->getPosition());
+}
+
 void Application::createQuad()
 {
 	Mesh::Vertex verticess[4];
@@ -736,10 +889,6 @@ void Application::RenderBuddha()
 	m_buddhaMesh.draw();
 }
 
-void Application::CreateSpear()
-{
-}
-
 void Application::RenderSpear(aie::ShaderProgram* shaderType)
 {
 	// bind transform
@@ -756,75 +905,131 @@ void Application::RenderSpear(aie::ShaderProgram* shaderType)
 	m_spearMesh.draw();
 }
 
-void Application::RenderTree(aie::ShaderProgram* shaderType)
+//void Application::RenderSponza(aie::ShaderProgram* shaderType)
+//{
+//	// bind transform
+//	auto pvm = m_flyCam->getProjectionView() * m_sponzaTransform;
+//	shaderType->bindUniform("ProjectionViewModel", pvm);
+//
+//	// bind transforms for lighting
+//	shaderType->bindUniform("NormalMatrix",
+//		glm::inverseTranspose(glm::mat3(m_sponzaTransform)));
+//
+//	// Send the camera's position
+//	shaderType->bindUniform("cameraPosition", m_flyCam->getPosition());
+//
+//	m_sponzaMesh.draw();
+//}
+
+void Application::RenderSponzaBuilding(aie::ShaderProgram* shaderType)
 {
 	// bind transform
-	auto pvm = m_flyCam->getProjectionView() * m_treeTransform;
+	auto pvm = m_flyCam->getProjectionView() * m_sponzaBuildingTransform;
 	shaderType->bindUniform("ProjectionViewModel", pvm);
 
 	// bind transforms for lighting
 	shaderType->bindUniform("NormalMatrix",
-		glm::inverseTranspose(glm::mat3(m_treeTransform)));
-
-	// Draw tree mesh
-	m_treeMesh.draw();
-}
-
-void Application::RenderLargeRock(aie::ShaderProgram* shaderType)
-{
-	// bind transform
-	auto pvm = m_flyCam->getProjectionView() * m_largeStoneTransform;
-	shaderType->bindUniform("ProjectionViewModel", pvm);
-
-	// bind transforms for lighting
-	shaderType->bindUniform("NormalMatrix",
-		glm::inverseTranspose(glm::mat3(m_largeStoneTransform)));
-
-	// Draw tree mesh
-	m_largeStoneMesh.draw();
-}
-
-void Application::RenderSponza(aie::ShaderProgram* shaderType)
-{
-	//// bind transform
-	//auto pvm = m_flyCam->getProjectionView() * m_houseTransform;
-	//shaderType->bindUniform("ProjectionViewModel", pvm);
-
-	//// bind transforms for lighting
-	//shaderType->bindUniform("NormalMatrix",
-	//	glm::inverseTranspose(glm::mat3(m_houseTransform)));
-
-	//// Send the camera's position
-	//shaderType->bindUniform("cameraPosition", m_flyCam->getPosition());
-
-	//m_houseMesh.draw();
-
-	// bind transform
-	auto pvm = m_flyCam->getProjectionView() * m_sponzaTransform;
-	shaderType->bindUniform("ProjectionViewModel", pvm);
-
-	// bind transforms for lighting
-	shaderType->bindUniform("NormalMatrix",
-		glm::inverseTranspose(glm::mat3(m_sponzaTransform)));
+		glm::inverseTranspose(glm::mat3(m_sponzaBuildingTransform)));
 
 	// Send the camera's position
 	shaderType->bindUniform("cameraPosition", m_flyCam->getPosition());
 
-	m_sponzaMesh.draw();
+	m_sponzaBuildingMesh.draw();
 }
 
-void Application::RenderGrass(aie::ShaderProgram * shaderType)
+void Application::RenderSponzaCurtains(aie::ShaderProgram* shaderType)
 {
 	// bind transform
-	auto pvm = m_flyCam->getProjectionView() * m_grassTransform;
+	auto pvm = m_flyCam->getProjectionView() * m_sponzaCurtainsTransform;
 	shaderType->bindUniform("ProjectionViewModel", pvm);
 
 	// bind transforms for lighting
 	shaderType->bindUniform("NormalMatrix",
-		glm::inverseTranspose(glm::mat3(m_grassTransform)));
+		glm::inverseTranspose(glm::mat3(m_sponzaCurtainsTransform)));
 
 	// Send the camera's position
 	shaderType->bindUniform("cameraPosition", m_flyCam->getPosition());
 
-	m_grassMesh.draw();
+	m_sponzaCurtainsMesh.draw();
 }
+
+void Application::RenderSponzaFountainPlants(aie::ShaderProgram * shaderType)
+{
+	// bind transform
+	auto pvm = m_flyCam->getProjectionView() * m_sponzaFountainPlantsTransform;
+	shaderType->bindUniform("ProjectionViewModel", pvm);
+
+	// bind transforms for lighting
+	shaderType->bindUniform("NormalMatrix",
+		glm::inverseTranspose(glm::mat3(m_sponzaFountainPlantsTransform)));
+
+	// Send the camera's position
+	shaderType->bindUniform("cameraPosition", m_flyCam->getPosition());
+
+	m_sponzaFountainPlantsMesh.draw();
+}
+
+void Application::RenderSponzaLionHeads(aie::ShaderProgram * shaderType)
+{
+	// bind transform
+	auto pvm = m_flyCam->getProjectionView() * m_sponzaLionHeadsTransform;
+	shaderType->bindUniform("ProjectionViewModel", pvm);
+
+	// bind transforms for lighting
+	shaderType->bindUniform("NormalMatrix",
+		glm::inverseTranspose(glm::mat3(m_sponzaLionHeadsTransform)));
+
+	// Send the camera's position
+	shaderType->bindUniform("cameraPosition", m_flyCam->getPosition());
+
+	m_sponzaLionHeadsMesh.draw();
+}
+
+void Application::RenderSponzaPlants(aie::ShaderProgram * shaderType)
+{
+	// bind transform
+	auto pvm = m_flyCam->getProjectionView() * m_sponzaPlantsTransform;
+	shaderType->bindUniform("ProjectionViewModel", pvm);
+
+	// bind transforms for lighting
+	shaderType->bindUniform("NormalMatrix",
+		glm::inverseTranspose(glm::mat3(m_sponzaPlantsTransform)));
+
+	// Send the camera's position
+	shaderType->bindUniform("cameraPosition", m_flyCam->getPosition());
+
+	m_sponzaPlantsMesh.draw();
+}
+
+void Application::RenderSponzaRibbons(aie::ShaderProgram * shaderType)
+{
+	// bind transform
+	auto pvm = m_flyCam->getProjectionView() * m_sponzaRibbonsTransform;
+	shaderType->bindUniform("ProjectionViewModel", pvm);
+
+	// bind transforms for lighting
+	shaderType->bindUniform("NormalMatrix",
+		glm::inverseTranspose(glm::mat3(m_sponzaRibbonsTransform)));
+
+	// Send the camera's position
+	shaderType->bindUniform("cameraPosition", m_flyCam->getPosition());
+
+	m_sponzaRibbonsMesh.draw();
+}
+
+void Application::RenderSponzaFloor(aie::ShaderProgram * shaderType)
+{
+	// bind transform
+	auto pvm = m_flyCam->getProjectionView() * m_sponzaFloorTransform;
+	shaderType->bindUniform("ProjectionViewModel", pvm);
+
+	// bind transforms for lighting
+	shaderType->bindUniform("NormalMatrix",
+		glm::inverseTranspose(glm::mat3(m_sponzaFloorTransform)));
+
+	// Send the camera's position
+	shaderType->bindUniform("cameraPosition", m_flyCam->getPosition());
+
+	m_sponzaFloorMesh.draw();
+}
+

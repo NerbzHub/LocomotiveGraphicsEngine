@@ -15,7 +15,8 @@ FlyCamera::FlyCamera()
 
 	fMouseSensitivity = 2.5f;
 
-	fMoveSpeed = 5.0f;
+	fMoveSpeed = 50.0f;
+	fSprintSpeed = 150.0f;
 }
 
 FlyCamera::~FlyCamera()
@@ -60,28 +61,39 @@ void FlyCamera::update(double deltaTime, GLFWwindow* a_GLWindow)
 	worldTransform = glm::inverse(viewTransform);
 
 	// keyboard input
+
 	// move fowards, on the camera's z axis
 	if (glfwGetKey(a_GLWindow, GLFW_KEY_W) == GLFW_PRESS)
 	{
-		worldTransform[3] += worldTransform[2] * deltaTime * -fMoveSpeed;
+		worldTransform[3] += worldTransform[2] * deltaTime * -fCurrentSpeed;
 	}
 
 	// move backwards, on the camera's z axis
 	if (glfwGetKey(a_GLWindow, GLFW_KEY_S) == GLFW_PRESS)
 	{
-		worldTransform[3] += worldTransform[2] * deltaTime * fMoveSpeed;
+		worldTransform[3] += worldTransform[2] * deltaTime * fCurrentSpeed;
 	}
 
 	// strafe left
 	if (glfwGetKey(a_GLWindow, GLFW_KEY_A) == GLFW_PRESS)
 	{
-		worldTransform[3] += worldTransform[0] * deltaTime * -fMoveSpeed;
+		worldTransform[3] += worldTransform[0] * deltaTime * -fCurrentSpeed;
 	}
 
 	// strafe right
 	if (glfwGetKey(a_GLWindow, GLFW_KEY_D) == GLFW_PRESS)
 	{
-		worldTransform[3] += worldTransform[0] * deltaTime * fMoveSpeed;
+		worldTransform[3] += worldTransform[0] * deltaTime * fCurrentSpeed;
+	}
+
+	// Hold shift to go 3 times as fast(similar to sprint in games)
+	if (glfwGetKey(a_GLWindow, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+	{
+		fCurrentSpeed = fSprintSpeed;
+	}
+	else
+	{
+		fCurrentSpeed = fMoveSpeed;
 	}
 
 	// debug set pos to centre of world 
@@ -89,6 +101,7 @@ void FlyCamera::update(double deltaTime, GLFWwindow* a_GLWindow)
 	{
 		setPos(glm::vec3(0, 0, 0));
 	}
+
 
 	// making sure that the forward matrix is maintained
 	worldTransform[3][3] = 1.0f;

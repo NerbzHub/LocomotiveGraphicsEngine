@@ -36,6 +36,10 @@ protected:
 	void InitNormalMap();
 	void UpdateNormalMap();
 
+	void InitNormalMapDown();
+
+	void UpdateNormalMapDown();
+
 	// Initialise various shapes.
 	void createQuad();
 	void createCube();
@@ -47,18 +51,23 @@ protected:
 
 	void RenderBuddha();
 
-	void CreateSpear();
-
 	void RenderSpear(aie::ShaderProgram* shaderType);
 
-	void RenderTree(aie::ShaderProgram* shaderType);
+	//void RenderSponza(aie::ShaderProgram* shaderType);
 
-	void RenderLargeRock(aie::ShaderProgram* shaderType);
+	void RenderSponzaBuilding(aie::ShaderProgram* shaderType);
 
-	void RenderSponza(aie::ShaderProgram* shaderType);
+	void RenderSponzaCurtains(aie::ShaderProgram * shaderType);
 
-	void RenderGrass(aie::ShaderProgram* shaderType);
+	void RenderSponzaFountainPlants(aie::ShaderProgram * shaderType);
 
+	void RenderSponzaLionHeads(aie::ShaderProgram * shaderType);
+
+	void RenderSponzaPlants(aie::ShaderProgram * shaderType);
+
+	void RenderSponzaRibbons(aie::ShaderProgram * shaderType);
+
+	void RenderSponzaFloor(aie::ShaderProgram * shaderType);
 
 
 	glm::ivec2 m_windowResolution;
@@ -80,6 +89,7 @@ protected:
 	aie::ShaderProgram m_texturedShader;
 	aie::ShaderProgram m_phongShader;
 	aie::ShaderProgram m_normalMapShader;
+	aie::ShaderProgram m_normalMapShaderDown;
 
 	glm::mat4 m_quadTransform;
 
@@ -91,6 +101,8 @@ protected:
 	};
 
 	Light m_light;
+	Light m_downLight;
+
 	glm::vec3 m_ambientLight;
 
 
@@ -119,23 +131,29 @@ protected:
 	aie::OBJMesh m_spearMesh;
 	glm::mat4 m_spearTransform;
 
-	//------Actual Meshes-------
-	aie::OBJMesh m_treeMesh;
-	glm::mat4 m_treeTransform;
+	//------Sponza Meshes-------
+	/*aie::OBJMesh m_sponzaMesh;
+	glm::mat4 m_sponzaTransform;*/
 
-	aie::OBJMesh m_largeStoneMesh;
-	glm::mat4 m_largeStoneTransform;
+	aie::OBJMesh m_sponzaBuildingMesh;
+	glm::mat4 m_sponzaBuildingTransform;
 
-	aie::OBJMesh m_mediumStoneMesh;
-	glm::mat4 m_mediumStoneTransform;
+	aie::OBJMesh m_sponzaCurtainsMesh;
+	glm::mat4 m_sponzaCurtainsTransform;
 
-	aie::OBJMesh m_logGrassStoneMesh;
-	glm::mat4 m_logGrassStoneTransform;
+	aie::OBJMesh m_sponzaFountainPlantsMesh;
+	glm::mat4 m_sponzaFountainPlantsTransform;
 
-	aie::OBJMesh m_sponzaMesh;
-	glm::mat4 m_sponzaTransform;
+	aie::OBJMesh m_sponzaLionHeadsMesh;
+	glm::mat4 m_sponzaLionHeadsTransform;
 
-	aie::OBJMesh m_grassMesh;
-	glm::mat4 m_grassTransform;
+	aie::OBJMesh m_sponzaPlantsMesh;
+	glm::mat4 m_sponzaPlantsTransform;
+
+	aie::OBJMesh m_sponzaRibbonsMesh;
+	glm::mat4 m_sponzaRibbonsTransform;
+
+	aie::OBJMesh m_sponzaFloorMesh;
+	glm::mat4 m_sponzaFloorTransform;
 };
 

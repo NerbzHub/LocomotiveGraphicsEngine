@@ -1,0 +1,187 @@
+# Blender MTL File: 'None'
+# Material Count: 15
+
+newmtl Material__298
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd \textures\background.tga
+map_Bump \textures\background_ddn.tga
+map_Ka \textures\background.tga
+
+newmtl Material__47
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl arch
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd \textures\sponza_arch_diff.tga
+map_Ka \textures\sponza_arch_diff.tga
+
+newmtl bricks
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd \textures\spnza_bricks_a_diff.tga
+map_Bump \textures\spnza_bricks_a_diff.tga
+map_Ka \textures\spnza_bricks_a_diff.tga
+
+newmtl ceiling
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd \textures\sponza_ceiling_a_diff.tga
+map_Ka \textures\sponza_ceiling_a_diff.tga
+
+newmtl chain
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd \textures\chain_texture.tga
+map_Bump \textures\chain_texture_ddn.tga
+map_Ka \textures\chain_texture.tga
+map_d \textures\chain_texture_mask.tga
+
+newmtl column_a
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd \textures\sponza_column_a_diff.tga
+map_Bump \textures\sponza_column_a_ddn.tga
+map_Ka \textures\sponza_column_a_diff.tga
+
+newmtl column_b
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd \textures\sponza_column_b_diff.tga
+map_Bump \textures\sponza_column_b_ddn.tga
+map_Ka \textures\sponza_column_b_diff.tga
+
+newmtl column_c
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd \textures\sponza_column_c_diff.tga
+map_Bump \textures\sponza_column_c_ddn.tga
+map_Ka \textures\sponza_column_c_diff.tga
+
+newmtl details
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd \textures\sponza_details_diff.tga
+map_Ka \textures\sponza_details_diff.tga
+
+newmtl flagpole
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd \textures\sponza_flagpole_diff.tga
+map_Ka \textures\sponza_flagpole_diff.tga
+
+newmtl floor
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd \textures\sponza_floor_a_diff.tga
+map_Ka \textures\sponza_floor_a_diff.tga
+
+newmtl roof
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd \textures\sponza_roof_diff.tga
+map_Ka \textures\sponza_roof_diff.tga
+
+newmtl vase
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd \textures\vase_dif.tga
+map_Ka \textures\vase_dif.tga
+
+newmtl vase_hanging
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd \textures\vase_hanging.tga
+map_Ka \textures\vase_hanging.tga
