@@ -1,55 +1,146 @@
+/**
+	Application.h
+
+	Purpose: Application.h is the header file for the Application class.
+			The Application class is what runs as the game loop.
+			It contains initialize, update and, render.
+
+			Anything that needs to be inside the application must be 
+			declared in this file. This includes shaders, geometry, lights,
+			etc.
+
+	@author Nathan Nette
+*/
 #pragma once
 #include "soxCore.h"
 #include "Planet.h"
 #include "FlyCamera.h"
 
+// Forward declarations
 class FlyCamera;
 
+/**
+	The Application class is what runs as the game loop.
+		It contains initialize, update and, render.
+
+		Anything that needs to be inside the application must be 
+		declared in this file. This includes shaders, geometry, lights,
+		etc.
+*/
 class Application
 {
 public:
+	/**
+		Application Constructor
+			@param1 a_resolution is a vec2 of signed ints to store
+					the resolution of the window for the application.
+			@param2 a_name is the name that will appear on the window
+					when the application is running.
+	*/
 	Application(const glm::ivec2& a_resolution, const char* a_name);
+
+	/**
+		Default Constructor
+	*/
 	~Application();
 
+	/**
+		run is the function to run the application.
+	*/
 	int run();
 
 protected:
 
+	/**
+		initialize is the function that initializes all of the 
+			necessary parameters.
+	*/
 	int initialize();
 
+	/**
+		update gets called every frame. Anything that needs to be
+			called every frame is in this function such as render
+			and any input checks.
+
+			@param1 deltaTime is the current frame rate of the 
+					application. 
+	*/
 	bool update(double deltaTime);
 
-	void iterate();
-
+	/**
+		render gets called every frame. Render handles all of the
+			functions and calls that draw anything to the screen.
+			Without this function, nothing would draw.
+	*/
 	void render();
 
+	/**
+		terminate calls any necessary functions that must be called
+			as the program is shutting down.
+	*/
 	int terminate();
 
-	double m_deltaTime;
-
+	/**
+		InitTexture is a function that initializes a shader that
+			renders a model with its texture.
+	*/
 	void InitTexture();
+	/**
+		UpdateTexture is all of the logic that is needed to run
+			every frame in regards to the texture shader.
+	*/
 	void UpdateTexture();
 
+	/**
+		InitPhong is a function that initializes a shader that
+			renders a model that is lit using phong lighting.
+	*/
 	void InitPhong();
+	/**
+		UpdatePhong is all of the logic that is needed to run
+			every frame in regards to the phong shader.
+	*/
 	void UpdatePhong();
 
+	/**
+		InitNormalMap is a function that initializes a shader that
+			renders a model that is lit using phong lighting
+			and displays them with their texture and can use
+			a normal map.
+	*/
 	void InitNormalMap();
+	/**
+		UpdateNormalMap is all of the logic that is needed to run
+		every frame in regards to the normal map shader.
+	*/
 	void UpdateNormalMap();
 
+	/**
+		InitNormalMap is a function that initializes a shader that
+			renders a model that is lit using phong lighting
+			and displays them with their texture and can use
+			a normal map. However, this shader is so that the
+			ground in the sponza scene can be lit.
+	*/
 	void InitNormalMapDown();
 
+	/**
+		UpdateNormalMapDown is all of the logic that is needed to run
+			every frame in regards to the normal map shader that
+			faces down.
+	*/
 	void UpdateNormalMapDown();
 
-	// Initialise various shapes.
+	/**
+		Create quad, creates a quad that can be drawn with a texture
+		on it.
+	*/
 	void createQuad();
+	/**
+		Create cube creates a cube.
+	*/
 	void createCube();
-	void createCylinder();
 
-	bool CreateBunny();
-
-	void RenderBunny();
-
-	void RenderBuddha();
 
 	void RenderSpear(aie::ShaderProgram* shaderType);
 
@@ -70,6 +161,9 @@ protected:
 	void RenderSponzaFloor(aie::ShaderProgram * shaderType);
 
 
+	// m_deltaTime stores the frame count of the application. It
+	//	gets passed into the update function.
+	double m_deltaTime;
 	glm::ivec2 m_windowResolution;
 	const char* m_windowName;
 	GLFWmonitor** screens;

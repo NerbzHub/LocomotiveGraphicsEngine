@@ -511,10 +511,6 @@ bool Application::update(double deltaTime)
 	return true;
 }
 
-void Application::iterate()
-{
-}
-
 void Application::render()
 {
 
