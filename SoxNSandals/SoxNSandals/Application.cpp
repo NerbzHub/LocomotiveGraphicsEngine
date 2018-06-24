@@ -813,11 +813,6 @@ void Application::createCube()
 	m_cubeMesh.initialise(8, vertices, 36, indices);
 }
 
-void Application::createCylinder()
-{
-	
-}
-
 bool Application::CreateBunny()
 {
 	// load vertex shader from file
