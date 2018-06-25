@@ -126,6 +126,8 @@ int Application::initialize()
 	m_light.diffuse = { 1, 1, 1 };
 	m_light.specular = { 1, 1, 1 };
 	m_ambientLight = { 0.25f, 0.25f, 0.25f };
+	m_ambientDownLight = { 0.25f, 0.25f, 0.25f };
+
 
 
 	/*if (m_spearMesh.load("../models/soulspear/soulspear.obj",
@@ -244,6 +246,32 @@ int Application::initialize()
 	}
 
 	m_sponzaFloorTransform = {
+		1,0,0,0,
+		0,1,0,0,
+		0,0,1,0,
+		0,0,0,1
+	};
+
+	////load vertex shader from file
+	m_particleShader.loadShader(aie::eShaderStage::VERTEX, "../shaders/particleVertex.vert");
+
+	// load fragment shader from file
+	m_particleShader.loadShader(aie::eShaderStage::FRAGMENT, "../shaders/particleFrag.frag");
+
+	if (m_particleShader.link() == false)
+	{
+		printf("Shader Error: %s\n", m_particleShader.getLastError());
+	}
+	
+	
+	m_emitter = new ParticleEmitter();
+	m_emitter->initialise(1000, 500,
+		0.1f, 1.0f,
+		1, 5,
+		1, 0.1f,
+		glm::vec4(1, 0, 0, 1), glm::vec4(1, 1, 0, 1));
+
+	m_particleTransform = {
 		1,0,0,0,
 		0,1,0,0,
 		0,0,1,0,
@@ -435,7 +463,7 @@ bool Application::update(double deltaTime)
 	// Clearing buffer - colour and depth checks.
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// our game logic and update code goes here!
+	// our game logic and update code goes here! 
 
 
 	aie::Gizmos::clear();
@@ -458,9 +486,10 @@ bool Application::update(double deltaTime)
 	/*m_light.direction = glm::normalize(glm::vec3(glm::cos(time * 2),
 		glm::sin(time * 2), 0));*/
 	// light looking up
-	m_light.direction = glm::normalize(glm::vec3(1, 1, 1));
+	m_light.direction = glm::normalize(glm::vec3(0, 1, 0));
 	//light looking down
-	m_downLight.direction = glm::normalize(glm::vec3(1, 1, 1));
+	m_downLight.direction = glm::normalize(glm::vec3(0, 1, 0));
+
 	
 
 
@@ -493,6 +522,8 @@ bool Application::update(double deltaTime)
 
 	//aie::Gizmos::addSphere(glm::vec3(0), 1.0f, 15.0f, 15.0f, glm::vec4(1.0f, 0.0f, 0.5f, 1.0f), &parentMatrix);
 	//aie::Gizmos::addSphere(glm::vec3(0), 1.0f, 5.0f, 5.0f, glm::vec4(0.0f, 1.0f, 0.5f, 1.0f), &globalMatrix);
+
+	m_emitter->update(deltaTime, m_flyCam->getWorldTransform());
 
 	render();
 
@@ -558,7 +589,7 @@ void Application::render()
 
 	// bind texture to specified location
 	//m_gridTexture.bind(0);
-
+	
 	//Do phong
 	//UpdatePhong();
 
@@ -567,8 +598,7 @@ void Application::render()
 
 	UpdateNormalMapDown();
 
-
-
+	// bind particle shader
 
 	// draw quad
 	//m_quadMesh.draw();
@@ -614,10 +644,16 @@ void Application::render()
 	RenderSponzaRibbons(&m_normalMapShader);
 
 	// Draw Floor
-	RenderSponzaFloor(&m_normalMapShaderDown);
+	RenderSponzaFloor(&m_normalMapShader);
 
 
 	aie::Gizmos::draw(m_flyCam->getProjectionView());
+	m_particleShader.bind();
+
+	// bind particle transform
+	auto pvm = m_flyCam->getProjectionView() * m_particleTransform;
+	m_particleShader.bindUniform("ProjectionViewModel", pvm);
+	m_emitter->draw();
 
 	// a simple shader
 
@@ -761,7 +797,7 @@ void Application::UpdateNormalMapDown()
 	m_normalMapShaderDown.bind();
 
 	// bind light
-	m_normalMapShaderDown.bindUniform("Ia", m_ambientLight);
+	m_normalMapShaderDown.bindUniform("Ia", m_ambientDownLight);
 	m_normalMapShaderDown.bindUniform("Id", m_downLight.diffuse);
 	m_normalMapShaderDown.bindUniform("Is", m_downLight.specular);
 	m_normalMapShaderDown.bindUniform("LightDirection", m_downLight.direction);
@@ -811,73 +847,6 @@ void Application::createCube()
 								 2,6,7, 2,3,7, // +z
 								 0,4,6, 0,2,6};// -x
 	m_cubeMesh.initialise(8, vertices, 36, indices);
-}
-
-bool Application::CreateBunny()
-{
-	// load vertex shader from file
-	m_shader.loadShader(aie::eShaderStage::VERTEX,
-		"../shaders/simple.vert");
-
-	// load fragment shader from file
-	m_shader.loadShader(aie::eShaderStage::FRAGMENT,
-		"../shaders/simple.frag");
-
-	if (m_shader.link() == false)
-	{
-		printf("Shader Error: %s\n", m_shader.getLastError());
-		return false;
-	}
-
-	// higher poly version, use bunny_OP.obj for lower poly version
-	if (m_bunnyMesh.load("../stanford/bunny_OP.obj") == false)
-	{
-		printf("Bunny Mesh Error!\n");
-		return false;
-	}
-	else
-	{
-		m_bunnyTransform = { 0.5f,0,0,0,
-			0,0.5f,0,0,
-			0,0,0.5f,0,
-			-5,0,-5,1 };
-	}
-}
-
-void Application::RenderBunny()
-{
-	// bind shader
-	m_shader.bind();
-
-	// bind transform
-	auto pvm = m_flyCam->getProjectionView() * m_quadTransform;
-	m_shader.bindUniform("ProjectionViewModel", pvm);
-
-	// draw bunny
-	// bind transform
-	auto pvmbunny = m_flyCam->getProjectionView() * m_bunnyTransform;
-	m_shader.bindUniform("ProjectionViewModel", pvmbunny);
-
-	// draw bunny
-	m_bunnyMesh.draw();
-}
-
-void Application::RenderBuddha()
-{
-	// bind shader
-	m_texturedShader.bind();
-
-	// bind transform
-	auto pvm = m_flyCam->getProjectionView() * m_quadTransform;
-	m_texturedShader.bindUniform("ProjectionViewModel", pvm);
-
-	// draw buddha
-	// bind transform
-	auto pvmbuddha = m_flyCam->getProjectionView() * m_buddhaTransform;
-	m_texturedShader.bindUniform("ProjectionViewModel", pvmbuddha);
-
-	// draw bunny
-	m_buddhaMesh.draw();
 }
 
 void Application::RenderSpear(aie::ShaderProgram* shaderType)

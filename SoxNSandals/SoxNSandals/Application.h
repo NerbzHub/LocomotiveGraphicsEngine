@@ -15,6 +15,7 @@
 #include "soxCore.h"
 #include "Planet.h"
 #include "FlyCamera.h"
+#include "ParticleEmitter.h"
 
 // Forward declarations
 class FlyCamera;
@@ -176,7 +177,7 @@ protected:
 	glm::mat4 view;
 	glm::mat4 projection;
 	FlyCamera* m_flyCam;
-	Planet m_planet;
+	ParticleEmitter* m_emitter;
 
 	//----------Shader----------
 	aie::ShaderProgram m_shader;
@@ -184,6 +185,8 @@ protected:
 	aie::ShaderProgram m_phongShader;
 	aie::ShaderProgram m_normalMapShader;
 	aie::ShaderProgram m_normalMapShaderDown;
+	aie::ShaderProgram m_particleShader;
+	glm::mat4 m_particleTransform;
 
 	glm::mat4 m_quadTransform;
 
@@ -197,7 +200,11 @@ protected:
 	Light m_light;
 	Light m_downLight;
 
+	
+
 	glm::vec3 m_ambientLight;
+
+	glm::vec3 m_ambientDownLight;
 
 
 	//----------Texture---------

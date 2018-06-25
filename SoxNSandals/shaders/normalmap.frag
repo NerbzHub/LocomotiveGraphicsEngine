@@ -32,6 +32,9 @@ vec3 L = normalize(LightDirection);
 mat3 TBN = mat3(T,B,N);
 
 vec3 texDiffuse = texture( diffuseTexture, vTexCoord ).rgb;
+float alpha = texture( diffuseTexture, vTexCoord ).a;
+if(alpha < 0.5)
+discard;
 vec3 texSpecular = texture( specularTexture, vTexCoord ).rgb;
 vec3 texNormal = texture( normalTexture, vTexCoord ).rgb;
 
