@@ -665,7 +665,8 @@ void Application::render()
 int Application::terminate()
 {
 	aie::Gizmos::destroy();
-
+	delete m_emitter;
+	delete screens;
 	glfwDestroyWindow(window);
 	//Clean up window and gpu linkage.
 	glfwTerminate();

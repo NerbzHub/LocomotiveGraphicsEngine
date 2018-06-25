@@ -65,6 +65,8 @@ protected:
 
 			@param1 deltaTime is the current frame rate of the 
 					application. 
+
+			@return true to keep the application running.
 	*/
 	bool update(double deltaTime);
 
@@ -78,6 +80,8 @@ protected:
 	/**
 		terminate calls any necessary functions that must be called
 			as the program is shutting down.
+
+			@return returns 0 due to the program being shut down.
 	*/
 	int terminate();
 
@@ -137,57 +141,153 @@ protected:
 		on it.
 	*/
 	void createQuad();
+
 	/**
 		Create cube creates a cube.
 	*/
 	void createCube();
 
+	/**
+		Binds a shader to the spear and calls draw on the spear.
 
+			@param1 shaderType is a pointer to a shader.
+				This allows me to create any shader, get it
+				from memory and set it to this mesh.
+	*/
 	void RenderSpear(aie::ShaderProgram* shaderType);
 
-	//void RenderSponza(aie::ShaderProgram* shaderType);
+	/**
+		Binds a shader to the SponzaBuilding and calls draw on it.
 
+			@param1 shaderType is a pointer to a shader.
+				This allows me to create any shader, get it
+				from memory and set it to this mesh.
+	*/
 	void RenderSponzaBuilding(aie::ShaderProgram* shaderType);
 
+	/**
+		Binds a shader to the SponzaCurtains and calls draw on it.
+
+			@param1 shaderType is a pointer to a shader.
+				This allows me to create any shader, get it
+				from memory and set it to this mesh.
+	*/
 	void RenderSponzaCurtains(aie::ShaderProgram * shaderType);
 
+	/**
+		Binds a shader to the SponzaFountainPlants and calls 
+			draw on it.
+
+			@param1 shaderType is a pointer to a shader.
+				This allows me to create any shader, get it
+				from memory and set it to this mesh.
+	*/
 	void RenderSponzaFountainPlants(aie::ShaderProgram * shaderType);
 
+	/**
+		Binds a shader to the SponzaLionHeads and calls draw on it.
+
+			@param1 shaderType is a pointer to a shader.
+				This allows me to create any shader, get it
+				from memory and set it to this mesh.
+	*/
 	void RenderSponzaLionHeads(aie::ShaderProgram * shaderType);
 
+	/**
+		Binds a shader to the SponzaPlants and calls draw on it.
+
+			@param1 shaderType is a pointer to a shader.
+				This allows me to create any shader, get it
+				from memory and set it to this mesh.
+	*/
 	void RenderSponzaPlants(aie::ShaderProgram * shaderType);
 
+	/**
+		Binds a shader to the SponzaRibbons and calls draw on it.
+
+			@param1 shaderType is a pointer to a shader.
+				This allows me to create any shader, get it
+				from memory and set it to this mesh.
+	*/
 	void RenderSponzaRibbons(aie::ShaderProgram * shaderType);
 
+	/**
+		Binds a shader to the SponzaFloor and calls draw on it.
+
+			@param1 shaderType is a pointer to a shader.
+				This allows me to create any shader, get it
+				from memory and set it to this mesh.
+	*/
 	void RenderSponzaFloor(aie::ShaderProgram * shaderType);
 
 
 	// m_deltaTime stores the frame count of the application. It
 	//	gets passed into the update function.
 	double m_deltaTime;
+
+	// Stores the resolution for the application's window as an ivec2.
 	glm::ivec2 m_windowResolution;
+
+	// Stores the name for the application's window as a const char*.
 	const char* m_windowName;
+
+	// Storing the screens as monitors.
 	GLFWmonitor** screens;
+
+	// The amount of screens that the computer has.
 	int screenCount = 0;
+
+	// The application's window.
 	GLFWwindow* window;
+
+	// Clock.
 	sns::clock m_clock;
+
+	// Start time of the application.
 	sns::time m_startTime;
+
+	// Current time.
 	sns::time m_currentTime;
+
+	// Time since previous frame.
 	sns::time m_previousTime;
+
+	// View Matrix for the camera.
 	glm::mat4 view;
+
+	// Projection Matrix for the camera.
 	glm::mat4 projection;
+
+	// Creating a fly camera for the scene.
 	FlyCamera* m_flyCam;
+
+	// Particle emitter.
 	ParticleEmitter* m_emitter;
 
-	//----------Shader----------
+	//----------Shaders----------
+	//
+	// Regular shader that just draws basic rgba on mesh.
 	aie::ShaderProgram m_shader;
+
+	// Shader that allows textures to be drawn to a mesh, unlit.
 	aie::ShaderProgram m_texturedShader;
+
+	// Shader that supports phong lights. Doesn't draw textures.
 	aie::ShaderProgram m_phongShader;
+
+	// Shader that supports phong lights, textures and, normal maps.
 	aie::ShaderProgram m_normalMapShader;
+
+	// Shader that supports phong lights, textures and, normal maps.
 	aie::ShaderProgram m_normalMapShaderDown;
+
+	// Shader for the particles.
 	aie::ShaderProgram m_particleShader;
+
+	// Transform for where the particle emitter will be in world space.
 	glm::mat4 m_particleTransform;
 
+	// Transform of where the centre of the quad will be placed.
 	glm::mat4 m_quadTransform;
 
 	//----------Light----------
@@ -197,13 +297,16 @@ protected:
 		glm::vec3 specular;
 	};
 
+	// Creating new phong light for the scene.
 	Light m_light;
+
+	// Creating a new phong light for the scene.
 	Light m_downLight;
 
-	
-
+	// Strength of the light for m_light.
 	glm::vec3 m_ambientLight;
 
+	// Strength of the light for m_downlight.
 	glm::vec3 m_ambientDownLight;
 
 

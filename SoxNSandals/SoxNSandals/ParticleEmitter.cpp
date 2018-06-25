@@ -53,7 +53,7 @@ void ParticleEmitter::initialise(unsigned int a_maxParticles,
 	// will be filled during update
 	m_vertexData = new ParticleVertex[m_maxParticles * 4];
 
-	// create the index buffeer data for the particles
+	// create the index buffer data for the particles
 	// 6 indices per quad of 2 triangles
 	// fill it now as it never changes
 	unsigned int* indexData = new unsigned int[m_maxParticles * 6];
