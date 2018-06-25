@@ -55,35 +55,24 @@ int Application::initialize()
 {
 	//----------------------------------------------------------------------
 	//						Clock
-	//sns::clock m_clock;
 	m_startTime = m_clock.now();
 	m_currentTime = m_clock.now();
-	m_previousTime = m_clock.now();//parentMatrix[3] = glm::vec4(0, 0, 10, 1);
+	m_previousTime = m_clock.now();
 	//----------------------------------------------------------------------
 
-
-	//localMatrix[3] = glm::vec4(1, 0, -2, 1);
-
-	//----------------------------------------------------------------------
-	//						Rot
-	glm::mat4 rot(1);
-	rot = glm::rotate(0.0f, glm::vec3(0, 1, 0));
-	//----------------------------------------------------------------------
-
-	//globalMatrix = parentMatrix * localMatrix;
-
-	// if we can hook into the gpu.
+	// Check to see if we have access to the GPU.
 	if (glfwInit() == false)
 	{
 		// -1 is a failure code.
 		return -1;
 	}
+
+	// Initialize the application's window.
+	// Window x and y, name of window, which screen it's on, shared or exclusive
 	window = glfwCreateWindow(m_windowResolution.x, m_windowResolution.y, m_windowName, nullptr, nullptr);
 
+	// Gets the amount of displays the PC has and allocates it into Screens.
 	screens = glfwGetMonitors(&screenCount);
-	//std::cout << screenCount << std::endl;
-
-	// Window x and y, name of window, which screen it's on, shared or exclusive
 
 	if (window == nullptr)
 	{
@@ -91,40 +80,28 @@ int Application::initialize()
 		return -2;
 	}
 
-
+	// Makes the application's window the current window.
 	glfwMakeContextCurrent(window);
 
+	// If openGL doesn't load, terminate the program and throw error 3.
 	if (ogl_LoadFunctions() == ogl_LOAD_FAILED) {
 		glfwDestroyWindow(window);
 		glfwTerminate();
 		return -3;
 	}
 
-
+	// Getting the version of OpenGL.
 	auto major = ogl_GetMajorVersion();
 	auto minor = ogl_GetMinorVersion();
 	printf("GL: %i.%i\n", major, minor);
 
-	//Clears screen to grey.
+	// Clears screen to grey.
 	glClearColor(0.25f, 0.25f, 0.25, 1);
 
-	//enables depth buffer.
+	// Enables depth buffer.
 	glEnable(GL_DEPTH_TEST);
 
-	//-----------------------------Plain---------------------------------------
-
-	////load vertex shader from file
-	//m_shader.loadShader(aie::eShaderStage::VERTEX, "../shaders/simple.vert");
-
-	//// load fragment shader from file
-	//m_shader.loadShader(aie::eShaderStage::FRAGMENT, "../shaders/simple.frag");
-
-	//if (m_shader.link() == false)
-	//{
-	//	printf("Shader Error: %s\n", m_shader.getLastError());
-	//}
-	//--------------------------------------------------------------------------
-
+	
 	//-----------------------------Textured-------------------------------------
 
 	////load vertex shader from file
@@ -139,22 +116,10 @@ int Application::initialize()
 	//}
 	//--------------------------------------------------------------------------
 
-	//InitTexture();
+	InitTexture();
 
 	//InitPhong();
-
-	InitNormalMap();
-	InitNormalMapDown();
-
-	//-------------------------Light---------------------------
-	m_light.diffuse = { 1, 1, 1 };
-	m_light.specular = { 1, 1, 1 };
-	m_ambientLight = { 0.25f, 0.25f, 0.25f };
-	m_ambientDownLight = { 0.25f, 0.25f, 0.25f };
-
-
-
-	/*if (m_spearMesh.load("../models/soulspear/soulspear.obj",
+	if (m_spearMesh.load("../models/soulspear/soulspear.obj",
 		true, true) == false) {
 		printf("Soulspear Mesh Error!\n");
 		return false;
@@ -165,7 +130,19 @@ int Application::initialize()
 		0,1,0,0,
 		0,0,1,0,
 		0,0,0,1
-	};*/
+	};
+
+	InitNormalMap();
+	InitNormalMapDown();
+	//-------------------------Light---------------------------
+	m_light.diffuse = { 1, 1, 1 };
+	m_light.specular = { 1, 1, 1 };
+	m_ambientLight = { 0.25f, 0.25f, 0.25f };
+	m_ambientDownLight = { 0.25f, 0.25f, 0.25f };
+
+
+
+
 
 	if (m_sponzaBuildingMesh.load("../models/Sponza/SingleObjs/Building.obj",
 		true, true) == false) {
@@ -417,6 +394,9 @@ void Application::render()
 	// bind texture to specified location
 	//m_gridTexture.bind(0);
 	
+	// Texture Shader
+	UpdateTexture();
+
 	//Do phong
 	//UpdatePhong();
 
@@ -447,7 +427,7 @@ void Application::render()
 	//RenderBuddha();
 
 	// draw Spear
-	//RenderSpear(&m_normalMapShader);
+	RenderSpear(&m_texturedShader);
 
 	// draw Sponza
 	//RenderSponza(&m_normalMapShader);
@@ -517,6 +497,11 @@ void Application::InitTexture()
 
 void Application::UpdateTexture()
 {
+	// bind shader
+	m_texturedShader.bind();
+
+	// bind texture location
+	m_texturedShader.bindUniform("diffuseTexture", 0);
 }
 
 void Application::InitPhong()
@@ -638,31 +623,15 @@ void Application::RenderSpear(aie::ShaderProgram* shaderType)
 	auto pvm = m_flyCam->getProjectionView() * m_spearTransform;
 	shaderType->bindUniform("ProjectionViewModel", pvm);
 
-	// bind transforms for lighting
-	shaderType->bindUniform("NormalMatrix",
-		glm::inverseTranspose(glm::mat3(m_spearTransform)));
+	//// bind transforms for lighting
+	//shaderType->bindUniform("NormalMatrix",
+	//	glm::inverseTranspose(glm::mat3(m_spearTransform)));
 
-	// Send the camera's position
-	shaderType->bindUniform("cameraPosition", m_flyCam->getPosition());
+	//// Send the camera's position
+	//shaderType->bindUniform("cameraPosition", m_flyCam->getPosition());
 	
 	m_spearMesh.draw();
 }
-
-//void Application::RenderSponza(aie::ShaderProgram* shaderType)
-//{
-//	// bind transform
-//	auto pvm = m_flyCam->getProjectionView() * m_sponzaTransform;
-//	shaderType->bindUniform("ProjectionViewModel", pvm);
-//
-//	// bind transforms for lighting
-//	shaderType->bindUniform("NormalMatrix",
-//		glm::inverseTranspose(glm::mat3(m_sponzaTransform)));
-//
-//	// Send the camera's position
-//	shaderType->bindUniform("cameraPosition", m_flyCam->getPosition());
-//
-//	m_sponzaMesh.draw();
-//}
 
 void Application::RenderSponzaBuilding(aie::ShaderProgram* shaderType)
 {
