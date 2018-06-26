@@ -19,9 +19,10 @@ class Camera
 {
 public:
 	/**
-		Default Constructor
+		Constructor that initializes the variables to default values.
 	*/
 	Camera();
+
 	/**
 		Default Deconstructor
 	*/

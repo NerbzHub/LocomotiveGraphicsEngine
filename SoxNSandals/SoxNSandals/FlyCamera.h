@@ -8,7 +8,7 @@
 			main functionality is from the camera class. This file 
 			controls the input and movement.
 
-@author Nathan Nette
+	@author Nathan Nette
 */
 #pragma once
 #include "soxCore.h"
