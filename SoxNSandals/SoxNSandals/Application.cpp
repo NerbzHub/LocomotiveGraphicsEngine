@@ -1,8 +1,23 @@
 /**
 	Application.cpp
+
+	Purpose: Application.cpp is the source file for the Application class.
+		The Application class is what runs as the game loop.
+		It contains initialize, update and, render.
+
+		This file has the code for the game loop, including the application's
+		update function, what draws on the screen in render as well as the 
+		logic behind the lights, camera and action.
+
+	@author Nathan Nette
 */
 #include "Application.h"
 
+/**
+	The Application Constructor creates the window for the application.
+		It creates it using the argument resolution and a_name. It
+		then, creates a new instance of flyCamera.
+*/
 Application::Application(const glm::ivec2& a_resolution, const char* a_name)
 {
 	m_windowResolution = a_resolution;
@@ -10,15 +25,24 @@ Application::Application(const glm::ivec2& a_resolution, const char* a_name)
 	m_flyCam = new FlyCamera();
 }
 
+/**
+	Deconstructor is deleting the flyCam
+*/
 Application::~Application()
 {
 	delete m_flyCam;
 }
 
+/**
+	run is what gets called in main to run the application.
+		This is what happens when the application is running.
+*/
 int Application::run()
 {
+	// Initializes the application.
 	initialize();
 
+	// While the application window exists, run the application.
 	while (glfwWindowShouldClose(window) == false &&
 		glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS)
 	{
