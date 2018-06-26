@@ -93,18 +93,41 @@ public:
 	glm::mat4 getProjection() const;
 
 	/**
-		getProjectionView is 
+		getProjectionView gets the current projectionView of the camera.
+
+			@return projectionViewTransform is the current projection view 
+				transform of the camera.
 	*/
 	glm::mat4 getProjectionView() const;
+
+	/**
+		getPosition extracts the current position of the camera from the 
+			worldTransform then returns it.
+
+			@return tempv3 is the position xyz of the camera.
+	*/
 	glm::vec3 getPosition() const;
 
 protected:
 
+	/**
+		updateProjectionViewTransform creates the projectionViewTransform.
+			this must be called any time there are any changes to the 
+			projectionViewTransform to recalculate it.
+	*/
+	void updateProjectionViewTransform();
+
+	// The transform of the camera in world space.
 	glm::mat4 worldTransform;
+
+	// The view transform of the camera.
 	glm::mat4 viewTransform;
+
+	// The projectionTransform of the camera.
 	glm::mat4 projectionTransform;
+
+	// The projectionViewTransform of the camera.
 	glm::mat4 projectionViewTransform;
 
-	void updateProjectionViewTransform();
 
 };
