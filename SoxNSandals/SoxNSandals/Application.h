@@ -121,7 +121,7 @@ protected:
 	void UpdateNormalMap();
 
 	/**
-		InitNormalMap is a function that initializes a shader that
+		InitNormalMapDown is a function that initializes a shader that
 			renders a model that is lit using phong lighting
 			and displays them with their texture and can use
 			a normal map. However, this shader is so that the
@@ -135,17 +135,6 @@ protected:
 			faces down.
 	*/
 	void UpdateNormalMapDown();
-
-	/**
-		Create quad, creates a quad that can be drawn with a texture
-		on it.
-	*/
-	void createQuad();
-
-	/**
-		Create cube creates a cube.
-	*/
-	void createCube();
 
 	/**
 		Binds a shader to the spear and calls draw on the spear.

@@ -104,52 +104,44 @@ int Application::initialize()
 	
 	//-----------------------------Textured-------------------------------------
 
-	////load vertex shader from file
-	//m_texturedShader.loadShader(aie::eShaderStage::VERTEX, "../shaders/textured.vert");
-
-	//// load fragment shader from file
-	//m_texturedShader.loadShader(aie::eShaderStage::FRAGMENT, "../shaders/textured.frag");
-
-	//if (m_texturedShaderr.link() == false)
-	//{
-	//	printf("Shader Error: %s\n", m_texturedShader.getLastError());
-	//}
-	//--------------------------------------------------------------------------
-
+	// Initialize the unlit texture shader.
 	InitTexture();
 
-	//InitPhong();
+	// Load in the soul spear mesh.
 	if (m_spearMesh.load("../models/soulspear/soulspear.obj",
 		true, true) == false) {
 		printf("Soulspear Mesh Error!\n");
 		return false;
 	}
 
+	// Set the spear mesh's position.
 	m_spearTransform = {
 		1,0,0,0,
 		0,1,0,0,
 		0,0,1,0,
 		0,0,0,1
 	};
-
+	//--------------------------PhongNormalMap----------------------------------
+	//
+	// Initialize the Phong normal map shader.
 	InitNormalMap();
+	// Initialize the Phong normal map down shader.
 	InitNormalMapDown();
 	//-------------------------Light---------------------------
+	// Setting up the light.
 	m_light.diffuse = { 1, 1, 1 };
 	m_light.specular = { 1, 1, 1 };
 	m_ambientLight = { 0.25f, 0.25f, 0.25f };
 	m_ambientDownLight = { 0.25f, 0.25f, 0.25f };
 
-
-
-
-
+	// Load in the Sponza Building mesh and assign it to the correct mesh.
 	if (m_sponzaBuildingMesh.load("../models/Sponza/SingleObjs/Building.obj",
 		true, true) == false) {
 		printf("Building Mesh Error!\n");
 		return false;
 	}
 
+	// Initialize the Sponza Building's transform.
 	m_sponzaBuildingTransform = {
 		1,0,0,0,
 		0,1,0,0,
@@ -157,12 +149,14 @@ int Application::initialize()
 		0,0,0,1
 	};
 
+	// Load in the Sponza Curtains mesh and assign it to the correct mesh.
 	if (m_sponzaCurtainsMesh.load("../models/Sponza/SingleObjs/Curtains.obj",
 		true, true) == false) {
 		printf("Curtains Mesh Error!\n");
 		return false;
 	}
 
+	// Initialize the Sponza Curtains' transform.
 	m_sponzaCurtainsTransform = {
 		1,0,0,0,
 		0,1,0,0,
@@ -170,12 +164,14 @@ int Application::initialize()
 		0,0,0,1
 	};
 
+	// Load in the Sponza Fountain Plants mesh and assign it to the correct mesh.
 	if (m_sponzaFountainPlantsMesh.load("../models/Sponza/SingleObjs/FountainPlants.obj",
 		true, true) == false) {
 		printf("FountainPlants Mesh Error!\n");
 		return false;
 	}
 
+	// Initialize the Sponza Plants' transform.
 	m_sponzaFountainPlantsTransform = {
 		1,0,0,0,
 		0,1,0,0,
@@ -183,12 +179,14 @@ int Application::initialize()
 		0,0,0,1
 	};
 
+	// Load in the Sponza LionHeads mesh and assign it to the correct mesh.
 	if (m_sponzaLionHeadsMesh.load("../models/Sponza/SingleObjs/LionHeads.obj",
 		true, true) == false) {
 		printf("Lion Heads Mesh Error!\n");
 		return false;
 	}
 
+	// Initialize the Sponza Lion Head's transform.
 	m_sponzaLionHeadsTransform = {
 		1,0,0,0,
 		0,1,0,0,
@@ -196,12 +194,14 @@ int Application::initialize()
 		0,0,0,1
 	};
 
+	// Load in the Sponza Plants mesh and assign it to the correct mesh.
 	if (m_sponzaPlantsMesh.load("../models/Sponza/SingleObjs/Plants.obj",
 		true, true) == false) {
 		printf("Plants Mesh Error!\n");
 		return false;
 	}
 
+	// Initialize the Sponza Plants' transform.
 	m_sponzaPlantsTransform = {
 		1,0,0,0,
 		0,1,0,0,
@@ -209,12 +209,14 @@ int Application::initialize()
 		0,0,0,1
 	};
 
+	// Load in the Sponza Ribbons mesh and assign it to the correct mesh.
 	if (m_sponzaRibbonsMesh.load("../models/Sponza/SingleObjs/Ribbons.obj",
 		true, true) == false) {
 		printf("Ribbons Mesh Error!\n");
 		return false;
 	}
 
+	// Initialize the Sponza Ribbon's transform.
 	m_sponzaRibbonsTransform = {
 		1,0,0,0,
 		0,1,0,0,
@@ -226,179 +228,114 @@ int Application::initialize()
 	m_downLight.diffuse = { 1, 1, 1 };
 	m_downLight.specular = { 1, 1, 1 };
 
+	// Load in the Sponza Floor mesh and assign it to the correct mesh.
 	if (m_sponzaFloorMesh.load("../models/Sponza/SingleObjs/Floor.obj",
 		true, true) == false) {
 		printf("Floor Mesh Error!\n");
 		return false;
 	}
 
+	// Initialize the Sponza Floor's transform.
 	m_sponzaFloorTransform = {
 		1,0,0,0,
 		0,1,0,0,
 		0,0,1,0,
 		0,0,0,1
 	};
+	//--------------------------------------------------------------------------
 
-	////load vertex shader from file
+	//-----------------------------Particles------------------------------------
+
+	// Load vertex shader from file.
 	m_particleShader.loadShader(aie::eShaderStage::VERTEX, "../shaders/particleVertex.vert");
 
-	// load fragment shader from file
+	// Load fragment shader from file.
 	m_particleShader.loadShader(aie::eShaderStage::FRAGMENT, "../shaders/particleFrag.frag");
 
+	// If the linking of the particle shader doesn't work, display error.
 	if (m_particleShader.link() == false)
 	{
 		printf("Shader Error: %s\n", m_particleShader.getLastError());
 	}
 	
-	
+	// Creating a new particle emitter.
 	m_emitter = new ParticleEmitter();
+
+	// Initializing the values of the new emitter.
 	m_emitter->initialise(1000, 500,
 		0.1f, 1.0f,
 		1, 5,
 		1, 0.1f,
 		glm::vec4(1, 0, 0, 1), glm::vec4(1, 1, 0, 1));
 
+	// Initialize the particle emitter's transform.
 	m_particleTransform = {
 		1,0,0,0,
 		0,1,0,0,
 		0,0,1,0,
 		0,0,0,1
 	};
-
-	
 	return 0;
 }
 
+/**
+	update gets called every frame. Anything that needs to be
+		called every frame is in this function such as render
+		and any input checks.
+
+	@param1 deltaTime is the current frame rate of the
+		application.
+
+	@return true to keep the application running.
+*/
 bool Application::update(double deltaTime)
 {
-
+	// Sets the previous time to the current time.
 	m_previousTime = m_currentTime;
+
+	// Sets the current time variable to the actual current time.
 	m_currentTime = m_clock.now();
 
+	// How long it has been since the last frame.
 	auto duration = m_currentTime - m_previousTime;
 
+	// deltaTime = how long it has been since the last frame.
 	m_deltaTime = duration.count() * NANO_TO_SECONDS;
 
 	// Clearing buffer - colour and depth checks.
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	glm::vec4 white(1);
-	glm::vec4 black(0, 0, 0, 1);
-
-
-	// query time since application started
+	// Query time since application started.
 	float time = glfwGetTime();
 
-	// light looking up
+	// Light looking up.
 	m_light.direction = glm::normalize(glm::vec3(0, 1, 0));
-	//light looking down
+
+	// Light looking down.
 	m_downLight.direction = glm::normalize(glm::vec3(0, 1, 0));
 
-	
-
-
-	glm::mat4 rot(1);
-
-	rot = glm::rotate(float(deltaTime), glm::vec3(0, 1, 0));
-	//Parent orbits centre
-	//parentMatrix = rot * parentMatrix;
-
-	//Parent spins
-	rot = glm::rotate(float(deltaTime) * 3, glm::vec3(0, 1, 0));
-	//parentMatrix = parentMatrix * rot;
-
-
-
-
-	// Rotate child around parent
-	rot = glm::rotate(float(deltaTime) * 2, glm::vec3(0, 1, 0));
-	//localMatrix = rot * localMatrix;
-
-
-	// spin child
-	rot = glm::rotate(float(deltaTime) * 5, glm::vec3(0, 1, 0));
-	//localMatrix = localMatrix * rot;
-
-	// once child syncs with parent
-	//globalMatrix = parentMatrix * localMatrix;
-
-
-
-	//aie::Gizmos::addSphere(glm::vec3(0), 1.0f, 15.0f, 15.0f, glm::vec4(1.0f, 0.0f, 0.5f, 1.0f), &parentMatrix);
-	//aie::Gizmos::addSphere(glm::vec3(0), 1.0f, 5.0f, 5.0f, glm::vec4(0.0f, 1.0f, 0.5f, 1.0f), &globalMatrix);
-
+	// Call the update function for the particles.
 	m_emitter->update(deltaTime, m_flyCam->getWorldTransform());
 
+	// Call render to draw everything to the screen.
 	render();
 
+	// Call the camera's update to see everything in the scene.
 	m_flyCam->update(m_deltaTime, window);
 
+	// Swap buffers.
 	glfwSwapBuffers(window);
 
+	// Checks whether any input has been done.
 	glfwPollEvents();
-
-
-	//render();
-	//aie::Gizmos::draw(m_flyCam.getProjectionView());
-
-	// so does our render code!
 
 	return true;
 }
 
 void Application::render()
 {
-
-	//// bind shader
-	//m_shader.bind();
-
-	// bind shader
-	//m_texturedShader.bind();
-
-	//// bind texture location
-	//m_texturedShader.bindUniform("diffuseTexture", 0);
-
-	// bind texture location
-	//m_texturedShader.bindUniform("diffuseTexture", 0);
-
-	// bind transform
-	/*auto pvm = m_flyCam->getProjectionView() * m_spearTransform;
-	m_texturedShader.bindUniform("ProjectionViewModel", pvm);*/
-
-	/*auto pvm = m_flyCam->getProjectionView() * m_quadTransform;
-	m_texturedShader.bindUniform("ProjectionViewModel", pvm);*/
-
-
-	////-------------------------Phong---------------------------
-	//// bind phong shader program
-	//m_phongShader.bind();
-
-	//// bind light
-	//m_phongShader.bindUniform("Ia", m_ambientLight);
-	//m_phongShader.bindUniform("Id", m_light.diffuse);
-	//m_phongShader.bindUniform("Is", m_light.specular);
-	//m_phongShader.bindUniform("LightDirection", m_light.direction);
-
-	//// bind transform
-	//auto pvm = m_flyCam->getProjectionView() * m_spearTransform;
-	//m_phongShader.bindUniform("ProjectionViewModel", pvm);
-
-	//// bind transforms for lighting
-	//m_phongShader.bindUniform("NormalMatrix",
-	//	glm::inverseTranspose(glm::mat3(m_spearTransform)));
-
-	//// Send the camera's position
-	//m_phongShader.bindUniform("cameraPosition", m_flyCam->getPosition());
-
-
-	// bind texture to specified location
-	//m_gridTexture.bind(0);
-	
 	// Texture Shader
 	UpdateTexture();
-
-	//Do phong
-	//UpdatePhong();
 
 	//Do Normalmap
 	UpdateNormalMap();
@@ -407,30 +344,8 @@ void Application::render()
 
 	// bind particle shader
 
-	// draw quad
-	//m_quadMesh.draw();
-
-	// draw cube
-	//m_cubeMesh.draw();
-
-	// draw cylinder
-	//m_cylinderMesh.draw();
-	
-	// draw circle
-	//m_circleMesh.draw();
-	
-	// draw bunny
-	//m_bunnyMesh.draw();
-	//RenderBunny();
-
-	// draw buddha
-	//RenderBuddha();
-
 	// draw Spear
 	RenderSpear(&m_texturedShader);
-
-	// draw Sponza
-	//RenderSponza(&m_normalMapShader);
 
 	// Draw Building
 	RenderSponzaBuilding(&m_normalMapShader);
@@ -453,30 +368,36 @@ void Application::render()
 	// Draw Floor
 	RenderSponzaFloor(&m_normalMapShader);
 
+	// Bind the particle shader.
 	m_particleShader.bind();
 
-	// bind particle transform
+	// Bind particle transform
 	auto pvm = m_flyCam->getProjectionView() * m_particleTransform;
 	m_particleShader.bindUniform("ProjectionViewModel", pvm);
+
+	// Draw the particles.
 	m_emitter->draw();
-
-	// a simple shader
-
-	//aie::Gizmos::addSphere(glm::vec3(0), 1.0f, 15.0f, 15.0f, glm::vec4(1.0f, 0.0f, 0.5f, 1.0f), &parentMatrix);
-	//aie::Gizmos::addSphere(glm::vec3(0), 1.0f, 5.0f, 5.0f, glm::vec4(0.0f, 1.0f, 0.5f, 1.0f), &globalMatrix);
 }
 
+/**
+	terminate calls any necessary functions that must be called
+		as the program is shutting down.
 
+	@return returns 0 due to the program being shut down.
+*/
 int Application::terminate()
 {
 	delete m_emitter;
 	delete screens;
 	glfwDestroyWindow(window);
-	//Clean up window and gpu linkage.
 	glfwTerminate();
 	return 0;
 }
 
+/**
+	InitTexture is a function that initializes a shader that
+		renders an unlit model with its texture.
+*/
 void Application::InitTexture()
 {
 	//-----------------------------Textured-------------------------------------
@@ -495,25 +416,32 @@ void Application::InitTexture()
 	//--------------------------------------------------------------------------
 }
 
+/**
+	UpdateTexture is all of the logic that is needed to run
+		every frame in regards to the texture shader.
+*/
 void Application::UpdateTexture()
 {
-	// bind shader
+	// Bind shader.
 	m_texturedShader.bind();
 
-	// bind texture location
+	// Bind texture location.
 	m_texturedShader.bindUniform("diffuseTexture", 0);
 }
 
+/**
+	InitPhong is a function that initializes a shader that
+		renders a model that is lit using phong lighting.
+*/
 void Application::InitPhong()
 {
 	//-----------------------------Phong----------------------------------------
 
-	//load vertex shader from file
+	// Load vertex shader from file.
 	m_phongShader.loadShader(aie::eShaderStage::VERTEX, "../shaders/phong.vert");
 
-	// load fragment shader from file
+	// Load fragment shader from file.
 	m_phongShader.loadShader(aie::eShaderStage::FRAGMENT, "../shaders/phong.frag");
-
 
 	if (m_phongShader.link() == false)
 	{
@@ -524,35 +452,42 @@ void Application::InitPhong()
 	//--------------------------------------------------------------------------
 }
 
+/**
+	UpdatePhong is all of the logic that is needed to run
+		every frame in regards to the phong shader.
+*/
 void Application::UpdatePhong()
 {
-	// from here
-	//-------------------------Phong---------------------------
+	//-----------------------------Phong----------------------------------------
 	// bind phong shader program
 	m_phongShader.bind();
 
-	// bind light
+	// Bind light.
 	m_phongShader.bindUniform("Ia", m_ambientLight);
 	m_phongShader.bindUniform("Id", m_light.diffuse);
 	m_phongShader.bindUniform("Is", m_light.specular);
 	m_phongShader.bindUniform("LightDirection", m_light.direction);
-	// to here is going into phong creation
 
-	//this aswell
 	// Send the camera's position
 	m_phongShader.bindUniform("cameraPosition", m_flyCam->getPosition());
+	//--------------------------------------------------------------------------
 }
 
+/**
+	InitNormalMap is a function that initializes a shader that
+		renders a model that is lit using phong lighting
+		and displays them with their texture and can use
+		a normal map.
+*/
 void Application::InitNormalMap()
 {
 	//-----------------------------Normal Map-----------------------------------
 
-	//load normal shader from file
+	// Load normal shader from file.
 	m_normalMapShader.loadShader(aie::eShaderStage::VERTEX, "../shaders/normalmap.vert");
 
-	// load fragment shader from file
+	// Load fragment shader from file.
 	m_normalMapShader.loadShader(aie::eShaderStage::FRAGMENT, "../shaders/normalmap.frag");
-
 
 	if (m_normalMapShader.link() == false)
 	{
@@ -563,33 +498,42 @@ void Application::InitNormalMap()
 	//--------------------------------------------------------------------------
 }
 
+/**
+	UpdateNormalMap is all of the logic that is needed to run
+		every frame in regards to the normal map shader.
+*/
 void Application::UpdateNormalMap()
 {
 	//-------------------------Normal---------------------------
-	// bind phong shader program
+	// Bind phong shader program.
 	m_normalMapShader.bind();
 
-	// bind light
+	// Bind light.
 	m_normalMapShader.bindUniform("Ia", m_ambientLight);
 	m_normalMapShader.bindUniform("Id", m_light.diffuse);
 	m_normalMapShader.bindUniform("Is", m_light.specular);
 	m_normalMapShader.bindUniform("LightDirection", m_light.direction);
 
-	//this aswell
-	// Send the camera's position
+	// Send the camera's position.
 	m_normalMapShader.bindUniform("cameraPosition", m_flyCam->getPosition());
 }
 
+/**
+	InitNormalMapDown is a function that initializes a shader that
+		renders a model that is lit using phong lighting
+		and displays them with their texture and can use
+		a normal map. However, this shader is so that the
+		ground in the sponza scene can be lit.
+*/
 void Application::InitNormalMapDown()
 {
 	//-----------------------------Normal Map-----------------------------------
 
-	//load normal shader from file
+	// Load normal shader from file.
 	m_normalMapShaderDown.loadShader(aie::eShaderStage::VERTEX, "../shaders/normalmap.vert");
 
-	// load fragment shader from file
+	// Load fragment shader from file.
 	m_normalMapShaderDown.loadShader(aie::eShaderStage::FRAGMENT, "../shaders/normalmap.frag");
-
 
 	if (m_normalMapShaderDown.link() == false)
 	{
@@ -600,146 +544,200 @@ void Application::InitNormalMapDown()
 	//--------------------------------------------------------------------------
 }
 
+/**
+	UpdateNormalMapDown is all of the logic that is needed to run
+		every frame in regards to the normal map shader that
+		faces down.
+*/
 void Application::UpdateNormalMapDown()
 {
 	//-------------------------Normal---------------------------
-	// bind phong shader program
+	// Bind phong shader program.
 	m_normalMapShaderDown.bind();
 
-	// bind light
+	// Bind light.
 	m_normalMapShaderDown.bindUniform("Ia", m_ambientDownLight);
 	m_normalMapShaderDown.bindUniform("Id", m_downLight.diffuse);
 	m_normalMapShaderDown.bindUniform("Is", m_downLight.specular);
 	m_normalMapShaderDown.bindUniform("LightDirection", m_downLight.direction);
 
-	//this aswell
-	// Send the camera's position
+	// Send the camera's position.
 	m_normalMapShaderDown.bindUniform("cameraPosition", m_flyCam->getPosition());
 }
 
+/**
+	Binds a shader to the spear and calls draw on the spear.
+
+		@param1 shaderType is a pointer to a shader.
+				This allows me to create any shader, get it
+				from memory and set it to this mesh.
+*/
 void Application::RenderSpear(aie::ShaderProgram* shaderType)
 {
-	// bind transform
+	// Bind transform.
 	auto pvm = m_flyCam->getProjectionView() * m_spearTransform;
 	shaderType->bindUniform("ProjectionViewModel", pvm);
-
-	//// bind transforms for lighting
-	//shaderType->bindUniform("NormalMatrix",
-	//	glm::inverseTranspose(glm::mat3(m_spearTransform)));
-
-	//// Send the camera's position
-	//shaderType->bindUniform("cameraPosition", m_flyCam->getPosition());
 	
 	m_spearMesh.draw();
 }
 
+/**
+	Binds a shader to the SponzaBuilding and calls draw on it.
+
+	@param1 shaderType is a pointer to a shader.
+			This allows me to create any shader, get it
+			from memory and set it to this mesh.
+*/
 void Application::RenderSponzaBuilding(aie::ShaderProgram* shaderType)
 {
-	// bind transform
+	// Bind transform.
 	auto pvm = m_flyCam->getProjectionView() * m_sponzaBuildingTransform;
 	shaderType->bindUniform("ProjectionViewModel", pvm);
 
-	// bind transforms for lighting
+	// Bind transforms for lighting.
 	shaderType->bindUniform("NormalMatrix",
 		glm::inverseTranspose(glm::mat3(m_sponzaBuildingTransform)));
 
-	// Send the camera's position
+	// Send the camera's position.
 	shaderType->bindUniform("cameraPosition", m_flyCam->getPosition());
 
 	m_sponzaBuildingMesh.draw();
 }
 
+/**
+	Binds a shader to the SponzaCurtains and calls draw on it.
+
+	@param1 shaderType is a pointer to a shader.
+			This allows me to create any shader, get it
+			from memory and set it to this mesh.
+*/
 void Application::RenderSponzaCurtains(aie::ShaderProgram* shaderType)
 {
-	// bind transform
+	// Bind transform.
 	auto pvm = m_flyCam->getProjectionView() * m_sponzaCurtainsTransform;
 	shaderType->bindUniform("ProjectionViewModel", pvm);
 
-	// bind transforms for lighting
+	// Bind transforms for lighting.
 	shaderType->bindUniform("NormalMatrix",
 		glm::inverseTranspose(glm::mat3(m_sponzaCurtainsTransform)));
 
-	// Send the camera's position
+	// Send the camera's position.
 	shaderType->bindUniform("cameraPosition", m_flyCam->getPosition());
 
 	m_sponzaCurtainsMesh.draw();
 }
 
+/**
+	Binds a shader to the SponzaFountainPlants and calls
+		draw on it.
+
+	@param1 shaderType is a pointer to a shader.
+			This allows me to create any shader, get it
+			from memory and set it to this mesh.
+*/
 void Application::RenderSponzaFountainPlants(aie::ShaderProgram * shaderType)
 {
-	// bind transform
+	// Bind transform.
 	auto pvm = m_flyCam->getProjectionView() * m_sponzaFountainPlantsTransform;
 	shaderType->bindUniform("ProjectionViewModel", pvm);
 
-	// bind transforms for lighting
+	// Bind transforms for lighting.
 	shaderType->bindUniform("NormalMatrix",
 		glm::inverseTranspose(glm::mat3(m_sponzaFountainPlantsTransform)));
 
-	// Send the camera's position
+	// Send the camera's position.
 	shaderType->bindUniform("cameraPosition", m_flyCam->getPosition());
 
 	m_sponzaFountainPlantsMesh.draw();
 }
 
+/**
+	Binds a shader to the SponzaLionHeads and calls draw on it.
+
+	@param1 shaderType is a pointer to a shader.
+			This allows me to create any shader, get it
+			from memory and set it to this mesh.
+*/
 void Application::RenderSponzaLionHeads(aie::ShaderProgram * shaderType)
 {
-	// bind transform
+	// Bind transform.
 	auto pvm = m_flyCam->getProjectionView() * m_sponzaLionHeadsTransform;
 	shaderType->bindUniform("ProjectionViewModel", pvm);
 
-	// bind transforms for lighting
+	// Bind transforms for lighting.
 	shaderType->bindUniform("NormalMatrix",
 		glm::inverseTranspose(glm::mat3(m_sponzaLionHeadsTransform)));
 
-	// Send the camera's position
+	// Send the camera's position.
 	shaderType->bindUniform("cameraPosition", m_flyCam->getPosition());
 
 	m_sponzaLionHeadsMesh.draw();
 }
 
+/**
+	Binds a shader to the SponzaPlants and calls draw on it.
+
+	@param1 shaderType is a pointer to a shader.
+		This allows me to create any shader, get it
+		from memory and set it to this mesh.
+*/
 void Application::RenderSponzaPlants(aie::ShaderProgram * shaderType)
 {
-	// bind transform
+	// Bind transform.
 	auto pvm = m_flyCam->getProjectionView() * m_sponzaPlantsTransform;
 	shaderType->bindUniform("ProjectionViewModel", pvm);
 
-	// bind transforms for lighting
+	// Bind transforms for lighting.
 	shaderType->bindUniform("NormalMatrix",
 		glm::inverseTranspose(glm::mat3(m_sponzaPlantsTransform)));
 
-	// Send the camera's position
+	// Send the camera's position.
 	shaderType->bindUniform("cameraPosition", m_flyCam->getPosition());
 
 	m_sponzaPlantsMesh.draw();
 }
 
+/**
+	Binds a shader to the SponzaRibbons and calls draw on it.
+
+	@param1 shaderType is a pointer to a shader.
+			This allows me to create any shader, get it
+			from memory and set it to this mesh.
+*/
 void Application::RenderSponzaRibbons(aie::ShaderProgram * shaderType)
 {
-	// bind transform
+	// Bind transform.
 	auto pvm = m_flyCam->getProjectionView() * m_sponzaRibbonsTransform;
 	shaderType->bindUniform("ProjectionViewModel", pvm);
 
-	// bind transforms for lighting
+	// Bind transforms for lighting.
 	shaderType->bindUniform("NormalMatrix",
 		glm::inverseTranspose(glm::mat3(m_sponzaRibbonsTransform)));
 
-	// Send the camera's position
+	// Send the camera's position.
 	shaderType->bindUniform("cameraPosition", m_flyCam->getPosition());
 
 	m_sponzaRibbonsMesh.draw();
 }
 
+/**
+	Binds a shader to the SponzaFloor and calls draw on it.
+
+	@param1 shaderType is a pointer to a shader.
+			This allows me to create any shader, get it
+			from memory and set it to this mesh.
+*/
 void Application::RenderSponzaFloor(aie::ShaderProgram * shaderType)
 {
-	// bind transform
+	// Bind transform.
 	auto pvm = m_flyCam->getProjectionView() * m_sponzaFloorTransform;
 	shaderType->bindUniform("ProjectionViewModel", pvm);
 
-	// bind transforms for lighting
+	// Bind transforms for lighting.
 	shaderType->bindUniform("NormalMatrix",
 		glm::inverseTranspose(glm::mat3(m_sponzaFloorTransform)));
 
-	// Send the camera's position
+	// Send the camera's position.
 	shaderType->bindUniform("cameraPosition", m_flyCam->getPosition());
 
 	m_sponzaFloorMesh.draw();
