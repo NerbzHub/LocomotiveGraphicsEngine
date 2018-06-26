@@ -33,6 +33,7 @@ class Application
 public:
 	/**
 		Application Constructor
+
 			@param1 a_resolution is a vec2 of signed ints to store
 					the resolution of the window for the application.
 			@param2 a_name is the name that will appear on the window
@@ -41,7 +42,7 @@ public:
 	Application(const glm::ivec2& a_resolution, const char* a_name);
 
 	/**
-		Default Constructor
+		Default Deconstructor
 	*/
 	~Application();
 
@@ -320,44 +321,54 @@ protected:
 	Mesh m_circleMesh;
 	Mesh m_cylinderMesh;
 
-
-	//----------imgui-----------
-	//ImGuiWindow* m_PanelGameObject;
-	
-
 	//----------OBJ-------------
-	aie::OBJMesh m_bunnyMesh;
-	glm::mat4 m_bunnyTransform;
-
-	aie::OBJMesh m_buddhaMesh;
-	glm::mat4 m_buddhaTransform;
-
+	// Creating an instance of a mesh for the Sould Spear to be loaded to.
 	aie::OBJMesh m_spearMesh;
+
+	// Creating a transform to store the location of the Soul Spear.
 	glm::mat4 m_spearTransform;
 
 	//------Sponza Meshes-------
-	/*aie::OBJMesh m_sponzaMesh;
-	glm::mat4 m_sponzaTransform;*/
-
+	// Creating an instance of a mesh to store the Sponza Building Mesh.
 	aie::OBJMesh m_sponzaBuildingMesh;
+
+	// Creating a new transform matrix to store where the Sponza Building's position is.
 	glm::mat4 m_sponzaBuildingTransform;
 
+	// Creating an instance of a mesh to store the Sponza Curtain Mesh.
 	aie::OBJMesh m_sponzaCurtainsMesh;
+
+	// Creating a new transform matrix to store where the Sponza Curtain's position is.
 	glm::mat4 m_sponzaCurtainsTransform;
 
+	// Creating an instance of a mesh to store the Sponza Fountain Plants Mesh.
 	aie::OBJMesh m_sponzaFountainPlantsMesh;
+
+	// Creating a new transform matrix to store where the Sponza Fountain Plants's position is.
 	glm::mat4 m_sponzaFountainPlantsTransform;
 
+	// Creating an instance of a mesh to store the Sponza Lion Heads Mesh.
 	aie::OBJMesh m_sponzaLionHeadsMesh;
+
+	// Creating a new transform matrix to store where the Sponza Lion Head's position is.
 	glm::mat4 m_sponzaLionHeadsTransform;
 
+	// Creating an instance of a mesh to store the Sponza Plants Mesh.
 	aie::OBJMesh m_sponzaPlantsMesh;
+
+	// Creating a new transform matrix to store where the Sponza Plants's position is.
 	glm::mat4 m_sponzaPlantsTransform;
 
+	// Creating an instance of a mesh to store the Sponza Ribbons Mesh.
 	aie::OBJMesh m_sponzaRibbonsMesh;
+
+	// Creating a new transform matrix to store where the Sponza Ribbons's position is.
 	glm::mat4 m_sponzaRibbonsTransform;
 
+	// Creating an instance of a mesh to store the Sponza Floor Mesh.
 	aie::OBJMesh m_sponzaFloorMesh;
+
+	// Creating a new transform matrix to store where the Sponza Floor's position is.
 	glm::mat4 m_sponzaFloorTransform;
 };
 
