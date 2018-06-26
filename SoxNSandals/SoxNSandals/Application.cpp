@@ -1,3 +1,6 @@
+/**
+	Application.cpp
+*/
 #include "Application.h"
 
 Application::Application(const glm::ivec2& a_resolution, const char* a_name)
@@ -140,20 +143,6 @@ int Application::initialize()
 		0,0,0,1
 	};*/
 
-
-	/*if (m_sponzaMesh.load("../models/Sponza/sponza.obj",
-		true, true) == false) {
-		printf("House Mesh Error!\n");
-		return false;
-	}
-
-	m_sponzaTransform = {
-		0.5,0,0,0,
-		0,0.5,0,0,
-		0,0,0.5,0,
-		0,0,0,1
-	};*/
-
 	if (m_sponzaBuildingMesh.load("../models/Sponza/SingleObjs/Building.obj",
 		true, true) == false) {
 		printf("Building Mesh Error!\n");
@@ -275,171 +264,7 @@ int Application::initialize()
 		0,0,0,1
 	};
 
-	//if (m_houseMesh.load("../models/house_obj/house_obj.obj",
-	//	true, true) == false) {
-	//	printf("House Mesh Error!\n");
-	//	return false;
-	//}
-
-	//m_houseTransform = {
-	//	0.001f,0,0,0,
-	//	0,0.001f,0,0,
-	//	0,0,0.001f,0,
-	//	0,0,0,1
-	//};
-
-	/*if (m_grassMesh.load("../models/Grass/grass_low_poly.obj",
-		true, true) == false) {
-		printf("Grash Mesh Error!\n");
-		return false;
-	}
-
-	m_grassTransform = {
-		1,0,0,0,
-		0,1,0,0,
-		0,0,1,0,
-		0,0,0,1
-	};*/
-
-	/*if (m_treeMesh.load("../models/Tree/Lowpoly_tree_sample.obj",
-		true, true) == false) {
-		printf("Soulspear Mesh Error!\n");
-		return false;
-	}
-
-	m_treeTransform = {
-		1,0,0,0,
-		0,1,0,0,
-		0,0,1,0,
-		0,0,0,1
-	};*/
-
-	/*if (m_largeStoneMesh.load("../models/Rocks/LogGrassStone.obj",
-		true, true) == false) {
-		printf("Large Stone Mesh Error!\n");
-		return false;
-	}
-
-	m_largeStoneTransform = {
-		1,0,0,0,
-		0,1,0,0,
-		0,0,1,0,
-		0,0,0,1
-	};*/
-
-
-	//createQuad();
-
-	// Quad is 10 units wide.
-	/*m_quadTransform =
-	{
-		10,0,0,0,
-		0,10,0,0,
-		0,0,10,0,
-		0,0,0,1 
-	};*/
-
-	// Bunny Mesh
-	/*if (m_bunnyMesh.load("../stanford/Bunny.obj") == false)
-	{
-		printf("Bunny Mesh Error! \n");
-		return false;
-	}
 	
-	m_bunnyTransform =
-	{
-		0.5f,0,0,0,
-		0,0.5f,0,0,
-		0,0,0.5f,0,
-		0,0,0,1
-	};*/
-
-	//// Buddha Mesh
-	//if (m_buddhaMesh.load("../stanford/Buddha.obj") == false)
-	//{
-	//	printf("Buddha Mesh Error! \n");
-	//	return false;
-	//}
-
-	/*m_buddhaTransform =
-	{
-		1,0,0,0,
-		0,1,0,0,
-		0,0,1,0,
-		0,0,0,1
-	};*/
-
-	//// load imaginary texture
-	//aie::Texture texture1;
-	//texture1.load("../textures/Crackles.png");
-	//// create a 2x2 black-n-white checker texture
-	//// RED simply means one colour channel, i.e. grayscale
-	//aie::Texture texture2;
-	//unsigned char texelData[4] = { 0, 255, 255, 0 };
-	//texture2.create(2, 2, aie::Texture::RED, texelData);
-
-
-	// define 6 vertices for 2 triangles
-	/*Mesh::Vertex vertices[6];
-	vertices[0].position = { -0.5f, 0, 0.5f, 1 };
-	vertices[1].position = { 0.5f, 0, 0.5f, 1 };
-	vertices[2].position = { -0.5f, 0, -0.5f, 1 };
-	vertices[3].position = { -0.5f, 0, -0.5f, 1 };
-	vertices[4].position = { 0.5f, 0, 0.5f, 1 };
-	vertices[5].position = { 0.5f, 0, -0.5f, 1 };
-	m_quadMesh.initialise(6, vertices);*/
-
-
-	// define 4 vertices for 2 triangles
-
-	//Mesh::Vertex verticess[4];
-	//verticess[0].position = { -0.5f, 0, 0.5f, 1 };
-	//verticess[1].position = { 0.5f, 0, 0.5f, 1 };
-	//verticess[2].position = { -0.5f, 0, -0.5f, 1 };
-	//verticess[3].position = { 0.5f, 0, -0.5f, 1 };
-
-	//unsigned int indices[6] = { 0, 1, 2, 2, 1, 3 };
-
-	//m_quadMesh.initialise(4, verticess, 6, indices);
-
-	//
-	//// Quad is 10 units wide.
-	//m_quadTransform =
-	//{
-	//	10,0,0,0,
-	//	0,10,0,0,
-	//	0,0,10,0,
-	//	0,0,0,1 
-	//};
-
-	//createQuad();
-	/*m_quadTransform =
-	{
-		10,0,0,0,
-		0,10,0,0,
-		0,0,10,0,
-		0,0,0,1 
-	};*/
-
-	//createCube();
-	//createCylinder();
-	//glm::vec3 worldCenter(1, 1, 1);
-	//glm::vec4 defaultColour(200, 200, 200, 1);
-	//m_circleMesh.initialiseCircle(glm::vec3(1.0f, 1.0f, 1.0f), 5.0f, 10.0f);
-
-	/*m_quadTransform =
-	{
-		10,0,0,0,
-		0,10,0,0,
-		0,0,10,0,
-		0,0,0,1
-	};*/
-
-	//// my camera is located at 10, 10, 10 and looking at the world's 0.
-	/*view = glm::lookAt(glm::vec3(15, 15, 15), glm::vec3(0), glm::vec3(0, 1, 0));
-	projection = glm::perspective(glm::pi<float>() * 0.25f,
-		16 / 9.f, 0.1f, 1000.f);*/
-
 	return 0;
 }
 

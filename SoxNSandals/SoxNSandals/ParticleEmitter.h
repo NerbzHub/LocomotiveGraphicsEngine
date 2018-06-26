@@ -97,30 +97,58 @@ public:
 	void update(float a_deltaTime, const glm::mat4& a_cameraTransform);
 
 	/**
-		draw is the function that actually draws them to the screen.
+		draw is the function that actually renders them to the screen.
 	*/
 	void draw();
 
 protected:
-
-
-
+	// A particle pointer. These will be created in an array to form
+	//	the particles.
 	Particle * m_particles;
+
+	// An int to store the first dead particle.
 	unsigned int m_firstDead;
+
+	// An int to store the maximum amount of particles that can be spawned.
 	unsigned int m_maxParticles;
+
+	// 3 ints to store the vao, vbo and ibo.
 	unsigned int m_vao, m_vbo, m_ibo;
+
+	// A pointer to particle vertex data.
 	ParticleVertex* m_vertexData;
 
+	// A vec3 that stores the position of the emitter.
 	glm::vec3 m_position;
+
+	// A float to store how long the emitter has been going for.
 	float m_emitTimer;
+	
+	// The rate of which it emits particles.
 	float m_emitRate;
+
+	// The minimum life span of a particle.
 	float m_lifespanMin;
+
+	// The maximum life span of a particle.
 	float m_lifespanMax;
+
+	// The slowest the velocity can be for a particle.
 	float m_velocityMin;
+
+	// The fastest the velocity can be for a particle.
 	float m_velocityMax;
+
+	// The size of a particle when it is first created.
 	float m_startSize;
+
+	// The size of a particle when it reaches its end.
 	float m_endSize;
+
+	// The colour of a particle when it is first created.
 	glm::vec4 m_startColour;
+
+	// The colour of a particle when it reaches the end.
 	glm::vec4 m_endColour;
 
 

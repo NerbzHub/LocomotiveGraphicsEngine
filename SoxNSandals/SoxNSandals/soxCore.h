@@ -1,3 +1,13 @@
+/**
+	soxCore.h
+
+	Purpose: This file stores includes and an engine exclusive
+			namespace. This is included at the top of every header
+			which allows instant access to majority of the necessary
+			includes.
+
+	@author Nathan Nette
+*/
 #pragma once
 #include <iostream>
 #include <chrono>
@@ -17,6 +27,7 @@ static const double NANO_TO_SECONDS = 0.000000001;
 // Expected use: nanoseconds = seconds * NANO_TO_SECONDS
 static const ullong NANO_IN_SECONDS = 1000000000ULL;
 
+// sns stands for Sox and Sandals.
 namespace sns
 {
 	using clock = std::chrono::high_resolution_clock;
