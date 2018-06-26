@@ -3,21 +3,11 @@
 #include <chrono>
 #include "gl_core_4_5.h"
 #include <glfw3.h>
-#include "Gizmos.h"
 #include <glm.hpp>
 #include <ext.hpp>
 #include "Shader.h"
-#include "Mesh.h"
 #include "OBJMesh.h"
 #include "tiny_obj_loader.h"
-
-//#include "Planet.h"
-//#include "Camera.h"
-//#include "FlyCamera.h"
-
-//---------imgui------------
-//#include "imgui-master\imgui.h"
-
 
 /* TIME, Clock, AND DURATION ALIASING*/
 using ullong = unsigned long long;

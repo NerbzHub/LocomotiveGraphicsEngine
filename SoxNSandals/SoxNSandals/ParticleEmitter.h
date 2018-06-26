@@ -1,6 +1,18 @@
+/**
+	ParticleEmitter.h
+
+	Purpose: ParticleEmitter.h is the header file for the ParticleEmitter class.
+			The Particle Emitter class allows the creation of particle effects
+			in the scene. 
+
+	@author Nathan Nette
+*/
 #pragma once
 #include "soxCore.h"
 
+/**
+	
+*/
 class ParticleEmitter
 {
 public:
@@ -47,7 +59,9 @@ protected:
 	unsigned int m_firstDead;
 	unsigned int m_maxParticles;
 	unsigned int m_vao, m_vbo, m_ibo;
-	ParticleVertex* m_vertexData;	glm::vec3 m_position;
+	ParticleVertex* m_vertexData;
+
+	glm::vec3 m_position;
 	float m_emitTimer;
 	float m_emitRate;
 	float m_lifespanMin;
@@ -57,7 +71,8 @@ protected:
 	float m_startSize;
 	float m_endSize;
 	glm::vec4 m_startColour;
-	glm::vec4 m_endColour;
+	glm::vec4 m_endColour;
+
 
 };
 

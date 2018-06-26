@@ -2,7 +2,6 @@
 #include <chrono>
 #include "gl_core_4_5.h"
 #include <glfw3.h>
-#include "Gizmos.h"
 #include <glm.hpp>
 #include <ext.hpp>
 #include "soxCore.h"

@@ -84,9 +84,6 @@ int Application::initialize()
 	//enables depth buffer.
 	glEnable(GL_DEPTH_TEST);
 
-
-	aie::Gizmos::create(10000, 10000, 10000, 10000);
-
 	//-----------------------------Plain---------------------------------------
 
 	////load vertex shader from file
@@ -455,36 +452,17 @@ bool Application::update(double deltaTime)
 	auto duration = m_currentTime - m_previousTime;
 
 	m_deltaTime = duration.count() * NANO_TO_SECONDS;
-	//std::cout << duration.count() << ' ' << deltaTime << '\n';
-
-	//------------imgui------------
-	//drawGUI();
 
 	// Clearing buffer - colour and depth checks.
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// our game logic and update code goes here! 
-
-
-	aie::Gizmos::clear();
-	aie::Gizmos::addTransform(glm::mat4(1));
 	glm::vec4 white(1);
 	glm::vec4 black(0, 0, 0, 1);
-
-	for (int i = 0; i < 21; ++i) {
-		aie::Gizmos::addLine(glm::vec3(-10 + i, 0, 10), glm::vec3(-10 + i, 0, -10), i == 10 ? white : black);
-		aie::Gizmos::addLine(glm::vec3(10, 0, -10 + i), glm::vec3(-10, 0, -10 + i), i == 10 ? white : black);
-	}
-
-
-	//aie::Gizmos::addAABBFilled(glm::vec3(0), glm::vec3(1.5f), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
 
 
 	// query time since application started
 	float time = glfwGetTime();
-	// rotate light
-	/*m_light.direction = glm::normalize(glm::vec3(glm::cos(time * 2),
-		glm::sin(time * 2), 0));*/
+
 	// light looking up
 	m_light.direction = glm::normalize(glm::vec3(0, 1, 0));
 	//light looking down
@@ -646,8 +624,6 @@ void Application::render()
 	// Draw Floor
 	RenderSponzaFloor(&m_normalMapShader);
 
-
-	aie::Gizmos::draw(m_flyCam->getProjectionView());
 	m_particleShader.bind();
 
 	// bind particle transform
@@ -664,7 +640,6 @@ void Application::render()
 
 int Application::terminate()
 {
-	aie::Gizmos::destroy();
 	delete m_emitter;
 	delete screens;
 	glfwDestroyWindow(window);
@@ -806,48 +781,6 @@ void Application::UpdateNormalMapDown()
 	//this aswell
 	// Send the camera's position
 	m_normalMapShaderDown.bindUniform("cameraPosition", m_flyCam->getPosition());
-}
-
-void Application::createQuad()
-{
-	Mesh::Vertex verticess[4];
-	verticess[0].position = { -0.5f, 0, 0.5f, 1 };
-	verticess[1].position = { 0.5f, 0, 0.5f, 1 };
-	verticess[2].position = { -0.5f, 0, -0.5f, 1 };
-	verticess[3].position = { 0.5f, 0, -0.5f, 1 };
-
-	unsigned int indices[6] = { 0, 1, 2, 2, 1, 3 };
-
-	m_quadMesh.initialise(4, verticess, 6, indices);
-}
-
-void Application::createCube()
-{
-	// cube
-	Mesh::Vertex vertices[8];
-	// bottom top left
-	vertices[0].position = { -1, -1, -1, 1 };
-	// bottom top right
-	vertices[1].position = { 1, -1, -1, 1 };
-	// bottom bottom left
-	vertices[2].position = { -1, -1, 1, 1 };
-	// bottom bottom right
-	vertices[3].position = { 1, -1, 1, 1 };
-	// top top left
-	vertices[4].position = { -1, 1, -1, 1 };
-	// top top right
-	vertices[5].position = { 1, 1, -1, 1 };
-	// top bottom left
-	vertices[6].position = { -1, 1, 1, 1 };
-	// top bottom right
-	vertices[7].position = { 1, 1, 1, 1 };
-	unsigned int indices[36] = { 0,1,2, 1,2,3, // -y
-								 0,1,4, 1,4,5, // -z
-								 1,3,5, 3,5,7, // +x
-								 4,5,7, 4,6,7, // +y
-								 2,6,7, 2,3,7, // +z
-								 0,4,6, 0,2,6};// -x
-	m_cubeMesh.initialise(8, vertices, 36, indices);
 }
 
 void Application::RenderSpear(aie::ShaderProgram* shaderType)

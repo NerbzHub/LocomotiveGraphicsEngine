@@ -313,13 +313,6 @@ protected:
 	//----------Texture---------
 	aie::Texture m_gridTexture;
 
-
-	//----------Mesh------------
-	Mesh m_quadMesh;
-	Mesh m_cubeMesh;
-	Mesh m_circleMesh;
-	Mesh m_cylinderMesh;
-
 	//----------OBJ-------------
 	// Creating an instance of a mesh for the Sould Spear to be loaded to.
 	aie::OBJMesh m_spearMesh;
