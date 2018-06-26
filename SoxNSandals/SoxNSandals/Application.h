@@ -13,7 +13,6 @@
 */
 #pragma once
 #include "soxCore.h"
-#include "Planet.h"
 #include "FlyCamera.h"
 #include "ParticleEmitter.h"
 

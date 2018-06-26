@@ -10,8 +10,6 @@ FlyCamera::FlyCamera()
 	deltaMouseX = 0.0f;
 	deltaMouseY = 0.0f;
 
-	
-
 	fMouseSensitivity = 2.5f;
 
 	fMoveSpeed = 50.0f;
