@@ -36,6 +36,11 @@ public:
 		update runs every frame. All keyboard and mouse input must
 			be in here, as it must be checked for every frame.
 			Any movement values must be edited in here as well.
+
+			@param1 deltaTime is the current frame rate.
+
+			@param2 a_GLWindow is a pointer to get the address of 
+					the application's window.
 	*/
 	void update(double deltaTime, GLFWwindow * a_GLWindow);
 
