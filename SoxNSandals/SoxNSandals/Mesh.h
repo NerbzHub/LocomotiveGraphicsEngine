@@ -1,3 +1,9 @@
+/**
+	Mesh.h 
+
+	Purpose: Mesh.h is where I created 
+
+*/
 #pragma once
 #include "soxCore.h"
 #include <glm.hpp>

@@ -1,3 +1,11 @@
+/**
+	Shader.h
+	
+	Purpose: This class was given to me as an assistance tool
+			for creating shaders. It was not created by me.
+
+	@author AIE
+*/
 #pragma once
 
 #include <glm/vec2.hpp>

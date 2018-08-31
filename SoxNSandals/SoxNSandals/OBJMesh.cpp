@@ -1,3 +1,11 @@
+/**
+	OBJMesh.h
+
+	Purpose: This class was given to me as an assistance tool
+		for importing OBJ meshes. It was not created by me.
+
+	@author AIE
+*/
 #include "OBJMesh.h"
 #include "gl_core_4_5.h"
 #include <glm/geometric.hpp>

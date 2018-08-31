@@ -1,3 +1,11 @@
+/**
+	Texture.h
+
+	Purpose: This class was given to me as an assistance tool
+			for creating textures. It was not created by me.
+
+	@author AIE
+*/
 #include "gl_core_4_5.h"
 #include "Texture.h"
 

@@ -1,0 +1,28 @@
+# Blender MTL File: 'Sponza.blend'
+# Material Count: 2
+
+newmtl Material__57
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd \textures\vase_plant.png
+map_Ka \textures\vase_plant.tga
+map_d \textures\vase_plant_mask.tga
+
+newmtl vase_round
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd \textures\vase_round.tga
+map_Bump \textures\vase_round_ddn.tga
+map_Ka \textures\vase_round.tga
